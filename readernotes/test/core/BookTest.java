@@ -3,7 +3,7 @@ package readernotes.test.core;
 import readernotes.src.core.Book;
 import readernotes.src.core.Sintese;
 import readernotes.src.core.Shell;
-import readernotes.src.exceptions.EmptyBookTitleException;
+import readernotes.src.exceptions.EmptyTitleException;
 import readernotes.src.exceptions.EmptyAuthorException;
 import readernotes.src.exceptions.EmptySinopseException;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class BookTest extends CoreTest {
     @Test
     public void createBookWithTitleTest()
     throws
-    EmptyBookTitleException {
+    EmptyTitleException {
         Book newBook = new Book(TITLE);
 
         assertEquals(TITLE, newBook.getTitle());
@@ -29,7 +29,7 @@ public class BookTest extends CoreTest {
     @Test
     public void createBookWithAllAttributes()
     throws
-    EmptyBookTitleException,
+    EmptyTitleException,
     EmptySinopseException,
     EmptyAuthorException {
         Book newBook = new Book(TITLE, AUTHOR, SINOPSE);
@@ -42,7 +42,7 @@ public class BookTest extends CoreTest {
     @Test(expected = EmptyAuthorException.class)
     public void createBookNullAuthor()
     throws
-    EmptyBookTitleException,
+    EmptyTitleException,
     EmptyAuthorException {
         Book newBook = new Book(TITLE, null);
     }
@@ -50,7 +50,7 @@ public class BookTest extends CoreTest {
     @Test(expected = EmptyAuthorException.class)
     public void createBookEmptyAuthor()
     throws
-    EmptyBookTitleException,
+    EmptyTitleException,
     EmptyAuthorException {
         Book newBook = new Book(TITLE, "");
     }
@@ -58,30 +58,30 @@ public class BookTest extends CoreTest {
     @Test(expected = EmptySinopseException.class)
     public void createBookNullSinopse()
     throws
-    EmptyBookTitleException,
+    EmptyTitleException,
     EmptyAuthorException,
     EmptySinopseException {
         Book newBook = new Book(TITLE, AUTHOR, null);
     }
 
-    @Test(expected = EmptyBookTitleException.class)
+    @Test(expected = EmptyTitleException.class)
     public void createBookWithNullTitle()
     throws
-    EmptyBookTitleException {
+    EmptyTitleException {
         Book newBook = new Book(null);
     }
 
-    @Test(expected = EmptyBookTitleException.class)
+    @Test(expected = EmptyTitleException.class)
     public void createBookWithEmptyTitle()
     throws
-    EmptyBookTitleException {
+    EmptyTitleException {
         Book newBook = new Book("");
     }
 
     @Test
     public void setAuthorWithAuthorDefined()
     throws
-    EmptyBookTitleException,
+    EmptyTitleException,
     EmptySinopseException,
     EmptyAuthorException {
         Book newBook = new Book(TITLE, AUTHOR);
@@ -93,7 +93,7 @@ public class BookTest extends CoreTest {
     @Test
     public void setAuthorWithNoAuthor()
     throws
-    EmptyBookTitleException,
+    EmptyTitleException,
     EmptySinopseException,
     EmptyAuthorException {
         Book newBook = new Book(TITLE);
@@ -105,7 +105,7 @@ public class BookTest extends CoreTest {
     @Test(expected = EmptyAuthorException.class)
     public void setAuthorWithNull()
     throws
-    EmptyBookTitleException,
+    EmptyTitleException,
     EmptyAuthorException {
         Book newBook = new Book(TITLE);
         newBook.setAuthor(null);
@@ -114,7 +114,7 @@ public class BookTest extends CoreTest {
     @Test(expected = EmptyAuthorException.class)
     public void setAuthorWithEmpty()
     throws
-    EmptyBookTitleException,
+    EmptyTitleException,
     EmptyAuthorException {
         Book newBook = new Book(TITLE);
         newBook.setAuthor("");
@@ -123,7 +123,7 @@ public class BookTest extends CoreTest {
     @Test
     public void setSinopse()
     throws
-    EmptyBookTitleException,
+    EmptyTitleException,
     EmptySinopseException {
         Book newBook = new Book(TITLE);
         newBook.setSinopse(CHANGED_SINOPSE);

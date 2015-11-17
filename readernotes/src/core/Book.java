@@ -2,7 +2,7 @@ package readernotes.src.core;
 
 import readernotes.src.exceptions.EmptyAuthorException;
 import readernotes.src.exceptions.EmptySinopseException;
-import readernotes.src.exceptions.EmptyBookTitleException;
+import readernotes.src.exceptions.EmptyTitleException;
 
 public class Book {
     private static boolean _empty = true;
@@ -12,7 +12,7 @@ public class Book {
 
     public Book(String title, String author, String sinopse)
     throws
-    EmptyBookTitleException,
+    EmptyTitleException,
     EmptyAuthorException,
     EmptySinopseException {
         this(title, author);
@@ -21,7 +21,7 @@ public class Book {
 
     public Book(String title, String author)
     throws
-    EmptyBookTitleException,
+    EmptyTitleException,
     EmptyAuthorException {
         this(title);
         setAuthor(author);
@@ -29,23 +29,23 @@ public class Book {
 
     public Book(String title)
     throws
-    EmptyBookTitleException {
+    EmptyTitleException {
         setTitle(title);
         _empty = false;
     }
 
     private void setTitle(String title)
     throws
-    EmptyBookTitleException {
+    EmptyTitleException {
         if (title != null) {
             if (!title.equals("")) {
                 
                 _title = title;
             } else {
-                throw new EmptyBookTitleException();
+                throw new EmptyTitleException();
             }
         } else {
-            throw new EmptyBookTitleException();
+            throw new EmptyTitleException();
         }
     }
 
