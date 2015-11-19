@@ -15,7 +15,17 @@ public class BookTest extends CoreTest {
     private static final String CHANGED_AUTHOR = "Manuel Abecasis";
     private static final String CHANGED_SINOPSE = "Changed sinopse";
     private static final String SINOPSE = "Uma viagem pelos segredos...";
-    private Book _createdBook;                                                            
+    private Book _createdBook;
+
+    @Override
+    public void populateForTest() {
+
+    }
+
+    @Override
+    public void destroyTestConditions() {
+        
+    }                                                         
 
     @Test
     public void createBookWithTitleTest()

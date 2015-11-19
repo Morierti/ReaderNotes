@@ -25,6 +25,11 @@ public class SinteseTest extends CoreTest {
             System.out.println(exception.getMessage());
         }
     }
+    
+    @Override
+    public void destroyTestConditions() {
+        
+    }         
 
     @Test
     public void successNewSintese()

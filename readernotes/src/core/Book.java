@@ -39,7 +39,6 @@ public class Book {
     EmptyTitleException {
         if (title != null) {
             if (!title.equals("")) {
-                
                 _title = title;
             } else {
                 throw new EmptyTitleException();

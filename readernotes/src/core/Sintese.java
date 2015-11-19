@@ -70,7 +70,7 @@ public class Sintese {
         return _content.toString();
     }
 
-    public boolean isEmpty() {
+    public static boolean isEmpty() {
         return _empty;
     }
 
