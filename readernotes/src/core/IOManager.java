@@ -1,14 +1,27 @@
 package readernotes.src.core;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import readernotes.src.exceptions.BookNotFoundException;
+import readernotes.src.exceptions.SinteseNotFoundException;
 
 public class IOManager {
+    private static final String BOOK_DB_FILEPATH = "/home/rodrigo/bookDB.txt";
+    private static final String SINTESE_DB_FILEPATH = "/home/rodrigo/sinteseDB.txt";
     private static IOManager _instance;
-    private List<String> _books;
-    private List<String> _sinteses;
+    private Map<String, List<String>> _books;
+    private Map<String, List<String>> _sinteses;
 
-    public void getInstance() {
+    public static IOManager getInstance() {
         if (_instance.isEmpty()) {
             new IOManager();
         }
@@ -21,32 +34,66 @@ public class IOManager {
 
     public void init() {
         _instance = this;
-        _books = new ArrayList<String>;
-        _sintese = new ArrayList<String>;
+        _books = new HashMap<String, List<String>>();
+        _sinteses = new HashMap<String, List<String>>();
     }
 
-    public void writeBookToFile(String title, String author, String sinopse) {
+    public void writeBookToFile(String title, String author, String sinopse)
+    throws
+    IOException,
+    FileNotFoundException {
+        File bookDatabase = new File(BOOK_DB_FILEPATH);
+        FileWriter output = new FileWriter(bookDatabase);
+        BufferedWriter writer = new BufferedWriter(output);
+        writer.write(title + "|" + author + "|" + sinopse);
+        writer.close();
+        output.close();
+    }
+
+    public void writeSinteseToFile(String title, String bookTitle, String content)
+    throws
+    IOException,
+    FileNotFoundException {
+        File sinteseDatabase = new File(SINTESE_DB_FILEPATH);
+        FileWriter output = new FileWriter(sinteseDatabase);
+        BufferedWriter writer = new BufferedWriter(output);
+        writer.write(title + "|" + bookTitle + "|" + content);
+        writer.close();
+        output.close();
+    }
+
+    public void readBooksFromFile()
+    throws
+    IOException,
+    FileNotFoundException    {
+        File bookDatabase = new File(BOOK_DB_FILEPATH);
+        FileReader input = new FileReader(bookDatabase);
+        BufferedReader reader = new BufferedReader(input);
+    }
+
+    public void readSintesesFromFile()
+    throws
+    IOException,
+    FileNotFoundException {
 
     }
 
-    public void writeSinteseToFile(String title, String bookTitle, String contnet) {
-
+    public List<String> getBookParsedInfo(String bookTitle)
+    throws
+    BookNotFoundException {
+        if (_books.containsKey(bookTitle)) {
+            return _books.get(bookTitle);
+        }
+        throw new BookNotFoundException(bookTitle);
     }
 
-    public void readBooksFromFile() {
-
-    }
-
-    public void readSintesesFromFile() {
-
-    }
-
-    public List<String> getBookParsedInfo(String bookTitle) {
-        return null;
-    }
-
-    public List<String> getSinteseParsedInfo(String sinteseTitle) {
-        return null;
+    public List<String> getSinteseParsedInfo(String sinteseTitle)
+    throws
+    SinteseNotFoundException {
+        if (_sinteses.containsKey(sinteseTitle)) {
+            return _sinteses.get(sinteseTitle);
+        }
+        throw new SinteseNotFoundException(sinteseTitle);
     }
 
     public static boolean isEmpty() {

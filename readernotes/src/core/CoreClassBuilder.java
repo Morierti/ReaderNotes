@@ -5,29 +5,34 @@ import java.util.ArrayList;
 
 public class CoreClassBuilder {
     private IOManager _io;
+	private static  CoreClassBuilder _instance;
 
-    public Book buildBook() {
+	public static CoreClassBuilder getInstance() {
+		if (_instance.isEmpty()) {
+			new CoreClassBuilder();
+		}
+		return _instance;
+	}
 
-    }
+	private CoreClassBuilder() {
+		init();
+	}
 
-    public Sintese buildSintese(String title, String bookTitle) {
+	public void init() {
+		_instance = this;
+		_io = IOManager.getInstance();
+	}
 
-    }
+	public static boolean isEmpty() {
+		return _instance == null;
+	}
 
-    public Sintese buildSintese(String title, String bookTitle, String content) {
-
+    public Sintese buildSintese(String title) {
+        return null;
     }
 
     public Book buildBook(String title) {
-
-    }
-
-    public Book buildBook(String title, String author) {
-
-    }
-
-    public Book buildBook(String title, String author, String sinopse) {
-
+        return null;
     }
 
     public List<Book> buildAllBooks() {
