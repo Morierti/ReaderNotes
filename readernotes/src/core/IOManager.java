@@ -96,6 +96,14 @@ public class IOManager {
         throw new SinteseNotFoundException(sinteseTitle);
     }
 
+    public Map<String, List<String>> getAllParsedBooks() {
+        return _books;
+    }
+
+    public Map<String, List<String>> getAllParsedSinteses() {
+        return _sinteses;
+    }
+
     public static boolean isEmpty() {
         return _instance == null;
     }
