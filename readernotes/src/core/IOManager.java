@@ -17,6 +17,7 @@ import readernotes.src.exceptions.SinteseNotFoundException;
 public class IOManager {
     private static final String BOOK_DB_FILEPATH = "/home/rodrigo/bookDB.txt";
     private static final String SINTESE_DB_FILEPATH = "/home/rodrigo/sinteseDB.txt";
+    private static final boolean APPEND = true;
     private static IOManager _instance;
     private Map<String, List<String>> _books;
     private Map<String, List<String>> _sinteses;
@@ -38,14 +39,58 @@ public class IOManager {
         _sinteses = new HashMap<String, List<String>>();
     }
 
+    public void writeBookToFile(String title)
+    throws
+    IOException,
+    FileNotFoundException {
+        File bookDatabase = new File(BOOK_DB_FILEPATH);
+        FileWriter output = new FileWriter(bookDatabase, APPEND);
+        BufferedWriter writer = new BufferedWriter(output);
+        
+        writer.write(title + "\n");
+        
+        writer.close();
+        output.close();
+    }
+
+    public void writeBookToFile(String title, String author)
+    throws
+    IOException,
+    FileNotFoundException {
+        File bookDatabase = new File(BOOK_DB_FILEPATH);
+        FileWriter output = new FileWriter(bookDatabase, APPEND);
+        BufferedWriter writer = new BufferedWriter(output);
+
+        writer.write(title + "|" + author + "\n");
+        
+        writer.close();
+        output.close();
+    }
+
     public void writeBookToFile(String title, String author, String sinopse)
     throws
     IOException,
     FileNotFoundException {
         File bookDatabase = new File(BOOK_DB_FILEPATH);
-        FileWriter output = new FileWriter(bookDatabase);
+        FileWriter output = new FileWriter(bookDatabase, APPEND);
         BufferedWriter writer = new BufferedWriter(output);
-        writer.write(title + "|" + author + "|" + sinopse);
+        
+        writer.write(title + "|" + author + "|" + sinopse + "\n");
+        
+        writer.close();
+        output.close();
+    }
+
+    public void writeSinteseToFile(String title, String bookTitle)
+    throws
+    IOException,
+    FileNotFoundException {
+        File sinteseDatabase = new File(SINTESE_DB_FILEPATH);
+        FileWriter output = FileWriter(sinteseDatabase, APPEND);
+        BufferedWriter writer = new BufferedWriter(output);
+
+        writer.write(title + "|" + bookTitle + "\n\n");
+
         writer.close();
         output.close();
     }
@@ -55,9 +100,12 @@ public class IOManager {
     IOException,
     FileNotFoundException {
         File sinteseDatabase = new File(SINTESE_DB_FILEPATH);
-        FileWriter output = new FileWriter(sinteseDatabase);
+        FileWriter output = new FileWriter(sinteseDatabase, APPEND);
         BufferedWriter writer = new BufferedWriter(output);
-        writer.write(title + "|" + bookTitle + "|" + content);
+        
+        writer.write(title + "|" + bookTitle + "\n");
+        writer.write(content + "\n\n");
+        
         writer.close();
         output.close();
     }
@@ -106,5 +154,20 @@ public class IOManager {
 
     public static boolean isEmpty() {
         return _instance == null;
+    }
+
+
+    //MANUAL TEST FOR THE CLASS
+    public static void main(String[] args)
+    throws
+    BookNotFoundException,
+    SinteseNotFoundException,
+    IOException {
+        IOManager io = IOManager.getInstance();
+
+        io.writeBookToFile("Iliria de Homero");
+        io.writeBookToFile("Memorial do Convento", "José Saramago");
+        io.writeBookToFile("A Brave New World", "Haldous Huxley",
+                           "A book about all the good things there are to come");
     }
 }
