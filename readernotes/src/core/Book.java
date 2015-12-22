@@ -1,10 +1,9 @@
 package readernotes.src.core;
 
-import readernotes.src.exceptions.EmptyAuthorException;
-import readernotes.src.exceptions.EmptySinopseException;
 import readernotes.src.exceptions.EmptyTitleException;
 
 public class Book {
+    private static final String EMPTY_FIELD = null;
     private static boolean _empty = true;
     private String _author;
     private String _title;
@@ -12,26 +11,29 @@ public class Book {
 
     public Book(String title, String author, String sinopse)
     throws
-    EmptyTitleException,
-    EmptyAuthorException,
-    EmptySinopseException {
-        this(title, author);
-        setSinopse(sinopse);
+    EmptyTitleException {
+        init(title, author, sinopse);
     }
 
     public Book(String title, String author)
     throws
-    EmptyTitleException,
-    EmptyAuthorException {
-        this(title);
-        setAuthor(author);
+    EmptyTitleException {
+        this(title, author, EMPTY_FIELD);
     }
 
     public Book(String title)
     throws
     EmptyTitleException {
-        setTitle(title);
-        _empty = false;
+        this(title, EMPTY_FIELD);
+    }
+
+    public void init(String title, String author, String sinopse)
+    throws
+    EmptyTitleException {
+      setTitle(title);
+      setAuthor(author);
+      setSinopse(sinopse);
+      _empty = false;
     }
 
     private void setTitle(String title)
@@ -48,28 +50,12 @@ public class Book {
         }
     }
 
-    public void setAuthor(String author)
-    throws
-    EmptyAuthorException {
-        if (author != null) {
-            if (!author.equals("")) {
-                _author = author;
-            } else {
-                throw new EmptyAuthorException();
-            }
-        } else {
-            throw new EmptyAuthorException();
-        }
+    public void setAuthor(String author) {
+        _author = author;
     }
 
-    public void setSinopse(String sinopse)
-    throws
-    EmptySinopseException {
-        if(sinopse != null) {
-            _sinopse = sinopse;
-        } else {
-            throw new EmptySinopseException();
-        }
+    public void setSinopse(String sinopse) {
+        _sinopse = sinopse;
     }
 
     public String getAuthor() {

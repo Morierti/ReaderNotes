@@ -28,7 +28,7 @@ public class CoreClassBuilder {
 	}
 
     public Sintese buildSintese(String title) {
-        return null;
+        List<String> bookInfo = _io.getBookParsedInfo(title);
     }
 
     public Book buildBook(String title) {

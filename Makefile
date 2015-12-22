@@ -10,6 +10,9 @@ all:
 	javac -cp $(JUNIT_PATH) `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) \
     -name *.java`
 
+run:
+	java readernotes.src.core.Shell
+
 #This is how to run junit from the jar package inside the project.
 test:
 	java -cp .:$(HAMCREST):$(JUNIT_PATH) $(JUNIT_EXEC) readernotes.test.core.BookTest
