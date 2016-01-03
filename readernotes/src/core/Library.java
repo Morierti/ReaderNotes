@@ -1,5 +1,5 @@
 package readernotes.src.core;
 
-public class Sintese {
+public class Library {
 
 }
