@@ -8,21 +8,21 @@ public class Book {
     private String _title;
     private String _author;
     private String _sinopse;
-    
+
     public Book(String title, String author)
     throws
     EmptyTitleException,
     EmptyAuthorException {
         this(title, author, DEFAULT);
     }
-    
+
     public Book(String title, String author, String sinopse)
     throws
     EmptyTitleException,
     EmptyAuthorException {
         init(title, author, null);
     }
-    
+
     public void init(String title, String author, String sinopse)
     throws
     EmptyTitleException,
@@ -31,27 +31,35 @@ public class Book {
         setAuthor(author);
         setSinopse(sinopse);
     }
-    
+
     public void setTitle(String title)
     throws
     EmptyTitleException {
-        if (verifyIfEmpty(title)) {
+        if (!verifyIfEmpty(title)) {
             _title = title;
         } else {
             throw new EmptyTitleException();
         }
     }
-    
+
+    public String getTitle() {
+        return _title;
+    }
+
     public void setAuthor(String author)
     throws
     EmptyAuthorException {
-        if (verifyIfEmpty(author)) {
+        if (!verifyIfEmpty(author)) {
             _author = author;
         } else {
             throw new EmptyAuthorException();
         }
     }
-    
+
+    public String getAuthor() {
+        return _author;
+    }
+
     public void setSinopse(String sinopse) {
         if (verifyIfEmpty(sinopse)) {
             _sinopse = DEFAULT;
@@ -59,8 +67,12 @@ public class Book {
             _sinopse = sinopse;
         }
     }
-    
+
+    public String getSinopse() {
+        return _sinopse;
+    }
+
     public boolean verifyIfEmpty(String value) {
-        return value != null || value != "";
+        return value == null || value == "";
     }
 }
