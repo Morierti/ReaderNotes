@@ -5,11 +5,14 @@ import java.util.HashMap;
 import readernotes.src.exceptions.DoubleEntryException;
 import readernotes.src.exceptions.EmptyAuthorException;
 import readernotes.src.exceptions.EmptyTitleException;
+import readernotes.src.exceptions.InexistentBookException;
+import readernotes.src.exceptions.InexistentSinteseException;
 
 
 public class Library {
     private Map<String, Book> _bookLibrary;
     private Map<String, Sintese> _sinteseLibrary;
+    private IOManager _ioManager;
 
     public Library() {
         init();
@@ -18,7 +21,7 @@ public class Library {
     private void init() {
         _bookLibrary = new HashMap<String, Book>();
         _sinteseLibrary = new HashMap<String, Sintese>();
-        //Load information from file.
+        _ioManager = new IOManager();
     }
 
     public void addBook(String bookTitle, String bookAuthor)
@@ -51,8 +54,14 @@ public class Library {
         _bookLibrary.remove(bookTitle);
     }
 
-    public Book getBook(String bookTitle) {
-        return _bookLibrary.get(bookTitle);
+    public Book getBook(String bookTitle)
+    throws
+    InexistentBookException {
+        if (_bookLibrary.containsKey(bookTitle)) {
+            return _bookLibrary.get(bookTitle);
+        } else {
+            throw new InexistentBookException(bookTitle);
+        }
     }
 
     public void addSintese(String sinteseTitle, String bookTitle)
@@ -83,7 +92,13 @@ public class Library {
         _sinteseLibrary.remove(sinteseTitle);
     }
 
-    public Sintese getSintese(String sinteseTitle) {
-        return _sinteseLibrary.get(sinteseTitle);
+    public Sintese getSintese(String sinteseTitle)
+    throws
+    InexistentSinteseException {
+        if (_sinteseLibrary.containsKey(sinteseTitle)) {
+            return _sinteseLibrary.get(sinteseTitle);
+        } else {
+            throw new InexistentSinteseException(sinteseTitle);
+        }
     }
 }
