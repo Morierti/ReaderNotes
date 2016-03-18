@@ -20,19 +20,19 @@ public class SinteseXML extends AbstractXMLObjectBuilder {
 	}
 
 	public Sintese getSinteseObject() {
-
+		return null;
 	}
 
 	public Element createTitleElement() {
-	
+		return null;
 	}
 
 	public Element createBookTitleElement() {
-
+		return null;
 	}
 
 	public Element createContentElement() {
-
+		return null;
 	}
 	
 	public void buildDocument() {

@@ -8,7 +8,6 @@ import readernotes.src.core.Book;
 
 public class BookXML extends AbstractXMLObjectBuilder {
 	private Book _bookObject;
-	private Document _xmlDocument;
 
 	public BookXML(Book bookObject) {
 		setBookObject(bookObject);
@@ -40,9 +39,7 @@ public class BookXML extends AbstractXMLObjectBuilder {
 		return sinopseElement;
 	}
 
-	public void buildDocument()
-	throws
-	IOException {
+	public void buildDocument() {
 		Element bookElement = new Element("Book");
 		Document bookDocument = new Document(bookElement);
 		Element title = createTitleElement();
@@ -52,7 +49,7 @@ public class BookXML extends AbstractXMLObjectBuilder {
 		bookDocument.getRootElement().addContent(author);
 		bookDocument.getRootElement().addContent(sinopse);
 
-		_xmlDocument = bookDocument;
+		setXMLObject(bookDocument);
 	}
 
 }
