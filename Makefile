@@ -11,9 +11,12 @@ JUNIT_EXEC=org.junit.runner.JUnitCore
 all:
 	javac -cp $(JUNIT_PATH):$(JDOM) `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) \
     -name *.java`
+	#Main Class
+	javac readernotes/Shell.java
 
 run:
-	java readernotes.src.core.Shell
+#After loading the jdom library it needs to go back to the base directory.
+	java -classpath libs/jdom-2.0.6/jdom-2.0.6.jar: readernotes.Shell
 
 #This is how to run junit from the jar package inside the project.
 test:
@@ -26,3 +29,4 @@ clean:
 	rm readernotes/src/exceptions/*.class
 	rm readernotes/src/database/*.class
 	rm readernotes/test/core/*.class
+	rm readernotes/src/Shell.class
