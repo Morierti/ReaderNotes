@@ -4,11 +4,9 @@ import java.io.IOException;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
 import readernotes.src.core.Book;
 
-public class BookXML {
+public class BookXML extends AbstractXMLObjectBuilder {
 	private Book _bookObject;
 	private Document _xmlDocument;
 
@@ -32,7 +30,7 @@ public class BookXML {
 
 	public Element createAuthorElement() {
 		Element authorElement = new Element("Author");
-		titleElement.setText(_bookObject.getAuthor());
+		authorElement.setText(_bookObject.getAuthor());
 		return authorElement;
 	}
 
@@ -42,7 +40,7 @@ public class BookXML {
 		return sinopseElement;
 	}
 
-	public void buidDocument()
+	public void buildDocument()
 	throws
 	IOException {
 		Element bookElement = new Element("Book");
@@ -54,24 +52,7 @@ public class BookXML {
 		bookDocument.getRootElement().addContent(author);
 		bookDocument.getRootElement().addContent(sinopse);
 
-		//TEST
-		XMLOutputter xmlOutput = new XMLOutputter();
-		xmlOutput.setFormat(Format.getPrettyFormat());
-		xmlOutput.output(bookDocument, System.out);
+		_xmlDocument = bookDocument;
 	}
 
-	public Document getDocument() {
-		return _xmlDocument;
-	}
-
-	public static void main(String[] args) {
-		try {	
-			Book newBook = new Book("Book Title", "Author Title");
-			newBook.setSinopse("Book Sinopse or something");
-			BookXML book = new BookXML(newBook);
-			book.buildDocument();
-		} catch (IOException exception) {
-			exception.printStackTrace();
-		}
-	}
 }
