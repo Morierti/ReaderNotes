@@ -45,7 +45,8 @@ public class BookXML extends AbstractXMLObjectBuilder {
 		Element title = createTitleElement();
 		Element author = createAuthorElement();
 		Element sinopse = createSinopseElement();
-		bookDocument.getRootElement().addContent(title);
+		
+        bookDocument.getRootElement().addContent(title);
 		bookDocument.getRootElement().addContent(author);
 		bookDocument.getRootElement().addContent(sinopse);
 
