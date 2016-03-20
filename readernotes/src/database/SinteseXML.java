@@ -10,32 +10,49 @@ import readernotes.src.core.Sintese;
 
 
 public class SinteseXML extends AbstractXMLObjectBuilder {
+    private Sintese _sintese;
 
 	public SinteseXML(Sintese sinteseObject) {
-
+        setSinteseObject(sinteseObject);
 	}
 
 	public void setSinteseObject(Sintese sinteseObject) {
-
+        _sintese = sinteseObject;
 	}
 
 	public Sintese getSinteseObject() {
-		return null;
+		return _sintese;
 	}
 
 	public Element createTitleElement() {
-		return null;
+		Element titleElement = new Element("Title");
+        titleElement.setText(_sintese.getTitle());
+        return titleElement;
 	}
 
 	public Element createBookTitleElement() {
-		return null;
+		Element bookTitleElement = new Element("Book_Title");
+        bookTitleElement.setText(_sintese.getBookTitle());
+        return bookTitleElement;
 	}
 
 	public Element createContentElement() {
-		return null;
+		Element contentElement = new Element("Content");
+        contentElement.setText(_sintese.getContent());
+        return contentElement;
 	}
 	
 	public void buildDocument() {
-
+        Element sinteseElement = new Element("Sintese");
+        Document sinteseDocument = new Document(sinteseElement);
+        Element title = createTitleElement();
+        Element bookTitle = createBookTitleElement();
+        Element content = createContentElement();
+        
+        sinteseDocument.getRootElement().addContent(title);
+        sinteseDocument.getRootElement().addContent(bookTitle);
+        sinteseDocument.getRootElement().addContent(content);
+        
+        setXMLObject(sinteseDocument);
 	}
 }

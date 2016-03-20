@@ -36,6 +36,10 @@ public class Sintese {
             throw new EmptyTitleException();
         }
     }
+    
+    public String getTitle() {
+        return _title;
+    }
 
     public void setBookTitle(String bookTitle)
     throws
@@ -46,8 +50,16 @@ public class Sintese {
             throw new EmptyTitleException();
         }
     }
+    
+    public String getBookTitle() {
+        return _bookTitle;
+    }
 
     public void setContent(String content) {
         _content = content;
+    }
+    
+    public String getContent() {
+        return _content;
     }
 }
