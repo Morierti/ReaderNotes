@@ -23,13 +23,13 @@ public class Shell {
         newSintese.setContent("A review on the famous novel.");
         SinteseXML xmlSintese = new SinteseXML(newSintese);
 
-		xmlBook.buildDocument();
-		xmlBook.printDocument();
+		xmlBook.buildXMLObject();
+		xmlBook.printXMLObject();
         
         System.out.println("/////////////////////////////////////////////////");
         
-        xmlSintese.buildDocument();
-        xmlSintese.printDocument();
+        xmlSintese.buildXMLObject();
+        xmlSintese.printXMLObject();
 	}
 
 }

@@ -42,17 +42,16 @@ public class SinteseXML extends AbstractXMLObjectBuilder {
         return contentElement;
 	}
 	
-	public void buildDocument() {
+	public void buildXMLObject() {
         Element sinteseElement = new Element("Sintese");
-        Document sinteseDocument = new Document(sinteseElement);
         Element title = createTitleElement();
         Element bookTitle = createBookTitleElement();
         Element content = createContentElement();
         
-        sinteseDocument.getRootElement().addContent(title);
-        sinteseDocument.getRootElement().addContent(bookTitle);
-        sinteseDocument.getRootElement().addContent(content);
+        sinteseElement.addContent(title);
+        sinteseElement.addContent(bookTitle);
+        sinteseElement.addContent(content);
         
-        setXMLObject(sinteseDocument);
+        setXMLObject(sinteseElement);
 	}
 }

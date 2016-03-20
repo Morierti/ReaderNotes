@@ -39,18 +39,17 @@ public class BookXML extends AbstractXMLObjectBuilder {
 		return sinopseElement;
 	}
 
-	public void buildDocument() {
+	public void buildXMLObject() {
 		Element bookElement = new Element("Book");
-		Document bookDocument = new Document(bookElement);
 		Element title = createTitleElement();
 		Element author = createAuthorElement();
 		Element sinopse = createSinopseElement();
 		
-        bookDocument.getRootElement().addContent(title);
-		bookDocument.getRootElement().addContent(author);
-		bookDocument.getRootElement().addContent(sinopse);
+        bookElement.addContent(title);
+		bookElement.addContent(author);
+		bookElement.addContent(sinopse);
 
-		setXMLObject(bookDocument);
+		setXMLObject(bookElement);
 	}
 
 }
