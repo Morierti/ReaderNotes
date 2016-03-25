@@ -1,5 +1,7 @@
 #Makefile
 CORE = readernotes/src/core
+BASE = readernotes
+SRC = readernotes/src
 EXCEPTIONS = readernotes/src/exceptions
 DATABASE = readernotes/src/database
 CORE_TESTS = readernotes/test/core
@@ -9,10 +11,8 @@ JDOM=libs/jdom-2.0.6/jdom-2.0.6.jar
 JUNIT_EXEC=org.junit.runner.JUnitCore
 
 all:
-	javac -cp $(JUNIT_PATH):$(JDOM) `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) \
+	javac -cp $(JUNIT_PATH):$(JDOM) `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) \
     -name *.java`
-	#Main Class
-	javac readernotes/Shell.java
 
 run:
 #After loading the jdom library it needs to go back to the base directory.
@@ -29,4 +29,4 @@ clean:
 	rm readernotes/src/exceptions/*.class
 	rm readernotes/src/database/*.class
 	rm readernotes/test/core/*.class
-	rm readernotes/src/Shell.class
+	rm readernotes/Shell.class
