@@ -74,6 +74,14 @@ public class IOManager {
         }
     }
     
+    public String buildFilePath(String filename) {
+        String filepath = "/home/";
+        filepath = filepath.concat(_systemUsername);
+        filepath = filepath.concat("/.readernotes/");
+        filepath = filepath.concat(filename);
+        return filepath;
+    }
+    
     public Document buildBookDatabaseDocument() {
         Element booksElement = new Element("Books");
         Document xmlDocument = new Document(booksElement);
@@ -82,11 +90,7 @@ public class IOManager {
             Element iterElement = _bookDBObjects.get(bookKey);
             xmlDocument.getRootElement().addContent(iterElement);
         }
-        //BUILD A METHOD FOR THIS BUILD.
-        String filePath = "/home/";
-        filePath = filePath.concat(_systemUsername);
-        filePath = filePath.concat("/.readernotes/bookDB");
-        System.out.println(filePath);
+        String filePath = buildFilePath("bookDB");
         printDocumentToFile(filePath, xmlDocument);
         _xmlBookDB = xmlDocument;
         return xmlDocument;
@@ -101,10 +105,7 @@ public class IOManager {
             xmlDocument.getRootElement().addContent(iterElement);
         }
         //BUILD A METHOD FOR THIS BUILD.
-        String filePath = "/home/";
-        filePath = filePath.concat(_systemUsername);
-        filePath = filePath.concat("/.readernotes/sinteseDB");
-        System.out.println(filePath);
+        String filePath = buildFilePath("sinteseDB");
         printDocumentToFile(filePath, xmlDocument);
         _xmlSinteseDB = xmlDocument;
         return xmlDocument;
