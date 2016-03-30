@@ -2,9 +2,13 @@ package readernotes.src.core;
 
 import java.util.Map;
 import java.util.HashMap;
+import readernotes.src.database.IOManager;
+import readernotes.src.database.SinteseXML;
+import readernotes.src.database.BookXML;
 
 public class Library {
     private static Library _instance;
+    private IOManager _ioManager;
     private Map<String, Book> _bookDB;
     private Map<String, Sintese> _sinteseDB;
     
@@ -25,8 +29,9 @@ public class Library {
 
     private void init() {
         _instance = this;
-        _bookDB = new HashMap<String, Book>();
-        _sinteseDB = new HashMap<String, Sintese>();
+        _ioManager = new IOManager();
+        this.loadBookDatabase();
+        this.loadSinteseDatabase();
     }
     
     public void addBook(Book newBook) {
@@ -77,6 +82,14 @@ public class Library {
     
     public Map<String, Sintese> getSinteseDB() {
         return _sinteseDB;
+    }
+    
+    public void loadBookDatabase() {
+        _bookDB = _ioManager.getBookDatabase();
+    }
+    
+    public void loadSinteseDatabase() {
+        _sinteseDB = _ioManager.getSinteseDatabase();
     }
     
 }

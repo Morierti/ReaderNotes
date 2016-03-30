@@ -104,10 +104,28 @@ public class IOManager {
             Element iterElement = _sinteseDBObjects.get(sinteseKey);
             xmlDocument.getRootElement().addContent(iterElement);
         }
-        //BUILD A METHOD FOR THIS BUILD.
         String filePath = buildFilePath("sinteseDB");
         printDocumentToFile(filePath, xmlDocument);
         _xmlSinteseDB = xmlDocument;
         return xmlDocument;
     }
+    
+    public void readBookDatabaseDocument() {
+        
+    }
+    
+    public void readSinteseDatabaseDocument() {
+        
+    }
+    
+    public Map<String, Book> getBookDatabase() {
+        Map<String, Book> bookDatabase = new HashMap<String, Book>();
+        return bookDatabase;
+    }
+    
+    public Map<String, Sintese> getSinteseDatabase() {
+        Map<String, Sintese> sinteseDatabase = new HashMap<String, Sintese>();
+        return sinteseDatabase;
+    }
+    
 }
