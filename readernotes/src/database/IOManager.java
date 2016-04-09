@@ -1,14 +1,14 @@
 package readernotes.src.database;
 
+import org.jdom2.*;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import org.jdom2.Document;
-import org.jdom2.Element;
+import org.jdom2.input.SAXBuilder;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
-import java.io.IOException;
-import java.io.FileWriter;
+import java.util.List;
+import java.io.*;
 import readernotes.src.core.Library;
 import readernotes.src.core.Sintese;
 import readernotes.src.core.Book;
@@ -110,12 +110,46 @@ public class IOManager {
         return xmlDocument;
     }
     
-    public void readBookDatabaseDocument() {
-        
+    public Document buildXMLDocument(String filepath)
+    throws 
+    JDOMException,
+    IOException {
+        File inputFile = new File(filepath);
+        SAXBuilder saxbuilder = new SAXBuilder();
+        Document xmlDocument = saxbuilder.build(inputFile);
+        return xmlDocument;
     }
     
-    public void readSinteseDatabaseDocument() {
+    public Map<String, Element> readBookDatabaseDocument()
+    throws 
+    JDOMException,
+    IOException {
+        String filepath = this.buildFilePath("bookDB");
+        Document bookDBDocument = buildXMLDocument(filepath);
         
+        Element booksElement = bookDBDocument.getRootElement();
+        List<Element> books = booksElement.getChildren("Book");
+        
+        for (Element iterator : books) {
+            _bookDBObjects.put(iterator.getChildText("Title"), iterator);
+        }
+        return _bookDBObjects;
+    }
+    
+    public Map<String, Element> readSinteseDatabaseDocument()
+    throws
+    JDOMException,
+    IOException {
+        String filepath = this.buildFilePath("sinteseDB");
+        Document sinteseDocument = this.buildXMLDocument(filepath);
+        
+        Element sintesesElement = sinteseDocument.getRootElement();
+        List<Element> sinteses = sintesesElement.getChildren("Sintese");
+        
+        for (Element iterator : sinteses) {
+            _sinteseDBObjects.put(iterator.getChildText("Title"), iterator);
+        }
+        return _sinteseDBObjects;
     }
     
     public Map<String, Book> getBookDatabase() {

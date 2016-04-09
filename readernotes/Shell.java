@@ -37,6 +37,12 @@ public class Shell {
         
         iomanager.buildBookDatabaseDocument();
         iomanager.buildSinteseDatabaseDocument();
+        
+        try {
+            iomanager.readBookDatabaseDocument();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
 
 		//MAIS TESTES PARA VER SE EXISTEM FALHAS.
 	}
