@@ -12,6 +12,8 @@ import java.io.*;
 import readernotes.src.core.Library;
 import readernotes.src.core.Sintese;
 import readernotes.src.core.Book;
+import readernotes.src.exceptions.InexistentBookException;
+import readernotes.src.exceptions.InexistentSinteseException;
 
 public class IOManager {
     private Map<String, Element> _bookDBObjects;
@@ -20,12 +22,25 @@ public class IOManager {
     private Document _xmlBookDB;
     private Document _xmlSinteseDB;
     private String _systemUsername;
+    private static IOManager _instance;
     
-    public IOManager() {
+    public static boolean isEmpty() {
+        return _instance == null;
+    }
+    
+    public static IOManager getInstance() {
+        if (IOManager.isEmpty()) {
+            new IOManager();
+        }
+        return _instance;
+    }
+    
+    private IOManager() {
         init();
     }
     
     public void init() {
+        _instance = this;
         _bookDBObjects = new HashMap<String, Element>();
         _sinteseDBObjects = new HashMap<String, Element>();
         _library = Library.getInstance();
@@ -42,7 +57,9 @@ public class IOManager {
         return null;
     }
     
-    public Map<String, Element> buildBookDatabase() {
+    public Map<String, Element> buildBookDatabase()
+    throws
+    InexistentBookException {
         Set<String> keyBookDB = _library.getBookDB().keySet();
         for (String iterBookKey : keyBookDB) {
             Book iterBook = _library.getBook(iterBookKey);
@@ -53,7 +70,9 @@ public class IOManager {
         return _bookDBObjects;
     } 
     
-    public Map<String, Element> buildSinteseDatabase() {
+    public Map<String, Element> buildSinteseDatabase()
+    throws
+    InexistentSinteseException {
         Set<String> keySinteseDB = _library.getSinteseDB().keySet();
         for (String iterSinteseKey : keySinteseDB) {
             Sintese iterSintese = _library.getSintese(iterSinteseKey);

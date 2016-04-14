@@ -8,24 +8,34 @@ import readernotes.src.database.SinteseXML;
 import readernotes.src.database.IOManager;
 import readernotes.src.exceptions.EmptyTitleException;
 import readernotes.src.exceptions.EmptyAuthorException;
+import readernotes.src.exceptions.DoubleEntryException;
+import readernotes.src.exceptions.InexistentBookException;
+import readernotes.src.exceptions.InexistentSinteseException;
 
 public class Shell {
 	
 	public static void main(String[] args) 
 	throws
 	EmptyTitleException,
-	EmptyAuthorException {
+	EmptyAuthorException,
+    DoubleEntryException,
+    InexistentBookException,
+    InexistentSinteseException {
+        
+        //BOOKS
 		Book newBook = new Book("A Mensagem", "Fernando Pessoa");
 		newBook.setSinopse("Um livro sobre livros.");
         Book newBook2 = new Book("Moby Dick", "Don't know");
         newBook2.setSinopse("A book about whales");
         Book newBook3 = new Book("Biblia", "Deus");
         newBook3.setSinopse("A fairytale");
+        
+        //SINTESES
         Sintese newSintese = new Sintese("Review", "Moby Dick");
         newSintese.setContent("A review on the famous novel.");
         
         
-        IOManager iomanager = new IOManager();
+        IOManager iomanager = IOManager.getInstance();
         Library library = Library.getInstance();
         library.addBook(newBook);
         library.addBook(newBook3);

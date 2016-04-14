@@ -5,6 +5,9 @@ import java.util.HashMap;
 import readernotes.src.database.IOManager;
 import readernotes.src.database.SinteseXML;
 import readernotes.src.database.BookXML;
+import readernotes.src.exceptions.DoubleEntryException;
+import readernotes.src.exceptions.InexistentBookException;
+import readernotes.src.exceptions.InexistentSinteseException;
 
 public class Library {
     private static Library _instance;
@@ -29,14 +32,16 @@ public class Library {
 
     private void init() {
         _instance = this;
-        _ioManager = new IOManager();
+        _ioManager = IOManager.getInstance();
         this.loadBookDatabase();
         this.loadSinteseDatabase();
     }
     
-    public void addBook(Book newBook) {
+    public void addBook(Book newBook)
+    throws
+    DoubleEntryException {
         if (_bookDB.containsKey(newBook.getTitle())) {
-            //throw new DoubleEntryException(newBook.getTitle());
+            throw new DoubleEntryException(newBook.getTitle());
         } else {
             _bookDB.put(newBook.getTitle(), newBook);
         }
@@ -46,22 +51,25 @@ public class Library {
         _bookDB.remove(bookTitle);
     }
     
-    public Book getBook(String bookTitle) {
+    public Book getBook(String bookTitle)
+    throws
+    InexistentBookException {
         if (_bookDB.containsKey(bookTitle)) {
             return _bookDB.get(bookTitle);
         } else {
-            //throw new InexistentBookException(bookTitle);
+            throw new InexistentBookException(bookTitle);
         }
-        return null;
     }
     
     public Map<String, Book> getBookDB() {
         return _bookDB;
     }
     
-    public void addSintese(Sintese newSintese) {
+    public void addSintese(Sintese newSintese)
+    throws
+    DoubleEntryException {
         if (_sinteseDB.containsKey(newSintese.getTitle())) {
-            //throw new DoubleEntryException(newSintese.getTitle());
+            throw new DoubleEntryException(newSintese.getTitle());
         } else {
             _sinteseDB.put(newSintese.getTitle(), newSintese);
         }
@@ -71,13 +79,14 @@ public class Library {
         _sinteseDB.remove(title);
     }
     
-    public Sintese getSintese(String sinteseTitle) {
+    public Sintese getSintese(String sinteseTitle)
+    throws
+    InexistentSinteseException {
         if (!_sinteseDB.containsKey(sinteseTitle)) {
-            //throw new InexistentSinteseException(sinteseTitle);
+            throw new InexistentSinteseException(sinteseTitle);
         } else {
             return _sinteseDB.get(sinteseTitle);
         }
-        return null;
     }
     
     public Map<String, Sintese> getSinteseDB() {

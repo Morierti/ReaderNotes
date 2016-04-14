@@ -4,7 +4,7 @@ import readernotes.src.exceptions.EmptyTitleException;
 import readernotes.src.exceptions.EmptyAuthorException;
 
 public class Book {
-    private static final String DEFAULT = "DEFAULT";
+    private static final String defaultValue = "DEFAULT";
     private String _title;
     private String _author;
     private String _sinopse;
@@ -13,14 +13,14 @@ public class Book {
     throws
     EmptyTitleException,
     EmptyAuthorException {
-        this(title, author, DEFAULT);
+        this(title, author, defaultValue);
     }
 
     public Book(String title, String author, String sinopse)
     throws
     EmptyTitleException,
     EmptyAuthorException {
-        init(title, author, null);
+        init(title, author, sinopse);
     }
 
     public void init(String title, String author, String sinopse)
@@ -61,11 +61,7 @@ public class Book {
     }
 
     public void setSinopse(String sinopse) {
-        if (verifyIfEmpty(sinopse)) {
-            _sinopse = DEFAULT;
-        } else {
-            _sinopse = sinopse;
-        }
+        _sinopse = sinopse;
     }
 
     public String getSinopse() {
