@@ -20,7 +20,8 @@ public class Shell {
 	EmptyAuthorException,
     DoubleEntryException,
     InexistentBookException,
-    InexistentSinteseException {
+    InexistentSinteseException,
+    Exception {
         
         //BOOKS
 		Book newBook = new Book("A Mensagem", "Fernando Pessoa");
@@ -42,17 +43,15 @@ public class Shell {
         library.addBook(newBook2);
         library.addSintese(newSintese);
         
-        iomanager.buildBookDatabase();
-        iomanager.buildSinteseDatabase();
+        iomanager.buildBookDBObjects();
+        iomanager.buildSinteseDBObjects();
         
         iomanager.buildBookDatabaseDocument();
         iomanager.buildSinteseDatabaseDocument();
         
-        try {
-            iomanager.readBookDatabaseDocument();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
+        iomanager.readBookDatabaseDocument();
+        iomanager.buildBookDatabase();
+        iomanager.buildSinteseDatabase();
 
 		//MAIS TESTES PARA VER SE EXISTEM FALHAS.
 	}

@@ -8,6 +8,8 @@ import readernotes.src.database.BookXML;
 import readernotes.src.exceptions.DoubleEntryException;
 import readernotes.src.exceptions.InexistentBookException;
 import readernotes.src.exceptions.InexistentSinteseException;
+import readernotes.src.exceptions.EmptyTitleException;
+import readernotes.src.exceptions.EmptyAuthorException;
 
 public class Library {
     private static Library _instance;
@@ -94,11 +96,19 @@ public class Library {
     }
     
     public void loadBookDatabase() {
-        _bookDB = _ioManager.getBookDatabase();
+        try {
+            _bookDB = _ioManager.buildBookDatabase();
+        } catch (EmptyTitleException | EmptyAuthorException exception) {
+            //Do Something
+        }
     }
     
     public void loadSinteseDatabase() {
-        _sinteseDB = _ioManager.getSinteseDatabase();
+        try {
+            _sinteseDB = _ioManager.buildSinteseDatabase();
+        } catch (EmptyTitleException exception) {
+            //Do Something
+        }
     }
     
 }

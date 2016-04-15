@@ -5,6 +5,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import readernotes.src.exceptions.InexistentBookException;
 
 public abstract class AbstractXMLObjectBuilder {
 	private Element _xmlObject;
@@ -21,15 +22,14 @@ public abstract class AbstractXMLObjectBuilder {
         return new Document(getXMLObject());
     }
         
-
 	public abstract void buildXMLObject();
 
 	public void printXMLObject()
 	throws
-	IOException {
+	IOException,
+    InexistentBookException {
 		if (getXMLObject() == null) {
-			//throw new NullDocumentException();
-			//NOT IMPLEMENTED
+			throw new InexistentBookException("XML");
 		} else {
 			XMLOutputter xmlOutput = new XMLOutputter();
 			xmlOutput.setFormat(Format.getPrettyFormat());

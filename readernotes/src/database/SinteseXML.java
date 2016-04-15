@@ -13,7 +13,7 @@ public class SinteseXML extends AbstractXMLObjectBuilder {
     private Sintese _sintese;
 
 	public SinteseXML(Sintese sinteseObject) {
-        setSinteseObject(sinteseObject);
+        this.setSinteseObject(sinteseObject);
 	}
 
 	public void setSinteseObject(Sintese sinteseObject) {
@@ -44,13 +44,10 @@ public class SinteseXML extends AbstractXMLObjectBuilder {
 	
 	public void buildXMLObject() {
         Element sinteseElement = new Element("Sintese");
-        Element title = createTitleElement();
-        Element bookTitle = createBookTitleElement();
-        Element content = createContentElement();
         
-        sinteseElement.addContent(title);
-        sinteseElement.addContent(bookTitle);
-        sinteseElement.addContent(content);
+        sinteseElement.addContent(this.createTitleElement());
+        sinteseElement.addContent(this.createBookTitleElement());
+        sinteseElement.addContent(this.createContentElement());
         
         setXMLObject(sinteseElement);
 	}

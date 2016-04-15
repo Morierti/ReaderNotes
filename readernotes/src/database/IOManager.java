@@ -14,15 +14,17 @@ import readernotes.src.core.Sintese;
 import readernotes.src.core.Book;
 import readernotes.src.exceptions.InexistentBookException;
 import readernotes.src.exceptions.InexistentSinteseException;
+import readernotes.src.exceptions.EmptyTitleException;
+import readernotes.src.exceptions.EmptyAuthorException;
 
 public class IOManager {
+    private static IOManager _instance;
     private Map<String, Element> _bookDBObjects;
     private Map<String, Element> _sinteseDBObjects;
     private Library _library;
     private Document _xmlBookDB;
     private Document _xmlSinteseDB;
     private String _systemUsername;
-    private static IOManager _instance;
     
     public static boolean isEmpty() {
         return _instance == null;
@@ -47,36 +49,59 @@ public class IOManager {
         _systemUsername = System.getProperty("user.name");
     }
     
-    public Map<String, Element> buildBookDBObjects() {
-        Map<String, Book> bookDB = _library.getBookDB();
-        return null;
+    public Map<String, Book> buildBookDatabase()
+    throws
+    EmptyTitleException,
+    EmptyAuthorException {
+        HashMap<String, Book> bookDB = new HashMap<String, Book>();
+        if (!_bookDBObjects.isEmpty()) {
+            Set<String> bookKeySet = _bookDBObjects.keySet();
+            for (String bookKey : bookKeySet) {
+                Element bookElement = _bookDBObjects.get(bookKey);
+                Book newBook = new Book(bookElement.getChild("Title").getText(),
+                                        bookElement.getChild("Author").getText(),
+                                        bookElement.getChild("Sinopse").getText());
+                bookDB.put(bookKey, newBook);
+            }
+        }
+        return bookDB;
     }
     
-    public Map<String, Element> buildSinteseDBObjects() {
-        Map<String, Sintese> sinteseDB = _library.getSinteseDB();
-        return null;
+    public Map<String, Sintese> buildSinteseDatabase()
+    throws
+    EmptyTitleException {
+        Map<String, Sintese> sinteseDB = new HashMap<String, Sintese>();
+        if (!_sinteseDBObjects.isEmpty()) {
+            Set<String> sinteseKeySet = _sinteseDBObjects.keySet();
+            for (String sinteseKey : sinteseKeySet) {
+                Element sinteseElement = _sinteseDBObjects.get(sinteseKey);
+                Sintese newSintese = new Sintese(sinteseElement.getChild("Title").getText(),
+                                                 sinteseElement.getChild("Book_Title").getText(),
+                                                 sinteseElement.getChild("Content").getText());
+                sinteseDB.put(sinteseKey, newSintese);
+            }
+        }
+        return sinteseDB;
     }
     
-    public Map<String, Element> buildBookDatabase()
+    public Map<String, Element> buildBookDBObjects()
     throws
     InexistentBookException {
         Set<String> keyBookDB = _library.getBookDB().keySet();
         for (String iterBookKey : keyBookDB) {
-            Book iterBook = _library.getBook(iterBookKey);
-            BookXML iterBookXML = new BookXML(iterBook);
+            BookXML iterBookXML = new BookXML(_library.getBook(iterBookKey));
             iterBookXML.buildXMLObject();
             _bookDBObjects.put(iterBookKey, iterBookXML.getXMLObject());
         }
         return _bookDBObjects;
     } 
     
-    public Map<String, Element> buildSinteseDatabase()
+    public Map<String, Element> buildSinteseDBObjects()
     throws
     InexistentSinteseException {
         Set<String> keySinteseDB = _library.getSinteseDB().keySet();
         for (String iterSinteseKey : keySinteseDB) {
-            Sintese iterSintese = _library.getSintese(iterSinteseKey);
-            SinteseXML iterSinteseXML = new SinteseXML(iterSintese);
+            SinteseXML iterSinteseXML = new SinteseXML(_library.getSintese(iterSinteseKey));
             iterSinteseXML.buildXMLObject();
             _sinteseDBObjects.put(iterSinteseKey, iterSinteseXML.getXMLObject());
         }
@@ -102,29 +127,23 @@ public class IOManager {
     }
     
     public Document buildBookDatabaseDocument() {
-        Element booksElement = new Element("Books");
-        Document xmlDocument = new Document(booksElement);
+        Document xmlDocument = new Document(new Element("Books"));
         Set<String> bookDBKeys = _bookDBObjects.keySet();
         for (String bookKey : bookDBKeys) {
-            Element iterElement = _bookDBObjects.get(bookKey);
-            xmlDocument.getRootElement().addContent(iterElement);
+            xmlDocument.getRootElement().addContent(_bookDBObjects.get(bookKey));
         }
-        String filePath = buildFilePath("bookDB");
-        printDocumentToFile(filePath, xmlDocument);
+        this.printDocumentToFile(this.buildFilePath("bookDB"), xmlDocument);
         _xmlBookDB = xmlDocument;
         return xmlDocument;
     }
     
     public Document buildSinteseDatabaseDocument() {
-        Element sintesesElement = new Element("Sinteses");
-        Document xmlDocument = new Document(sintesesElement);
+        Document xmlDocument = new Document(new Element("Sinteses"));
         Set<String> sinteseDBKeys = _sinteseDBObjects.keySet();
         for (String sinteseKey : sinteseDBKeys) {
-            Element iterElement = _sinteseDBObjects.get(sinteseKey);
-            xmlDocument.getRootElement().addContent(iterElement);
+            xmlDocument.getRootElement().addContent(_sinteseDBObjects.get(sinteseKey));
         }
-        String filePath = buildFilePath("sinteseDB");
-        printDocumentToFile(filePath, xmlDocument);
+        this.printDocumentToFile(this.buildFilePath("sinteseDB"), xmlDocument);
         _xmlSinteseDB = xmlDocument;
         return xmlDocument;
     }
@@ -133,9 +152,8 @@ public class IOManager {
     throws 
     JDOMException,
     IOException {
-        File inputFile = new File(filepath);
         SAXBuilder saxbuilder = new SAXBuilder();
-        Document xmlDocument = saxbuilder.build(inputFile);
+        Document xmlDocument = saxbuilder.build(new File(filepath));
         return xmlDocument;
     }
     
@@ -143,12 +161,8 @@ public class IOManager {
     throws 
     JDOMException,
     IOException {
-        String filepath = this.buildFilePath("bookDB");
-        Document bookDBDocument = buildXMLDocument(filepath);
-        
-        Element booksElement = bookDBDocument.getRootElement();
-        List<Element> books = booksElement.getChildren("Book");
-        
+        Document bookDBDocument = buildXMLDocument(this.buildFilePath("bookDB"));
+        List<Element> books = bookDBDocument.getRootElement().getChildren("Book");
         for (Element iterator : books) {
             _bookDBObjects.put(iterator.getChildText("Title"), iterator);
         }
@@ -159,26 +173,12 @@ public class IOManager {
     throws
     JDOMException,
     IOException {
-        String filepath = this.buildFilePath("sinteseDB");
-        Document sinteseDocument = this.buildXMLDocument(filepath);
-        
-        Element sintesesElement = sinteseDocument.getRootElement();
-        List<Element> sinteses = sintesesElement.getChildren("Sintese");
-        
+        Document sinteseDocument = this.buildXMLDocument(this.buildFilePath("sinteseDB"));
+        List<Element> sinteses = sinteseDocument.getRootElement().getChildren("Sintese");
         for (Element iterator : sinteses) {
             _sinteseDBObjects.put(iterator.getChildText("Title"), iterator);
         }
         return _sinteseDBObjects;
-    }
-    
-    public Map<String, Book> getBookDatabase() {
-        Map<String, Book> bookDatabase = new HashMap<String, Book>();
-        return bookDatabase;
-    }
-    
-    public Map<String, Sintese> getSinteseDatabase() {
-        Map<String, Sintese> sinteseDatabase = new HashMap<String, Sintese>();
-        return sinteseDatabase;
     }
     
 }

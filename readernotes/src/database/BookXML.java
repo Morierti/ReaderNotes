@@ -10,7 +10,7 @@ public class BookXML extends AbstractXMLObjectBuilder {
 	private Book _bookObject;
 
 	public BookXML(Book bookObject) {
-		setBookObject(bookObject);
+		this.setBookObject(bookObject);
 	}
 
 	public void setBookObject(Book bookObject) {
@@ -41,13 +41,10 @@ public class BookXML extends AbstractXMLObjectBuilder {
 
 	public void buildXMLObject() {
 		Element bookElement = new Element("Book");
-		Element title = createTitleElement();
-		Element author = createAuthorElement();
-		Element sinopse = createSinopseElement();
 		
-        bookElement.addContent(title);
-		bookElement.addContent(author);
-		bookElement.addContent(sinopse);
+        bookElement.addContent(this.createTitleElement());
+		bookElement.addContent(this.createAuthorElement());
+		bookElement.addContent(this.createSinopseElement());
 
 		setXMLObject(bookElement);
 	}
