@@ -1,5 +1,6 @@
 #Makefile
 CORE = readernotes/src/core
+UI	= readernotes/src/ui
 BASE = readernotes
 SRC = readernotes/src
 EXCEPTIONS = readernotes/src/exceptions
@@ -11,7 +12,7 @@ JDOM=libs/jdom-2.0.6/jdom-2.0.6.jar
 JUNIT_EXEC=org.junit.runner.JUnitCore
 
 all:
-	javac -cp $(JUNIT_PATH):$(JDOM) `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) \
+	javac -cp $(JUNIT_PATH):$(JDOM) `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) \
     -name *.java`
 
 run:
