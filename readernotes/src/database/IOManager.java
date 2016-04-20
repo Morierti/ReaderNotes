@@ -41,13 +41,24 @@ public class IOManager {
         init();
     }
     
-    public void init() {
+    private void init() {
         _instance = this;
+        _systemUsername = System.getProperty("user.name");
         _bookDBObjects = new HashMap<String, Element>();
         _sinteseDBObjects = new HashMap<String, Element>();
+        loadDatabases();
         _library = Library.getInstance();
-        _systemUsername = System.getProperty("user.name");
     }
+    
+    private void loadDatabases() {
+    	try {
+    		_bookDBObjects = readBookDatabaseDocument();
+    		_sinteseDBObjects = readSinteseDatabaseDocument();
+    	} catch (JDOMException | IOException exception) {
+    		//REVER ISTO - Pensar se as excepções devem ser apanhadas aqui
+    		// ou se devem ser passadas para cima.
+		}
+	}
     
     public Map<String, Book> buildBookDatabase()
     throws

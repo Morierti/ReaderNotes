@@ -99,7 +99,7 @@ public class Library {
         try {
             _bookDB = _ioManager.buildBookDatabase();
         } catch (EmptyTitleException | EmptyAuthorException exception) {
-            //Do Something
+            System.err.println(exception.getMessage());
         }
     }
     
@@ -107,7 +107,7 @@ public class Library {
         try {
             _sinteseDB = _ioManager.buildSinteseDatabase();
         } catch (EmptyTitleException exception) {
-            //Do Something
+            System.err.println(exception.getMessage());
         }
     }
     
