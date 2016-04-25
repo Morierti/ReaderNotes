@@ -29,5 +29,6 @@ clean:
 	rm readernotes/src/core/*.class
 	rm readernotes/src/exceptions/*.class
 	rm readernotes/src/database/*.class
+	rm readernotes/src/ui/*.class
 	rm readernotes/test/core/*.class
 	rm readernotes/Shell.class
