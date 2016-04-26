@@ -94,6 +94,24 @@ public class Library {
     public Map<String, Sintese> getSinteseDB() {
         return _sinteseDB;
     }
+
+	public void storeBookDatabase() {
+		try {
+			_ioManager.buildBookDBObjects();
+			_ioManager.writeBookDatabaseDocument();
+		} catch (InexistentBookException exception) {
+			System.err.println(exception.getMessage());
+		}
+	}
+
+	public void storeSinteseDatabase() {
+		try {
+			_ioManager.buildSinteseDBObjects();
+			_ioManager.writeSinteseDatabaseDocument();
+		} catch (InexistentSinteseException exception) {
+			System.err.println(exception.getMessage());
+		}
+	}
     
     public void loadBookDatabase() {
         try {

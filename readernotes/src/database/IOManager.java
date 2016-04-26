@@ -137,7 +137,7 @@ public class IOManager {
         return filepath;
     }
     
-    public Document buildBookDatabaseDocument() {
+    public Document writeBookDatabaseDocument() {
         Document xmlDocument = new Document(new Element("Books"));
         Set<String> bookDBKeys = _bookDBObjects.keySet();
         for (String bookKey : bookDBKeys) {
@@ -148,7 +148,7 @@ public class IOManager {
         return xmlDocument;
     }
     
-    public Document buildSinteseDatabaseDocument() {
+    public Document writeSinteseDatabaseDocument() {
         Document xmlDocument = new Document(new Element("Sinteses"));
         Set<String> sinteseDBKeys = _sinteseDBObjects.keySet();
         for (String sinteseKey : sinteseDBKeys) {
