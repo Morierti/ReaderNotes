@@ -158,7 +158,8 @@ public class MainWindow extends JFrame {
 		insertBook.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				//Code
+				NewBookForm newForm = new NewBookForm();
+				newForm.run();
 			}
 		});
 
