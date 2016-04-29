@@ -24,8 +24,17 @@ import readernotes.src.core.Book;
 import java.util.ArrayList;
 
 public class MainWindow extends JFrame {
+	private static MainWindow _instance;	
+	
+	public static MainWindow getInstance() {
+		if (_instance == null) {
+			new MainWindow();
+		}
+		return _instance;
+	}
 
-    public MainWindow() {
+    private MainWindow() {
+		_instance = this;
         initUI();
     }
     
@@ -158,7 +167,7 @@ public class MainWindow extends JFrame {
 		insertBook.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				NewBookForm newForm = new NewBookForm();
+				NewBookForm newForm = NewBookForm.getInstance();
 				newForm.run();
 			}
 		});
@@ -166,7 +175,8 @@ public class MainWindow extends JFrame {
 		insertSintese.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				//Code
+				NewSinteseForm newForm = NewSinteseForm.getInstance();
+				newForm.run();
 			}
 		});
 
