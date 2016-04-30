@@ -2,6 +2,10 @@ package readernotes.src.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.EventQueue;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -12,8 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.ListModel;
 import java.util.Map;
 import java.util.Set;
 import readernotes.src.core.Library;
@@ -64,6 +67,12 @@ public class MainWindow extends JFrame {
 		Map<String, Sintese> sinteseDatabase = library.getSinteseDB();
 		Set<String> sinteseDatabaseKeys = sinteseDatabase.keySet();
 		JList list = new JList(sinteseDatabaseKeys.toArray());
+		list.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent event) {
+				System.out.println("Value Selected");
+			}
+		});
 		JScrollPane pane = new JScrollPane();
 		pane.setPreferredSize(new Dimension(200,400));
 		pane.getViewport().add(list);
@@ -76,6 +85,20 @@ public class MainWindow extends JFrame {
 		Map<String, Book> bookDatabase = library.getBookDB();
 		Set<String> bookDatabaseKeys = bookDatabase.keySet();
 		JList list = new JList(bookDatabaseKeys.toArray());
+		list.addMouseListener(new MouseAdapter() {
+			@Override			
+			public void mouseClicked(MouseEvent event) {
+				if (event.getClickCount() == 2) {
+					int index = list.locationToIndex(event.getPoint());
+					System.out.println("Item Selected Index: " + index);
+					ListModel listModel = list.getModel();
+					String bookTitle = (String) listModel.getElementAt(index);
+					System.out.println(bookTitle);
+					BookForm form = BookForm.getInstance();
+					form.run(bookTitle);
+				}
+			}
+		});
 		JScrollPane pane = new JScrollPane();
 		pane.setPreferredSize(new Dimension(200,400));
 		pane.getViewport().add(list);
