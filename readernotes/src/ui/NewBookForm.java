@@ -4,8 +4,6 @@ import java.awt.Container;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusListener;
-import java.awt.event.FocusEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -63,10 +61,9 @@ public class NewBookForm extends JFrame {
 			public void actionPerformed(ActionEvent event) {				
 				try { 
 					Library library = Library.getInstance();
-					Book newBook = new Book(getTitleArea().getText().trim(),
+					library.addBook(new Book(getTitleArea().getText().trim(),
 											getAuthorArea().getText().trim(),
-											getSinopseArea().getText().trim());
-					library.addBook(newBook);
+											getSinopseArea().getText().trim()));
 				} catch (DoubleEntryException 
 						| EmptyTitleException 
 						| EmptyAuthorException exception) {

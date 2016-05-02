@@ -1,5 +1,10 @@
 package readernotes.src.database;
 
+/**
+ * Pass the construction of book and sintese objectos to the respective
+ * XML classes instead of being built here.
+ **/
+
 import org.jdom2.*;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
