@@ -14,68 +14,19 @@ import javax.swing.BorderFactory;
 import java.awt.Container;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.FocusListener;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
 import java.awt.event.ActionEvent;
 
 public class BookForm extends JFrame {
-	private static BookForm _instance;
 	private Book _book;
-	private boolean _uiGenerated = false;
-	private JPanel _panel;
 	private JTextArea _titleArea;
 	private JTextArea _authorArea;
 	private JTextArea _sinopseArea;
-	private String _newTitle;
-	private String _newAuthor;
-	private String _newSinopse;
 
-	public static boolean isEmpty() {
-		return _instance == null;
-	}
-
-	public static BookForm getInstance() {
-		if (_instance.isEmpty()) {
-			new BookForm();
-		}
-		return _instance;
-	}
-
-	private BookForm() {
-		_instance = this;
-	}
-
-	private void setNewTitle(String newTitle) {
-		_newTitle = newTitle;
-	}
-
-	private String getNewTitle() {
-		return _newTitle;
-	}
-
-	private void setNewAuthor(String newAuthor) {
-		_newAuthor = newAuthor;
-	}
-
-	private String getNewAuthor() {
-		return _newAuthor;
-	}
-
-	private void setNewSinopse(String newSinopse) {
-		_newSinopse = newSinopse;
-	}
-
-	private String getNewSinopse() {
-		return _newSinopse;
-	}
-
-	private void setUIGenerated(boolean value) {
-		_uiGenerated = value;
-	}
-
-	private boolean isUIGenerated() {
-		return _uiGenerated;
+	public BookForm(String bookTitle) {
+		this.setBook(bookTitle);
+		this.initUI();
+		this.setVisible(true);
 	}
 
 	private void setTitleArea(JTextArea titleArea) {
@@ -114,13 +65,6 @@ public class BookForm extends JFrame {
 	private Book getBook() {
 		return _book;
 	}
-
-	private JPanel getJPanel() {
-		if (_panel == null) {
-			_panel = new JPanel();
-		}
-		return _panel;
-	}
 	
 	private JLabel createLabel(String value) {
 		JLabel label = new JLabel(value);
@@ -135,18 +79,6 @@ public class BookForm extends JFrame {
 		titleArea.setWrapStyleWord(true);
 		titleArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
 		titleArea.setBounds(90,15,300,20);
-		titleArea.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent event) {
-				System.out.println("Title Selected");
-			}
-
-			@Override
-			public void focusLost(FocusEvent event) {
-				setNewTitle(titleArea.getText().trim());
-				System.out.println("Title Unselected: " + getNewTitle());
-			}
-		});
 		return titleArea;	
 	}
 
@@ -157,18 +89,6 @@ public class BookForm extends JFrame {
 		authorArea.setWrapStyleWord(true);
 		authorArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
 		authorArea.setBounds(90,55,300,20);
-		authorArea.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent event) {
-				System.out.println("Author Selected");
-			}
-
-			@Override
-			public void focusLost(FocusEvent event) {
-				setNewAuthor(authorArea.getText().trim());
-				System.out.println("Author Unselected: " + getNewAuthor());
-			}
-		});
 		return authorArea;	
 	}
 
@@ -179,18 +99,6 @@ public class BookForm extends JFrame {
 		sinopseArea.setWrapStyleWord(true);
 		sinopseArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
 		sinopseArea.setBounds(90,90,300,65);
-		sinopseArea.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent event) {
-				System.out.println("Sinopse Selected");
-			}
-
-			@Override
-			public void focusLost(FocusEvent event) {
-				setNewSinopse(sinopseArea.getText().trim());
-				System.out.println("Sinopse Unselected: " + getNewSinopse());
-			}
-		});
 		return sinopseArea;
 	}
 
@@ -200,23 +108,23 @@ public class BookForm extends JFrame {
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				BookForm form = BookForm.getInstance();
+			//Some calls are for the BookForm Class.
 				try {
-					Book book = form.getBook();
-					if (form.getNewTitle() != null) {
-						book.setTitle(form.getNewTitle());
+					Book book = getBook();
+					if (getTitleArea().getText() != null) {
+						book.setTitle(getTitleArea().getText().trim());
 					}
-					if (form.getNewAuthor() != null) {
-						book.setAuthor(form.getNewAuthor());
+					if (getAuthorArea().getText() != null) {
+						book.setAuthor(getAuthorArea().getText().trim());
 					}
-					if (form.getNewSinopse() != null) {
-						book.setSinopse(form.getNewSinopse());
+					if (getSinopseArea().getText() != null) {
+						book.setSinopse(getSinopseArea().getText().trim());
 					}
 				} catch (EmptyTitleException
-							| EmptyAuthorException exception) {
+						| EmptyAuthorException exception) {
 					System.err.print(exception.getMessage());
 				}
-				form.dispose();
+				dispose();
 			}
 		});
 		return saveButton;
@@ -247,33 +155,13 @@ public class BookForm extends JFrame {
 	}
 
 	private void initUI() {
-		JPanel panel = this.getJPanel();
+		JPanel panel = new JPanel();
 		this.createLayout();
 		this.add(panel);
 		this.setTitle("Book");
 		this.setSize(400,210);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setUIGenerated(true);
-	}
-
-	private void updateUI() {
-		JTextArea titleArea = this.getTitleArea();
-		JTextArea authorArea = this.getAuthorArea();
-		JTextArea sinopseArea = this.getSinopseArea();
-		titleArea.setText(this.getBook().getTitle());
-		authorArea.setText(this.getBook().getAuthor());
-		sinopseArea.setText(this.getBook().getSinopse());
-	}
-
-	public void run(String bookTitle) {
-		this.setBook(bookTitle);
-		if (isUIGenerated()) {
-			this.updateUI();
-		} else {
-			this.initUI();
-		}
-		this.setVisible(true);
 	}
 
 }
