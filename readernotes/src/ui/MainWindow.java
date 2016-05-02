@@ -90,12 +90,8 @@ public class MainWindow extends JFrame {
 			public void mouseClicked(MouseEvent event) {
 				if (event.getClickCount() == 2) {
 					int index = list.locationToIndex(event.getPoint());
-					System.out.println("Item Selected Index: " + index);
 					ListModel listModel = list.getModel();
-					String bookTitle = (String) listModel.getElementAt(index);
-					System.out.println(bookTitle);
-					BookForm form = BookForm.getInstance();
-					form.run(bookTitle);
+					new BookForm((String) listModel.getElementAt(index));
 				}
 			}
 		});
@@ -190,16 +186,14 @@ public class MainWindow extends JFrame {
 		insertBook.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				NewBookForm newForm = NewBookForm.getInstance();
-				newForm.run();
+				new NewBookForm();
 			}
 		});
 
 		insertSintese.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				NewSinteseForm newForm = NewSinteseForm.getInstance();
-				newForm.run();
+				new NewSinteseForm();
 			}
 		});
 
