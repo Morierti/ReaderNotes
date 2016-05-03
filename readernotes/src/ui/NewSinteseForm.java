@@ -39,7 +39,7 @@ public class NewSinteseForm extends JFrame {
 	}
 
 	private JTextArea getBookTitleArea() {
-		return _titleArea;
+		return _bookTitleArea;
 	}
 
 	private void setContentArea(JTextArea contentArea) {
@@ -85,7 +85,7 @@ public class NewSinteseForm extends JFrame {
 
 	private JButton createSaveButton() {
 		JButton saveButton = new JButton("Save");
-		saveButton.setBounds(320,570,70,30);
+		saveButton.setBounds(320,550,70,30);
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {

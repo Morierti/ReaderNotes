@@ -1,47 +1,30 @@
 package readernotes.src.ui;
 
+import java.awt.Container;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.BorderFactory;
 import readernotes.src.core.Sintese;
 import readernotes.src.core.Library;
 import readernotes.src.exceptions.InexistentSinteseException;
+import readernotes.src.exceptions.EmptyTitleException;
 
 public class SinteseForm extends JFrame {
-	private static SinteseForm _instance;
 	private Sintese _sintese;
 	private JTextArea _titleArea;
 	private JTextArea _bookTitleArea;
 	private JTextArea _contentArea;
-	private String _newTitle;
-	private String _newBookTitle;
-	private String _newContent;
-	private JPanel _panel;
-	private boolean _uiGenerated;
 
-	public static boolean isEmpty() {
-		return _instance == null;
-	}
-
-	public static SinteseForm getInstance() {
-		if (_instance.isEmpty()) {
-			new SinteseForm();
-		}
-		return _instance;
-	}
-
-	private SinteseForm() {
-		_instance = this;
-	}
-
-	private void setUIGenerated(boolean value) {
-		_uiGenerated = value;
-	}
-
-	private boolean isUIGenerated() {
-		return _uiGenerated;
+	public SinteseForm(String title) {
+		this.setSintese(title);		
+		this.initUI();
+		this.setVisible(true);
 	}
 
 	private void setTitleArea(JTextArea titleArea) {
@@ -68,30 +51,6 @@ public class SinteseForm extends JFrame {
 		return _contentArea;
 	}
 
-	private void setNewTitle(String title) {
-		_newTitle = title;
-	}
-
-	private String getNewTitle() {
-		return _newTitle;
-	}
-
-	private void setNewBookTitle(String bookTitle) {
-		_newBookTitle = bookTitle;
-	}
-
-	private String getNewBookTitle() {
-		return _newBookTitle;
-	}
-
-	private void setNewContent(String content) {
-		_newContent = content;
-	}
-
-	private String getNewContent() {
-		return _newContent;
-	}
-
 	private void setSintese(String title) {
 		try {
 			Library library = Library.getInstance();
@@ -107,45 +66,99 @@ public class SinteseForm extends JFrame {
 
 	private JLabel createLabel(String value) {
 		JLabel label = new JLabel(value);
+		label.setBorder(BorderFactory.createEmptyBorder(5,5,5,0));
 		return label;
 	}
 
 	private JTextArea createTitleArea() {
 		JTextArea titleArea = new JTextArea();
+		titleArea.setText(this.getSintese().getTitle());
+		titleArea.setLineWrap(true);
+		titleArea.setWrapStyleWord(true);
+		titleArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
+		titleArea.setBounds(90,15,300,20);
 		return titleArea;
 	}
 
 	private JTextArea createBookTitleArea() {
 		JTextArea bookTitleArea = new JTextArea();
+		bookTitleArea.setText(this.getSintese().getBookTitle());
+		bookTitleArea.setLineWrap(true);
+		bookTitleArea.setWrapStyleWord(true);
+		bookTitleArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
+		bookTitleArea.setBounds(90,55,300,20);
 		return bookTitleArea;
 	}
 
 	private JTextArea createContentArea() {
 		JTextArea contentArea = new JTextArea();
+		contentArea.setText(this.getSintese().getContent());
+		contentArea.setLineWrap(true);
+		contentArea.setWrapStyleWord(true);
+		contentArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
+		contentArea.setBounds(10,120,380,420);
 		return contentArea;
 	}
 
 	private JButton createSaveButton() {
 		JButton saveButton = new JButton("Save");
+		saveButton.setBounds(320,550,70,30);
+		saveButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				//Some calls are for SinteseFrom class.
+				try {
+					Sintese sintese = getSintese();
+					if (getTitleArea().getText() != null) {
+						sintese.setTitle(getTitleArea().getText().trim());
+					}
+					if (getBookTitleArea().getText() != null) {
+						sintese.setBookTitle(getBookTitleArea().getText().trim());
+					}
+					if (getContentArea().getText() != null) {
+						sintese.setContent(getContentArea().getText().trim());
+					}
+				} catch (EmptyTitleException exception) {
+					System.err.print(exception.getMessage());
+				}
+				dispose();
+			}
+		});
 		return saveButton;
 	}
 
 	private void createLayout() {
+		Container pane = this.getContentPane();
+		JButton saveButton = this.createSaveButton();
+		JLabel titleLabel = this.createLabel("Title");
+		JLabel bookTitleLabel = this.createLabel("Book Title");
+		JLabel contentLabel = this.createLabel("Content");
+
+		titleLabel.setBounds(10,10,70,30);
+		bookTitleLabel.setBounds(10,50,100,30);
+		contentLabel.setBounds(10,90,70,30);
+		
 		this.setTitleArea(this.createTitleArea());
 		this.setBookTitleArea(this.createBookTitleArea());
 		this.setContentArea(this.createContentArea());
+	
+		pane.add(titleLabel);
+		pane.add(bookTitleLabel);
+		pane.add(contentLabel);
+		pane.add(saveButton);
+		pane.add(this.getTitleArea());
+		pane.add(this.getBookTitleArea());
+		pane.add(this.getContentArea());
 	}
 
 	private void initUI() {
-		//Code
-	}
-
-	private void updateUI() {
-		//Code
-	}
-
-	public void run() {
-		//Code
+		JPanel panel = new JPanel();
+		this.createLayout();
+		this.add(panel);
+		this.setTitle("Sintese");
+		this.setSize(400,610);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);	
 	}
 
 }

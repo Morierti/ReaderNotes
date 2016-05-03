@@ -67,10 +67,14 @@ public class MainWindow extends JFrame {
 		Map<String, Sintese> sinteseDatabase = library.getSinteseDB();
 		Set<String> sinteseDatabaseKeys = sinteseDatabase.keySet();
 		JList list = new JList(sinteseDatabaseKeys.toArray());
-		list.addListSelectionListener(new ListSelectionListener() {
+		list.addMouseListener(new MouseAdapter() {
 			@Override
-			public void valueChanged(ListSelectionEvent event) {
-				System.out.println("Value Selected");
+			public void mouseClicked(MouseEvent event) {
+				if (event.getClickCount() == 2) {
+					int index = list.locationToIndex(event.getPoint());
+					ListModel listModel = list.getModel();
+					new SinteseForm((String) listModel.getElementAt(index));
+				}	
 			}
 		});
 		JScrollPane pane = new JScrollPane();
