@@ -168,7 +168,7 @@ public class MainWindow extends JFrame {
     	about.addActionListener(new ActionListener() {
     		@Override
     		public void actionPerformed(ActionEvent event) {
-    			//Code
+    			new AboutWindow();
     		}
     	});
     	
