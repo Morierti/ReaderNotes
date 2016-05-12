@@ -2,6 +2,8 @@ package readernotes.src.core;
 
 import java.util.Map;
 import java.util.HashMap;
+import org.jdom2.JDOMException;
+import java.io.IOException;
 import readernotes.src.database.IOManager;
 import readernotes.src.database.SinteseXML;
 import readernotes.src.database.BookXML;
@@ -16,7 +18,7 @@ public class Library {
     private IOManager _ioManager;
     private Map<String, Book> _bookDB;
     private Map<String, Sintese> _sinteseDB;
-    
+
     public static boolean isEmpty() {
         return _instance == null;
     }
@@ -38,7 +40,7 @@ public class Library {
         this.loadBookDatabase();
         this.loadSinteseDatabase();
     }
-    
+
     public void addBook(Book newBook)
     throws
     DoubleEntryException {
@@ -48,11 +50,11 @@ public class Library {
             _bookDB.put(newBook.getTitle(), newBook);
         }
     }
-    
+
     public void removeBook(String bookTitle) {
         _bookDB.remove(bookTitle);
     }
-    
+
     public Book getBook(String bookTitle)
     throws
     InexistentBookException {
@@ -62,11 +64,11 @@ public class Library {
             throw new InexistentBookException(bookTitle);
         }
     }
-    
+
     public Map<String, Book> getBookDB() {
         return _bookDB;
     }
-    
+
     public void addSintese(Sintese newSintese)
     throws
     DoubleEntryException {
@@ -76,11 +78,11 @@ public class Library {
             _sinteseDB.put(newSintese.getTitle(), newSintese);
         }
     }
-    
+
     public void removeSintese(String title) {
         _sinteseDB.remove(title);
     }
-    
+
     public Sintese getSintese(String sinteseTitle)
     throws
     InexistentSinteseException {
@@ -90,43 +92,46 @@ public class Library {
             return _sinteseDB.get(sinteseTitle);
         }
     }
-    
+
     public Map<String, Sintese> getSinteseDB() {
         return _sinteseDB;
     }
 
 	public void storeBookDatabase() {
 		try {
-			_ioManager.buildBookDBObjects();
 			_ioManager.writeBookDatabaseDocument();
 		} catch (InexistentBookException exception) {
-			System.err.println(exception.getMessage());
+			//Resolve this.
 		}
 	}
 
 	public void storeSinteseDatabase() {
 		try {
-			_ioManager.buildSinteseDBObjects();
 			_ioManager.writeSinteseDatabaseDocument();
 		} catch (InexistentSinteseException exception) {
-			System.err.println(exception.getMessage());
+			//Resolve this.
 		}
 	}
-    
+
     public void loadBookDatabase() {
         try {
             _bookDB = _ioManager.buildBookDatabase();
-        } catch (EmptyTitleException | EmptyAuthorException exception) {
-            System.err.println(exception.getMessage());
+        } catch (EmptyTitleException
+                | EmptyAuthorException
+                | JDOMException
+                | IOException exception) {
+            //Resolve this.
         }
     }
-    
+
     public void loadSinteseDatabase() {
         try {
             _sinteseDB = _ioManager.buildSinteseDatabase();
-        } catch (EmptyTitleException exception) {
-            System.err.println(exception.getMessage());
+        } catch (EmptyTitleException
+                | JDOMException
+                | IOException exception) {
+            //Resolve this.
         }
     }
-    
+
 }
