@@ -16,6 +16,7 @@ import java.awt.Container;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import readernotes.src.core.Library;
 
 public class RemoveBookWindow extends JFrame {
     private JTextArea _titleArea;
@@ -58,6 +59,9 @@ public class RemoveBookWindow extends JFrame {
                 //Code
                 System.out.println("Remove Button Pressed.");
                 System.out.println("Title: " + getTitleArea().getText().trim());
+                Library library = Library.getInstance();
+                library.removeBook(getTitleArea().getText().trim());
+                dispose();
             }
         });
         return removeButton;
@@ -70,8 +74,8 @@ public class RemoveBookWindow extends JFrame {
             //Some calls belong to RemoveBookWindow class.
             @Override
             public void actionPerformed(ActionEvent event) {
-                //Code
                 System.out.println("See Book Button Pressed.");
+                new BookForm(getTitleArea().getText().trim());
             }
         });
         return seeBookButton;
