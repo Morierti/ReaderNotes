@@ -65,7 +65,7 @@ public class BookForm extends JFrame {
 	private Book getBook() {
 		return _book;
 	}
-	
+
 	private JLabel createLabel(String value) {
 		JLabel label = new JLabel(value);
 		label.setBorder(BorderFactory.createEmptyBorder(5,5,5,0));
@@ -79,7 +79,7 @@ public class BookForm extends JFrame {
 		titleArea.setWrapStyleWord(true);
 		titleArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
 		titleArea.setBounds(90,15,300,20);
-		return titleArea;	
+		return titleArea;
 	}
 
 	private JTextArea createAuthorArea() {
@@ -89,7 +89,7 @@ public class BookForm extends JFrame {
 		authorArea.setWrapStyleWord(true);
 		authorArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
 		authorArea.setBounds(90,55,300,20);
-		return authorArea;	
+		return authorArea;
 	}
 
 	private JTextArea createSinopseArea() {
@@ -159,7 +159,7 @@ public class BookForm extends JFrame {
 		this.createLayout();
 		this.add(panel);
 		this.setTitle("Book");
-		this.setSize(400,210);
+		this.setSize(400,220);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}

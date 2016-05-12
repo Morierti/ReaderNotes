@@ -58,14 +58,14 @@ public class NewBookForm extends JFrame {
 		JButton saveButton = new JButton("Save");
 		saveButton.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent event) {				
-				try { 
+			public void actionPerformed(ActionEvent event) {
+				try {
 					Library library = Library.getInstance();
 					library.addBook(new Book(getTitleArea().getText().trim(),
 											getAuthorArea().getText().trim(),
 											getSinopseArea().getText().trim()));
-				} catch (DoubleEntryException 
-						| EmptyTitleException 
+				} catch (DoubleEntryException
+						| EmptyTitleException
 						| EmptyAuthorException exception) {
 					System.err.print(exception.getMessage());
 				}
@@ -119,7 +119,7 @@ public class NewBookForm extends JFrame {
 		this.setTitleArea(this.createTitleArea());
 		this.setAuthorArea(this.createAuthorArea());
 		this.setSinopseArea(this.createSinopseArea());
-		
+
 		sinopseLabel.setBounds(10,90,70,30);
 		authorLabel.setBounds(10,50,70,30);
 		titleLabel.setBounds(10,10,70,30);
@@ -131,7 +131,7 @@ public class NewBookForm extends JFrame {
 		pane.add(this.getTitleArea());
 		pane.add(this.getAuthorArea());
 		pane.add(this.getSinopseArea());
-		
+
 	}
 
 	private void initUI() {
@@ -139,8 +139,8 @@ public class NewBookForm extends JFrame {
 		this.createLayout();
 		this.add(panel);
 		this.setTitle("New Book");
-		this.setSize(400,210);
+		this.setSize(400,220);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
-}		
+}

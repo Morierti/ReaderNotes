@@ -73,7 +73,7 @@ public class NewSinteseForm extends JFrame {
 		contentArea.setLineWrap(true);
 		contentArea.setWrapStyleWord(true);
 		contentArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
-		contentArea.setBounds(10,120,380,420);
+		contentArea.setBounds(10,120,380,320);
 		return contentArea;
 	}
 
@@ -85,7 +85,7 @@ public class NewSinteseForm extends JFrame {
 
 	private JButton createSaveButton() {
 		JButton saveButton = new JButton("Save");
-		saveButton.setBounds(320,550,70,30);
+		saveButton.setBounds(320,450,70,30);
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -135,7 +135,7 @@ public class NewSinteseForm extends JFrame {
 		this.createLayout();
 		this.add(panel);
 		this.setTitle("New Sintese");
-		this.setSize(400,610);
+		this.setSize(400,510);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}

@@ -22,7 +22,7 @@ public class SinteseForm extends JFrame {
 	private JTextArea _contentArea;
 
 	public SinteseForm(String title) {
-		this.setSintese(title);		
+		this.setSintese(title);
 		this.initUI();
 		this.setVisible(true);
 	}
@@ -96,13 +96,13 @@ public class SinteseForm extends JFrame {
 		contentArea.setLineWrap(true);
 		contentArea.setWrapStyleWord(true);
 		contentArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
-		contentArea.setBounds(10,120,380,420);
+		contentArea.setBounds(10,120,380,320);
 		return contentArea;
 	}
 
 	private JButton createSaveButton() {
 		JButton saveButton = new JButton("Save");
-		saveButton.setBounds(320,550,70,30);
+		saveButton.setBounds(320,450,70,30);
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -137,11 +137,11 @@ public class SinteseForm extends JFrame {
 		titleLabel.setBounds(10,10,70,30);
 		bookTitleLabel.setBounds(10,50,100,30);
 		contentLabel.setBounds(10,90,70,30);
-		
+
 		this.setTitleArea(this.createTitleArea());
 		this.setBookTitleArea(this.createBookTitleArea());
 		this.setContentArea(this.createContentArea());
-	
+
 		pane.add(titleLabel);
 		pane.add(bookTitleLabel);
 		pane.add(contentLabel);
@@ -156,9 +156,9 @@ public class SinteseForm extends JFrame {
 		this.createLayout();
 		this.add(panel);
 		this.setTitle("Sintese");
-		this.setSize(400,610);
+		this.setSize(400,510);
 		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);	
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
 }
