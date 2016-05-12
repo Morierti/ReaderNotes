@@ -27,8 +27,8 @@ import readernotes.src.core.Book;
 import java.util.ArrayList;
 
 public class MainWindow extends JFrame {
-	private static MainWindow _instance;	
-	
+	private static MainWindow _instance;
+
 	public static MainWindow getInstance() {
 		if (_instance == null) {
 			new MainWindow();
@@ -40,7 +40,7 @@ public class MainWindow extends JFrame {
 		_instance = this;
         initUI();
     }
-    
+
     private void initUI() {
         this.createMenuBar();
 		JPanel panel = new JPanel();
@@ -53,7 +53,7 @@ public class MainWindow extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-    
+
     private void createMenuBar() {
         JMenuBar menubar = new JMenuBar();
         this.createFileMenu(menubar);
@@ -74,14 +74,14 @@ public class MainWindow extends JFrame {
 					int index = list.locationToIndex(event.getPoint());
 					ListModel listModel = list.getModel();
 					new SinteseForm((String) listModel.getElementAt(index));
-				}	
+				}
 			}
 		});
 		JScrollPane pane = new JScrollPane();
 		pane.setPreferredSize(new Dimension(200,400));
 		pane.getViewport().add(list);
 		panel.add(pane);
-		
+
     }
 
     private void createNewBookList(JPanel panel) {
@@ -90,7 +90,7 @@ public class MainWindow extends JFrame {
 		Set<String> bookDatabaseKeys = bookDatabase.keySet();
 		JList list = new JList(bookDatabaseKeys.toArray());
 		list.addMouseListener(new MouseAdapter() {
-			@Override			
+			@Override
 			public void mouseClicked(MouseEvent event) {
 				if (event.getClickCount() == 2) {
 					int index = list.locationToIndex(event.getPoint());
@@ -104,19 +104,19 @@ public class MainWindow extends JFrame {
 		pane.getViewport().add(list);
 		panel.add(pane);
     }
-    
+
     private void createFileMenu(JMenuBar menubar) {
     	JMenu fileMenu = new JMenu("File");
     	this.createFileMenuItems(fileMenu);
     	menubar.add(fileMenu);
     }
-    
+
     private void createOperationsMenu(JMenuBar menubar) {
     	JMenu operationsMenu = new JMenu("Operations");
     	this.createOperationsMenuItems(operationsMenu);
     	menubar.add(operationsMenu);
     }
-    
+
     private void createHelpMenu(JMenuBar menubar) {
     	JMenu helpMenu = new JMenu("Help");
     	this.createHelpMenuItems(helpMenu);
@@ -127,9 +127,9 @@ public class MainWindow extends JFrame {
 	   	JMenuItem exit = new JMenuItem("Exit");
         JMenuItem save = new JMenuItem("Save");
         //ToolTips
-        
+
         exit.setToolTipText("Exit Application");
-     	
+
      	//Event Handlers
 
 		save.addActionListener(new ActionListener() {
@@ -140,7 +140,7 @@ public class MainWindow extends JFrame {
 				library.storeSinteseDatabase();
 			}
 		});
-     	   
+
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -150,43 +150,43 @@ public class MainWindow extends JFrame {
                 System.exit(0);
             }
         });
-    
+
         //Incorporation
-        
+
 		fileMenu.add(save);
         fileMenu.add(exit);
     }
-    
+
     private void createHelpMenuItems(JMenu helpMenu) {
     	JMenuItem about = new JMenuItem("About");
-    	
+
     	//ToolTips
     	about.setToolTipText("Information about the application.");
-    	
+
     	//Event Handlers
-    	
+
     	about.addActionListener(new ActionListener() {
     		@Override
     		public void actionPerformed(ActionEvent event) {
     			new AboutWindow();
     		}
     	});
-    	
+
     	//Incorporation
     	helpMenu.add(about);
     }
-    
+
     private void createOperationsMenuItems(JMenu operationsMenu) {
     	JMenuItem insertBook = new JMenuItem("New Book");
 		JMenuItem insertSintese = new JMenuItem("New Sintese");
 		JMenuItem removeBook = new JMenuItem("Remove Book");
 		JMenuItem removeSintese = new JMenuItem("Remove Sintese");
 		JMenuItem search = new JMenuItem("Search");
-	
+
     	//ToolTips
-    	
+
     	//Event Handlers
-	
+
 		insertBook.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -204,7 +204,7 @@ public class MainWindow extends JFrame {
 		removeBook.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				//Code
+				new RemoveBookWindow();
 			}
 		});
 
@@ -221,7 +221,7 @@ public class MainWindow extends JFrame {
 				//code
 			}
 		});
-			
+
     	//Incorporation
 
 		operationsMenu.add(insertBook);

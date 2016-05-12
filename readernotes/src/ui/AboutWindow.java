@@ -4,6 +4,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.SwingConstants;
+import javax.swing.JComponent;
+import javax.swing.Box;
+import java.awt.BorderLayout;
 import java.awt.Container;
 
 public class AboutWindow extends JFrame {
@@ -20,7 +25,7 @@ public class AboutWindow extends JFrame {
 		_version = version;
 	}
 
-	private String getVersion() { 
+	private String getVersion() {
 		return _version;
 	}
 
@@ -43,28 +48,34 @@ public class AboutWindow extends JFrame {
 	private JLabel createLabel(String value) {
 		JLabel label = new JLabel(value);
 		label.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+		label.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		label.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 		return label;
 	}
 
-	private void createLayout() {
-		Container pane = this.getContentPane();
+	private JPanel createLayout() {
+		JPanel panel = new JPanel();
 		JLabel version = this.createLabel("Version 0.1");
 		JLabel name = this.createLabel("Reader Notes");
 		JLabel description = this.createLabel("Description");
 
-		version.setBounds(55,10,100,30);
-		name.setBounds(45,60,120,30);
-		description.setBounds(55,90,120,60);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		pane.add(version);
-		pane.add(name);
-		pane.add(description);
+		panel.add(Box.createVerticalGlue());
+		panel.add(version);
+		panel.add(Box.createVerticalGlue());
+		panel.add(name);
+		panel.add(Box.createVerticalGlue());
+		panel.add(description);
+		panel.add(Box.createVerticalGlue());
+
+		return panel;
 	}
 
 	public void initUI() {
-		JPanel panel = new JPanel();
-		this.createLayout();
-		this.add(panel);
+		Container contentPane = this.getContentPane();
+		contentPane.setLayout(new BorderLayout());
+		this.add(this.createLayout(), BorderLayout.CENTER);
 		this.setTitle("About");
 		this.setSize(200,200);
 		this.setLocationRelativeTo(null);
