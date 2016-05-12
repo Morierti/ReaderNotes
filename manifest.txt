@@ -1,0 +1,4 @@
+Main-Class: readernotes.Shell
+Class-Path: libs/java-hamcrest-2.0.0.0.jar libs/junit-4.12.jar libs/jdom-2.0.6/jdom-2.0.6.jar 
+Specification-Version: 0.1
+Specification-Title: readernotes
