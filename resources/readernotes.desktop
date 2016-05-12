@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Exec=java -jar /usr/bin/readernotes/readernotes.jar
+Icon=
+Version=0.1
+Terminal=false;
+Categories=Office;
