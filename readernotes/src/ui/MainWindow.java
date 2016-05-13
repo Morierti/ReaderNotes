@@ -20,7 +20,7 @@ import javax.swing.ListModel;
 import java.util.Map;
 import java.util.Set;
 import readernotes.src.core.Library;
-import readernotes.src.core.Sintese;
+import readernotes.src.core.ReadingFile;
 import readernotes.src.core.Book;
 
 //TEST
@@ -46,7 +46,7 @@ public class MainWindow extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER,25,35));
 		this.createNewBookList(panel);
-		this.createNewSinteseList(panel);
+		this.createNewReadingFileList(panel);
 		this.add(panel);
         this.setTitle("Reader Notes");
         this.setSize(500, 500);
@@ -62,18 +62,21 @@ public class MainWindow extends JFrame {
         this.setJMenuBar(menubar);
     }
 
-    private void createNewSinteseList(JPanel panel) {
+    private void createNewReadingFileList(JPanel panel) {
 		Library library = Library.getInstance();
-		Map<String, Sintese> sinteseDatabase = library.getSinteseDB();
-		Set<String> sinteseDatabaseKeys = sinteseDatabase.keySet();
-		JList list = new JList(sinteseDatabaseKeys.toArray());
+		Map<String, ReadingFile> readingFileDatabase = library.getReadingFileDB();
+		if (readingFileDatabase == null) {
+			System.out.println("It's null");
+		}
+		Set<String> readingFileDatabaseKeys = readingFileDatabase.keySet();
+		JList list = new JList(readingFileDatabaseKeys.toArray());
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
 				if (event.getClickCount() == 2) {
 					int index = list.locationToIndex(event.getPoint());
 					ListModel listModel = list.getModel();
-					new SinteseForm((String) listModel.getElementAt(index));
+					new ReadingFileForm((String) listModel.getElementAt(index));
 				}
 			}
 		});
@@ -137,7 +140,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent event) {
 				Library library = Library.getInstance();
 				library.storeBookDatabase();
-				library.storeSinteseDatabase();
+				library.storeReadingFileDatabase();
 			}
 		});
 
@@ -146,7 +149,7 @@ public class MainWindow extends JFrame {
             public void actionPerformed(ActionEvent event) {
 				Library library = Library.getInstance();
 				library.storeBookDatabase();
-				library.storeSinteseDatabase();
+				library.storeReadingFileDatabase();
                 System.exit(0);
             }
         });
@@ -178,9 +181,9 @@ public class MainWindow extends JFrame {
 
     private void createOperationsMenuItems(JMenu operationsMenu) {
     	JMenuItem insertBook = new JMenuItem("New Book");
-		JMenuItem insertSintese = new JMenuItem("New Sintese");
+		JMenuItem insertReadingFile = new JMenuItem("New Reading File");
 		JMenuItem removeBook = new JMenuItem("Remove Book");
-		JMenuItem removeSintese = new JMenuItem("Remove Sintese");
+		JMenuItem removeReadingFile = new JMenuItem("Remove Reading File");
 		JMenuItem search = new JMenuItem("Search");
 
     	//ToolTips
@@ -194,10 +197,10 @@ public class MainWindow extends JFrame {
 			}
 		});
 
-		insertSintese.addActionListener(new ActionListener() {
+		insertReadingFile.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				new NewSinteseForm();
+				new NewReadingFileForm();
 			}
 		});
 
@@ -208,10 +211,10 @@ public class MainWindow extends JFrame {
 			}
 		});
 
-		removeSintese.addActionListener(new ActionListener() {
+		removeReadingFile.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				new RemoveSinteseWindow();
+				new RemoveReadingFileWindow();
 			}
 		});
 
@@ -225,9 +228,9 @@ public class MainWindow extends JFrame {
     	//Incorporation
 
 		operationsMenu.add(insertBook);
-		operationsMenu.add(insertSintese);
+		operationsMenu.add(insertReadingFile);
 		operationsMenu.add(removeBook);
-		operationsMenu.add(removeSintese);
+		operationsMenu.add(removeReadingFile);
 		operationsMenu.add(search);
     }
 

@@ -2,19 +2,19 @@ package readernotes.src.core;
 
 import readernotes.src.exceptions.EmptyTitleException;
 
-public class Sintese {
+public class ReadingFile {
     private static final String defaultValue = "DEFAULT";
     private String _title;
     private String _bookTitle;
     private String _content;
 
-    public Sintese(String title, String bookTitle)
+    public ReadingFile(String title, String bookTitle)
     throws
     EmptyTitleException {
         init(title, bookTitle, defaultValue);
     }
 
-    public Sintese(String title, String bookTitle, String content)
+    public ReadingFile(String title, String bookTitle, String content)
     throws
     EmptyTitleException {
         init(title, bookTitle, content);
@@ -37,7 +37,7 @@ public class Sintese {
             throw new EmptyTitleException();
         }
     }
-    
+
     public String getTitle() {
         return _title;
     }
@@ -51,7 +51,7 @@ public class Sintese {
             throw new EmptyTitleException();
         }
     }
-    
+
     public String getBookTitle() {
         return _bookTitle;
     }
@@ -59,11 +59,11 @@ public class Sintese {
     public void setContent(String content) {
         _content = content;
     }
-    
+
     public String getContent() {
         return _content;
     }
-    
+
     public boolean verifyIfEmpty(String value) {
         return value == null || value == "";
     }

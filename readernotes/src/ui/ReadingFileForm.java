@@ -1,27 +1,28 @@
 package readernotes.src.ui;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.BorderFactory;
 import java.awt.Container;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import readernotes.src.core.Sintese;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.BorderFactory;
+import readernotes.src.core.ReadingFile;
 import readernotes.src.core.Library;
+import readernotes.src.exceptions.InexistentReadingFileException;
 import readernotes.src.exceptions.EmptyTitleException;
-import readernotes.src.exceptions.DoubleEntryException;
 
-public class NewSinteseForm extends JFrame {
-	private static NewSinteseForm _instance;
+public class ReadingFileForm extends JFrame {
+	private ReadingFile _readingFile;
 	private JTextArea _titleArea;
 	private JTextArea _bookTitleArea;
 	private JTextArea _contentArea;
 
-	public NewSinteseForm() {
+	public ReadingFileForm(String title) {
+		this.setReadingFile(title);
 		this.initUI();
 		this.setVisible(true);
 	}
@@ -50,8 +51,28 @@ public class NewSinteseForm extends JFrame {
 		return _contentArea;
 	}
 
+	private void setReadingFile(String title) {
+		try {
+			Library library = Library.getInstance();
+			_readingFile = library.getReadingFile(title);
+		} catch (InexistentReadingFileException exception) {
+			System.err.print(exception.getMessage());
+		}
+	}
+
+	private ReadingFile getReadingFile() {
+		return _readingFile;
+	}
+
+	private JLabel createLabel(String value) {
+		JLabel label = new JLabel(value);
+		label.setBorder(BorderFactory.createEmptyBorder(5,5,5,0));
+		return label;
+	}
+
 	private JTextArea createTitleArea() {
 		JTextArea titleArea = new JTextArea();
+		titleArea.setText(this.getReadingFile().getTitle());
 		titleArea.setLineWrap(true);
 		titleArea.setWrapStyleWord(true);
 		titleArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
@@ -61,6 +82,7 @@ public class NewSinteseForm extends JFrame {
 
 	private JTextArea createBookTitleArea() {
 		JTextArea bookTitleArea = new JTextArea();
+		bookTitleArea.setText(this.getReadingFile().getBookTitle());
 		bookTitleArea.setLineWrap(true);
 		bookTitleArea.setWrapStyleWord(true);
 		bookTitleArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
@@ -70,17 +92,12 @@ public class NewSinteseForm extends JFrame {
 
 	private JTextArea createContentArea() {
 		JTextArea contentArea = new JTextArea();
+		contentArea.setText(this.getReadingFile().getContent());
 		contentArea.setLineWrap(true);
 		contentArea.setWrapStyleWord(true);
 		contentArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
 		contentArea.setBounds(10,120,380,320);
 		return contentArea;
-	}
-
-	private JLabel createNewLabel(String labelValue) {
-		JLabel label = new JLabel(labelValue);
-		label.setBorder(BorderFactory.createEmptyBorder(5,5,5,0));
-		return label;
 	}
 
 	private JButton createSaveButton() {
@@ -89,37 +106,41 @@ public class NewSinteseForm extends JFrame {
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				//Some are for NewSinteseForm class.
+				//Some calls are for ReadingFileFrom class.
 				try {
-					Library library = Library.getInstance();
-					library.addSintese(new Sintese(getTitleArea().getText().trim(),
-												 getBookTitleArea().getText().trim(),
-												 getContentArea().getText().trim()));
-					dispose();
-				} catch (EmptyTitleException
-						 | DoubleEntryException exception) {
+					ReadingFile readingFile = getReadingFile();
+					if (getTitleArea().getText() != null) {
+						readingFile.setTitle(getTitleArea().getText().trim());
+					}
+					if (getBookTitleArea().getText() != null) {
+						readingFile.setBookTitle(getBookTitleArea().getText().trim());
+					}
+					if (getContentArea().getText() != null) {
+						readingFile.setContent(getContentArea().getText().trim());
+					}
+				} catch (EmptyTitleException exception) {
 					System.err.print(exception.getMessage());
 				}
+				dispose();
 			}
 		});
 		return saveButton;
 	}
 
-
 	private void createLayout() {
 		Container pane = this.getContentPane();
 		JButton saveButton = this.createSaveButton();
-		JLabel titleLabel = this.createNewLabel("Title");
-		JLabel bookTitleLabel = this.createNewLabel("Book Title");
-		JLabel contentLabel = this.createNewLabel("Content:");
-
-		this.setTitleArea(this.createTitleArea());
-		this.setBookTitleArea(this.createBookTitleArea());
-		this.setContentArea(this.createContentArea());
+		JLabel titleLabel = this.createLabel("Title");
+		JLabel bookTitleLabel = this.createLabel("Book Title");
+		JLabel contentLabel = this.createLabel("Content");
 
 		titleLabel.setBounds(10,10,70,30);
 		bookTitleLabel.setBounds(10,50,100,30);
 		contentLabel.setBounds(10,90,70,30);
+
+		this.setTitleArea(this.createTitleArea());
+		this.setBookTitleArea(this.createBookTitleArea());
+		this.setContentArea(this.createContentArea());
 
 		pane.add(titleLabel);
 		pane.add(bookTitleLabel);
@@ -130,11 +151,11 @@ public class NewSinteseForm extends JFrame {
 		pane.add(this.getContentArea());
 	}
 
-	public void initUI() {
+	private void initUI() {
 		JPanel panel = new JPanel();
 		this.createLayout();
 		this.add(panel);
-		this.setTitle("New Sintese");
+		this.setTitle("Reading File");
 		this.setSize(400,510);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

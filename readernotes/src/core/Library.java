@@ -5,11 +5,11 @@ import java.util.HashMap;
 import org.jdom2.JDOMException;
 import java.io.IOException;
 import readernotes.src.database.IOManager;
-import readernotes.src.database.SinteseXML;
+import readernotes.src.database.ReadingFileXML;
 import readernotes.src.database.BookXML;
 import readernotes.src.exceptions.DoubleEntryException;
 import readernotes.src.exceptions.InexistentBookException;
-import readernotes.src.exceptions.InexistentSinteseException;
+import readernotes.src.exceptions.InexistentReadingFileException;
 import readernotes.src.exceptions.EmptyTitleException;
 import readernotes.src.exceptions.EmptyAuthorException;
 
@@ -17,7 +17,7 @@ public class Library {
     private static Library _instance;
     private IOManager _ioManager;
     private Map<String, Book> _bookDB;
-    private Map<String, Sintese> _sinteseDB;
+    private Map<String, ReadingFile> _readingFileDB;
 
     public static boolean isEmpty() {
         return _instance == null;
@@ -38,7 +38,7 @@ public class Library {
         _instance = this;
         _ioManager = IOManager.getInstance();
         this.loadBookDatabase();
-        this.loadSinteseDatabase();
+        this.loadReadingFileDatabase();
     }
 
     public void addBook(Book newBook)
@@ -69,32 +69,32 @@ public class Library {
         return _bookDB;
     }
 
-    public void addSintese(Sintese newSintese)
+    public void addReadingFile(ReadingFile newReadingFile)
     throws
     DoubleEntryException {
-        if (_sinteseDB.containsKey(newSintese.getTitle())) {
-            throw new DoubleEntryException(newSintese.getTitle());
+        if (_readingFileDB.containsKey(newReadingFile.getTitle())) {
+            throw new DoubleEntryException(newReadingFile.getTitle());
         } else {
-            _sinteseDB.put(newSintese.getTitle(), newSintese);
+            _readingFileDB.put(newReadingFile.getTitle(), newReadingFile);
         }
     }
 
-    public void removeSintese(String title) {
-        _sinteseDB.remove(title);
+    public void removeReadingFile(String title) {
+        _readingFileDB.remove(title);
     }
 
-    public Sintese getSintese(String sinteseTitle)
+    public ReadingFile getReadingFile(String readingFileTitle)
     throws
-    InexistentSinteseException {
-        if (!_sinteseDB.containsKey(sinteseTitle)) {
-            throw new InexistentSinteseException(sinteseTitle);
+    InexistentReadingFileException {
+        if (!_readingFileDB.containsKey(readingFileTitle)) {
+            throw new InexistentReadingFileException(readingFileTitle);
         } else {
-            return _sinteseDB.get(sinteseTitle);
+            return _readingFileDB.get(readingFileTitle);
         }
     }
 
-    public Map<String, Sintese> getSinteseDB() {
-        return _sinteseDB;
+    public Map<String, ReadingFile> getReadingFileDB() {
+        return _readingFileDB;
     }
 
 	public void storeBookDatabase() {
@@ -105,10 +105,10 @@ public class Library {
 		}
 	}
 
-	public void storeSinteseDatabase() {
+	public void storeReadingFileDatabase() {
 		try {
-			_ioManager.writeSinteseDatabaseDocument();
-		} catch (InexistentSinteseException exception) {
+			_ioManager.writeReadingFileDatabaseDocument();
+		} catch (InexistentReadingFileException exception) {
 			//Resolve this.
 		}
 	}
@@ -120,17 +120,20 @@ public class Library {
                 | EmptyAuthorException
                 | JDOMException
                 | IOException exception) {
-            //Resolve this.
+            _bookDB = new HashMap<String,Book>();
         }
     }
 
-    public void loadSinteseDatabase() {
+    public void loadReadingFileDatabase() {
         try {
-            _sinteseDB = _ioManager.buildSinteseDatabase();
+            _readingFileDB = _ioManager.buildReadingFileDatabase();
+            if (_readingFileDB == null) {
+                System.out.println("LIBRARY: It's null");
+            }
         } catch (EmptyTitleException
                 | JDOMException
                 | IOException exception) {
-            //Resolve this.
+            _readingFileDB = new HashMap<String,ReadingFile>();
         }
     }
 

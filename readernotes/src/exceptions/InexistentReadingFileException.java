@@ -1,10 +1,10 @@
 package readernotes.src.exceptions;
 
-public class InexistentSinteseException extends Exception {
+public class InexistentReadingFileException extends Exception {
     private String _title;
-    private String _message = "The sintese " + _title + " does not exist.";
+    private String _message = "The Reading File " + _title + " does not exist.";
 
-    public InexistentSinteseException(String title) {
+    public InexistentReadingFileException(String title) {
         setTitle(title);
     }
 

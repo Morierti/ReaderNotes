@@ -12,10 +12,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import readernotes.src.core.Library;
 
-public class RemoveSinteseWindow extends JFrame {
+public class RemoveReadingFileWindow extends JFrame {
     private JTextArea _titleArea;
 
-    public RemoveSinteseWindow() {
+    public RemoveReadingFileWindow() {
         this.initUI();
         this.setVisible(true);
     }
@@ -54,22 +54,22 @@ public class RemoveSinteseWindow extends JFrame {
                 System.out.println("Remove Button Pressed.");
                 System.out.println("Title: " + getTitleArea().getText().trim());
                 Library library = Library.getInstance();
-                library.removeSintese(getTitleArea().getText().trim());
+                library.removeReadingFile(getTitleArea().getText().trim());
                 dispose();
             }
         });
         return removeButton;
     }
 
-    private JButton createSeeSinteseButton() {
+    private JButton createSeeReadingFileButton() {
         JButton seeBookButton = new JButton("See Book");
         seeBookButton.setBounds(180,70,100,30);
         seeBookButton.addActionListener(new ActionListener() {
             //Some calls belong to RemoveBookWindow class.
             @Override
             public void actionPerformed(ActionEvent event) {
-                System.out.println("See Sintese Button Pressed.");
-                new SinteseForm(getTitleArea().getText().trim());
+                System.out.println("See Reading File Button Pressed.");
+                new ReadingFileForm(getTitleArea().getText().trim());
             }
         });
         return seeBookButton;
@@ -85,7 +85,7 @@ public class RemoveSinteseWindow extends JFrame {
 
         pane.add(titleLabel);
         pane.add(this.getTitleArea());
-        pane.add(this.createSeeSinteseButton());
+        pane.add(this.createSeeReadingFileButton());
         pane.add(this.createRemoveButton());
     }
 
@@ -93,7 +93,7 @@ public class RemoveSinteseWindow extends JFrame {
         JPanel panel = new JPanel();
         this.createLayout();
         this.add(panel);
-        this.setTitle("Remove Sintese");
+        this.setTitle("Remove Reading File");
         this.setSize(400,110);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

@@ -1,7 +1,7 @@
 package readernotes.src.database;
 
 /**
- * Pass the construction of book and sintese objectos to the respective
+ * Pass the construction of book and readingFile objects to the respective
  * XML classes instead of being built here.
  **/
 
@@ -15,10 +15,10 @@ import java.util.Set;
 import java.util.List;
 import java.io.*;
 import readernotes.src.core.Library;
-import readernotes.src.core.Sintese;
+import readernotes.src.core.ReadingFile;
 import readernotes.src.core.Book;
 import readernotes.src.exceptions.InexistentBookException;
-import readernotes.src.exceptions.InexistentSinteseException;
+import readernotes.src.exceptions.InexistentReadingFileException;
 import readernotes.src.exceptions.EmptyTitleException;
 import readernotes.src.exceptions.EmptyAuthorException;
 
@@ -42,18 +42,7 @@ public class IOManager {
 
     private void init() {
         _instance = this;
-        loadDatabases();
     }
-
-    private void loadDatabases() {
-    	try {
-    		this.readBookDatabaseDocument();
-    		this.readSinteseDatabaseDocument();
-    	} catch (JDOMException | IOException exception) {
-    		//REVER ISTO - Pensar se as excepções devem ser apanhadas aqui
-    		// ou se devem ser passadas para cima.
-		}
-	}
 
     public void printDocumentToFile(String file, Document xmlDocument) {
         try {
@@ -79,7 +68,9 @@ public class IOManager {
     JDOMException,
     IOException {
         SAXBuilder saxbuilder = new SAXBuilder();
+        System.out.println("Built SAX Builder");
         Document xmlDocument = saxbuilder.build(new File(filepath));
+        System.out.println("Build xml Document");
         return xmlDocument;
     }
 
@@ -104,24 +95,27 @@ public class IOManager {
         return bookDB;
     }
 
-    public Map<String, Sintese> buildSinteseDatabase()
+    public Map<String, ReadingFile> buildReadingFileDatabase()
     throws
     EmptyTitleException,
     JDOMException,
     IOException {
-        Map<String, Sintese> sinteseDB = new HashMap<String, Sintese>();
-        Map<String, Element> sinteseXMLObjects = this.readSinteseDatabaseDocument();
-        if (!sinteseXMLObjects.isEmpty()) {
-            Set<String> sinteseKeySet = sinteseXMLObjects.keySet();
-            for (String sinteseKey : sinteseKeySet) {
-                Element sinteseElement = sinteseXMLObjects.get(sinteseKey);
-                Sintese newSintese = new Sintese(sinteseElement.getChild("Title").getText(),
-                                                 sinteseElement.getChild("Book_Title").getText(),
-                                                 sinteseElement.getChild("Content").getText());
-                sinteseDB.put(sinteseKey, newSintese);
+        Map<String, ReadingFile> readingFileDB = new HashMap<String, ReadingFile>();
+        Map<String, Element> readingFileXMLObjects = this.readReadingFileDatabaseDocument();
+        if (readingFileXMLObjects == null) {
+            System.out.println("IOMANAGER -> It's null");
+        }
+        if (!readingFileXMLObjects.isEmpty()) {
+            Set<String> keySet = readingFileXMLObjects.keySet();
+            for (String key : keySet) {
+                Element readingFileElement = readingFileXMLObjects.get(key);
+                ReadingFile newReadingFile = new ReadingFile(readingFileElement.getChild("Title").getText(),
+                                                                readingFileElement.getChild("Book_Title").getText(),
+                                                                readingFileElement.getChild("Content").getText());
+                readingFileDB.put(key, newReadingFile);
             }
         }
-        return sinteseDB;
+        return readingFileDB;
     }
 
     public Map<String, Element> buildBookXMLObjects()
@@ -138,18 +132,18 @@ public class IOManager {
         return bookXMLObjects;
     }
 
-    public Map<String, Element> buildSinteseXMLObjects()
+    public Map<String, Element> buildReadingFileXMLObjects()
     throws
-    InexistentSinteseException {
+    InexistentReadingFileException {
         Library library = Library.getInstance();
-        Set<String> keySinteseDB = library.getSinteseDB().keySet();
-        Map<String,Element> sinteseXMLObjects = new HashMap<String,Element>();
-        for (String iterSinteseKey : keySinteseDB) {
-            SinteseXML iterSinteseXML = new SinteseXML(library.getSintese(iterSinteseKey));
-            iterSinteseXML.buildXMLObject();
-            sinteseXMLObjects.put(iterSinteseKey, iterSinteseXML.getXMLObject());
+        Set<String> keySet = library.getReadingFileDB().keySet();
+        Map<String,Element> readingFileXMLObjects = new HashMap<String,Element>();
+        for (String key : keySet) {
+            ReadingFileXML iterReadingFileXML = new ReadingFileXML(library.getReadingFile(key));
+            iterReadingFileXML.buildXMLObject();
+            readingFileXMLObjects.put(key, iterReadingFileXML.getXMLObject());
         }
-        return sinteseXMLObjects;
+        return readingFileXMLObjects;
     }
 
     public Document writeBookDatabaseDocument()
@@ -168,19 +162,19 @@ public class IOManager {
         return xmlDocument;
     }
 
-    public Document writeSinteseDatabaseDocument()
+    public Document writeReadingFileDatabaseDocument()
     throws
-    InexistentSinteseException {
-        Document xmlDocument = new Document(new Element("Sinteses"));
+    InexistentReadingFileException {
+        Document xmlDocument = new Document(new Element("ReadingFiles"));
         Element rootElement = xmlDocument.getRootElement();
-        Map<String,Element> sinteseXMLObjects = this.buildSinteseXMLObjects();
-        Set<String> sinteseDBKeys = sinteseXMLObjects.keySet();
-        for (String sinteseKey : sinteseDBKeys) {
-            Element sinteseKeyElement = sinteseXMLObjects.get(sinteseKey);
-            sinteseKeyElement.detach();
-            rootElement.addContent(sinteseKeyElement);
+        Map<String,Element> readingFileXMLObjects = this.buildReadingFileXMLObjects();
+        Set<String> readingFileDBKeys = readingFileXMLObjects.keySet();
+        for (String readingFileKey : readingFileDBKeys) {
+            Element readingFileKeyElement = readingFileXMLObjects.get(readingFileKey);
+            readingFileKeyElement.detach();
+            rootElement.addContent(readingFileKeyElement);
         }
-        this.printDocumentToFile(this.buildFilePath("sinteseDB"), xmlDocument);
+        this.printDocumentToFile(this.buildFilePath("readingFileDB"), xmlDocument);
         return xmlDocument;
     }
 
@@ -197,17 +191,20 @@ public class IOManager {
         return bookXMLObjects;
     }
 
-    public Map<String, Element> readSinteseDatabaseDocument()
+    public Map<String, Element> readReadingFileDatabaseDocument()
     throws
     JDOMException,
     IOException {
-        Map<String,Element> sinteseXMLObjects = new HashMap<String,Element>();
-        Document sinteseDocument = this.buildXMLDocument(this.buildFilePath("sinteseDB"));
-        List<Element> sinteses = sinteseDocument.getRootElement().getChildren("Sintese");
-        for (Element iterator : sinteses) {
-            sinteseXMLObjects.put(iterator.getChildText("Title"), iterator);
+        Map<String,Element> readingFileXMLObjects = new HashMap<String,Element>();
+        System.out.println("Built HashMap");
+        Document readingFileDocument = this.buildXMLDocument(this.buildFilePath("readingFileDB"));
+        System.out.println("Built Document");
+        List<Element> readingFiles = readingFileDocument.getRootElement().getChildren("ReadingFile");
+        for (Element iterator : readingFiles) {
+            readingFileXMLObjects.put(iterator.getChildText("Title"), iterator);
         }
-        return sinteseXMLObjects;
+        System.out.println("Returning");
+        return readingFileXMLObjects;
     }
 
 }
