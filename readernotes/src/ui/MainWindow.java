@@ -211,7 +211,7 @@ public class MainWindow extends JFrame {
 		removeSintese.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				//code
+				new RemoveSinteseWindow();
 			}
 		});
 
