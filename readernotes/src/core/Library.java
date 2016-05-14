@@ -34,96 +34,95 @@ public class Library {
     }
 
     private void init() {
-        _instance = this;
+        this.setInstance(this);
         this.loadBookDatabase();
         this.loadReadingFileDatabase();
     }
 
+    private void setInstance(Library instance) {
+        _instance = instance;
+    }
+
     public void loadBookDatabase() {
         try {
-            _bookDB = IOManager.getInstance().buildBookDatabase();
+            this.setBookDB(IOManager.getInstance().buildBookDatabase());
         } catch (EmptyTitleException
                 | EmptyAuthorException
                 | JDOMException
                 | IOException exception) {
-            _bookDB = new HashMap<String,Book>();
+            this.setBookDB(new HashMap<String, Book>());
         }
     }
 
     public void loadReadingFileDatabase() {
         try {
-            _readingFileDB = IOManager.getInstance().buildReadingFileDatabase();
-            if (_readingFileDB == null) {
-                System.out.println("LIBRARY: It's null");
-            }
+            this.setReadingFileDB(IOManager.getInstance().buildReadingFileDatabase());
         } catch (EmptyTitleException
                 | JDOMException
                 | IOException exception) {
-            _readingFileDB = new HashMap<String,ReadingFile>();
+            this.setReadingFile(new HashMap<String, ReadingFile>());
         }
     }
 
     public void addBook(Book newBook)
     throws
     DoubleEntryException {
-        if (_bookDB.containsKey(newBook.getTitle())) {
+        Map<String, Book> bookDatabase = this.getBookDB();
+        if (bookDatabase.containsKey(newBook.getTitle())) {
             throw new DoubleEntryException(newBook.getTitle());
         } else {
-            _bookDB.put(newBook.getTitle(), newBook);
+            bookDatabase.put(newBook.getTitle(), newBook);
         }
     }
 
     public void removeBook(String bookTitle) {
-        _bookDB.remove(bookTitle);
+        Map<String, Book> bookDatabase = this.getBookDB();
+        bookDatabase.remove(bookTitle);
     }
 
     public Book getBook(String bookTitle)
     throws
     InexistentBookException {
-        if (_bookDB.containsKey(bookTitle)) {
-            return _bookDB.get(bookTitle);
+        Map<String,Book> bookDatabase = this.getBookDB();
+        if (bookDatabase.containsKey(bookTitle)) {
+            return bookDatabase.get(bookTitle);
         } else {
             throw new InexistentBookException(bookTitle);
         }
     }
 
-    public Map<String, Book> getBookDB() {
-        return _bookDB;
-    }
-
     public void addReadingFile(ReadingFile newReadingFile)
     throws
     DoubleEntryException {
-        if (_readingFileDB.containsKey(newReadingFile.getTitle())) {
+        Map<String, ReadingFile> readingFileDatabase = this.getReadingFileDB();
+        if (readingFileDatabase.containsKey(newReadingFile.getTitle())) {
             throw new DoubleEntryException(newReadingFile.getTitle());
         } else {
-            _readingFileDB.put(newReadingFile.getTitle(), newReadingFile);
+            readingFileDatabase.put(newReadingFile.getTitle(), newReadingFile);
         }
     }
 
     public void removeReadingFile(String title) {
-        _readingFileDB.remove(title);
+        Map<String, ReadingFile> readingFileDatabase = this.getReadingFileDB();
+        readingFileDatabase.remove(title);
     }
 
     public ReadingFile getReadingFile(String readingFileTitle)
     throws
     InexistentReadingFileException {
-        if (!_readingFileDB.containsKey(readingFileTitle)) {
+        Map<String, ReadingFile> readingFileDatabase = this.getReadingFileDB();
+        if (!readingFileDatabase.containsKey(readingFileTitle)) {
             throw new InexistentReadingFileException(readingFileTitle);
         } else {
-            return _readingFileDB.get(readingFileTitle);
+            return readingFileDatabase.get(readingFileTitle);
         }
-    }
-
-    public Map<String, ReadingFile> getReadingFileDB() {
-        return _readingFileDB;
     }
 
 	public void storeBookDatabase() {
 		try {
 			IOManager.getInstance().writeBookDatabaseDocument();
 		} catch (InexistentBookException exception) {
-			//Resolve this.
+			System.err.print(exception.getMessage());
 		}
 	}
 
@@ -131,8 +130,24 @@ public class Library {
 		try {
 			IOManager.getInstance().writeReadingFileDatabaseDocument();
 		} catch (InexistentReadingFileException exception) {
-			//Resolve this.
+			System.err.print(exception.getMessage());
 		}
 	}
+
+    private void setBookDB(Map<String, Book> bookDB) {
+        _bookDB = bookDB;
+    }
+
+    public Map<String, Book> getBookDB() {
+        return _bookDB;
+    }
+
+    private void setReadingFileDB(Map<String, ReadingFile> readingFileDB) {
+        _readingFileDB = readingFileDB;
+    }
+
+    public Map<String, ReadingFile> getReadingFileDB() {
+        return _readingFileDB;
+    }
 
 }

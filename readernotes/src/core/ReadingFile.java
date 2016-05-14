@@ -11,7 +11,7 @@ public class ReadingFile {
     public ReadingFile(String title, String bookTitle)
     throws
     EmptyTitleException {
-        init(title, bookTitle, defaultValue);
+        this(title, bookTitle, defaultValue);
     }
 
     public ReadingFile(String title, String bookTitle, String content)
@@ -31,10 +31,10 @@ public class ReadingFile {
     public void setTitle(String title)
     throws
     EmptyTitleException {
-        if (!verifyIfEmpty(title)) {
-            _title = title;
-        } else {
+        if (verifyIfEmpty(title)) {
             throw new EmptyTitleException();
+        } else {
+            _title = tittle;
         }
     }
 
@@ -42,13 +42,13 @@ public class ReadingFile {
         return _title;
     }
 
-    public void setBookTitle(String bookTitle)
+    public void setBookTitle(String title)
     throws
     EmptyTitleException {
-        if (!verifyIfEmpty(bookTitle)) {
-            _bookTitle = bookTitle;
-        } else {
+        if (verifyIfEmpty(bookTitle)) {
             throw new EmptyTitleException();
+        } else {
+            _bookTitle = title
         }
     }
 
@@ -65,6 +65,6 @@ public class ReadingFile {
     }
 
     public boolean verifyIfEmpty(String value) {
-        return value == null || value == "";
+        return value == null || value.equals("");
     }
 }
