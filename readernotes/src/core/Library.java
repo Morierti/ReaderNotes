@@ -15,13 +15,8 @@ import readernotes.src.exceptions.EmptyAuthorException;
 
 public class Library {
     private static Library _instance;
-    private IOManager _ioManager;
     private Map<String, Book> _bookDB;
     private Map<String, ReadingFile> _readingFileDB;
-
-    public static boolean isEmpty() {
-        return _instance == null;
-    }
 
     public static Library getInstance() {
         if (_instance.isEmpty()) {
@@ -30,15 +25,42 @@ public class Library {
         return _instance;
     }
 
+    public static boolean isEmpty() {
+        return _instance == null;
+    }
+
     private Library() {
         init();
     }
 
     private void init() {
         _instance = this;
-        _ioManager = IOManager.getInstance();
         this.loadBookDatabase();
         this.loadReadingFileDatabase();
+    }
+
+    public void loadBookDatabase() {
+        try {
+            _bookDB = IOManager.getInstance().buildBookDatabase();
+        } catch (EmptyTitleException
+                | EmptyAuthorException
+                | JDOMException
+                | IOException exception) {
+            _bookDB = new HashMap<String,Book>();
+        }
+    }
+
+    public void loadReadingFileDatabase() {
+        try {
+            _readingFileDB = IOManager.getInstance().buildReadingFileDatabase();
+            if (_readingFileDB == null) {
+                System.out.println("LIBRARY: It's null");
+            }
+        } catch (EmptyTitleException
+                | JDOMException
+                | IOException exception) {
+            _readingFileDB = new HashMap<String,ReadingFile>();
+        }
     }
 
     public void addBook(Book newBook)
@@ -99,7 +121,7 @@ public class Library {
 
 	public void storeBookDatabase() {
 		try {
-			_ioManager.writeBookDatabaseDocument();
+			IOManager.getInstance().writeBookDatabaseDocument();
 		} catch (InexistentBookException exception) {
 			//Resolve this.
 		}
@@ -107,34 +129,10 @@ public class Library {
 
 	public void storeReadingFileDatabase() {
 		try {
-			_ioManager.writeReadingFileDatabaseDocument();
+			IOManager.getInstance().writeReadingFileDatabaseDocument();
 		} catch (InexistentReadingFileException exception) {
 			//Resolve this.
 		}
 	}
-
-    public void loadBookDatabase() {
-        try {
-            _bookDB = _ioManager.buildBookDatabase();
-        } catch (EmptyTitleException
-                | EmptyAuthorException
-                | JDOMException
-                | IOException exception) {
-            _bookDB = new HashMap<String,Book>();
-        }
-    }
-
-    public void loadReadingFileDatabase() {
-        try {
-            _readingFileDB = _ioManager.buildReadingFileDatabase();
-            if (_readingFileDB == null) {
-                System.out.println("LIBRARY: It's null");
-            }
-        } catch (EmptyTitleException
-                | JDOMException
-                | IOException exception) {
-            _readingFileDB = new HashMap<String,ReadingFile>();
-        }
-    }
 
 }
