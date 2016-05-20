@@ -221,7 +221,7 @@ public class MainWindow extends JFrame {
 		search.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				//code
+				new SearchWindow();
 			}
 		});
 
