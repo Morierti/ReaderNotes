@@ -36,15 +36,19 @@ public class IOManager {
         return _instance;
     }
 
+    private void setInstance(IOManager instance) {
+        _instance = instance;
+    }
+
     private IOManager() {
         init();
     }
 
     private void init() {
-        _instance = this;
+        this.setInstance(this);
     }
 
-    public void printDocumentToFile(String file, Document xmlDocument) {
+    public void printDocument(String file, Document xmlDocument) {
         try {
             XMLOutputter xmlOutput = new XMLOutputter();
             xmlOutput.setFormat(Format.getPrettyFormat());
@@ -68,9 +72,7 @@ public class IOManager {
     JDOMException,
     IOException {
         SAXBuilder saxbuilder = new SAXBuilder();
-        System.out.println("Built SAX Builder");
         Document xmlDocument = saxbuilder.build(new File(filepath));
-        System.out.println("Build xml Document");
         return xmlDocument;
     }
 
@@ -83,13 +85,10 @@ public class IOManager {
         HashMap<String, Book> bookDB = new HashMap<String, Book>();
         Map<String, Element> bookXMLObjects = this.readBookDatabaseDocument();
         if (!bookXMLObjects.isEmpty()) {
-            Set<String> bookKeySet = bookXMLObjects.keySet();
-            for (String bookKey : bookKeySet) {
-                Element bookElement = bookXMLObjects.get(bookKey);
-                Book newBook = new Book(bookElement.getChild("Title").getText(),
-                                        bookElement.getChild("Author").getText(),
-                                        bookElement.getChild("Sinopse").getText());
-                bookDB.put(bookKey, newBook);
+            Set<String> keySet = bookXMLObjects.keySet();
+            for (String key : keySet) {
+                Element bookElement = bookXMLObjects.get(key);
+                bookDB.put(key, BookXML.buildBookObject(bookElement));
             }
         }
         return bookDB;
@@ -102,17 +101,11 @@ public class IOManager {
     IOException {
         Map<String, ReadingFile> readingFileDB = new HashMap<String, ReadingFile>();
         Map<String, Element> readingFileXMLObjects = this.readReadingFileDatabaseDocument();
-        if (readingFileXMLObjects == null) {
-            System.out.println("IOMANAGER -> It's null");
-        }
         if (!readingFileXMLObjects.isEmpty()) {
             Set<String> keySet = readingFileXMLObjects.keySet();
             for (String key : keySet) {
                 Element readingFileElement = readingFileXMLObjects.get(key);
-                ReadingFile newReadingFile = new ReadingFile(readingFileElement.getChild("Title").getText(),
-                                                                readingFileElement.getChild("Book_Title").getText(),
-                                                                readingFileElement.getChild("Content").getText());
-                readingFileDB.put(key, newReadingFile);
+                readingFileDB.put(key, ReadingFileXML.buildReadingFile(readingFileElement));
             }
         }
         return readingFileDB;
@@ -122,12 +115,12 @@ public class IOManager {
     throws
     InexistentBookException {
         Library library = Library.getInstance();
-        Set<String> keyBookDB = library.getBookDB().keySet();
+        Set<String> keySet = library.getBookDB().keySet();
         Map<String,Element> bookXMLObjects = new HashMap<String,Element>();
-        for (String iterBookKey : keyBookDB) {
-            BookXML iterBookXML = new BookXML(library.getBook(iterBookKey));
-            iterBookXML.buildXMLObject();
-            bookXMLObjects.put(iterBookKey, iterBookXML.getXMLObject());
+        for (String key : keySet) {
+            BookXML keyBookXML = new BookXML(library.getBook(key));
+            keyBookXML.buildXMLObject();
+            bookXMLObjects.put(key, keyBookXML.getXMLObject());
         }
         return bookXMLObjects;
     }
@@ -139,43 +132,41 @@ public class IOManager {
         Set<String> keySet = library.getReadingFileDB().keySet();
         Map<String,Element> readingFileXMLObjects = new HashMap<String,Element>();
         for (String key : keySet) {
-            ReadingFileXML iterReadingFileXML = new ReadingFileXML(library.getReadingFile(key));
-            iterReadingFileXML.buildXMLObject();
-            readingFileXMLObjects.put(key, iterReadingFileXML.getXMLObject());
+            ReadingFileXML keyReadingFileXML = new ReadingFileXML(library.getReadingFile(key));
+            keyReadingFileXML.buildXMLObject();
+            readingFileXMLObjects.put(key, keyReadingFileXML.getXMLObject());
         }
         return readingFileXMLObjects;
     }
 
-    public Document writeBookDatabaseDocument()
+    public void writeBookDatabaseDocument()
     throws
     InexistentBookException {
         Document xmlDocument = new Document(new Element("Books"));
         Element rootElement = xmlDocument.getRootElement();
         Map<String,Element> bookXMLObjects = this.buildBookXMLObjects();
-        Set<String> bookDBKeys = bookXMLObjects.keySet();
-        for (String bookKey : bookDBKeys) {
-            Element bookKeyElement = bookXMLObjects.get(bookKey);
-            bookKeyElement.detach();
-            rootElement.addContent(bookKeyElement);
+        Set<String> keySet = bookXMLObjects.keySet();
+        for (String key : keySet) {
+            Element keyBookElement = bookXMLObjects.get(key);
+            keyBookElement.detach();
+            rootElement.addContent(keyBookElement);
         }
-        this.printDocumentToFile(this.buildFilePath("bookDB"), xmlDocument);
-        return xmlDocument;
+        this.printDocument(this.buildFilePath("bookDB"), xmlDocument);
     }
 
-    public Document writeReadingFileDatabaseDocument()
+    public void writeReadingFileDatabaseDocument()
     throws
     InexistentReadingFileException {
         Document xmlDocument = new Document(new Element("ReadingFiles"));
         Element rootElement = xmlDocument.getRootElement();
         Map<String,Element> readingFileXMLObjects = this.buildReadingFileXMLObjects();
-        Set<String> readingFileDBKeys = readingFileXMLObjects.keySet();
-        for (String readingFileKey : readingFileDBKeys) {
-            Element readingFileKeyElement = readingFileXMLObjects.get(readingFileKey);
-            readingFileKeyElement.detach();
-            rootElement.addContent(readingFileKeyElement);
+        Set<String> keySet = readingFileXMLObjects.keySet();
+        for (String key : keySet) {
+            Element keyReadingFileElement = readingFileXMLObjects.get(key);
+            keyReadingFileElement.detach();
+            rootElement.addContent(keyReadingFileElement);
         }
-        this.printDocumentToFile(this.buildFilePath("readingFileDB"), xmlDocument);
-        return xmlDocument;
+        this.printDocument(this.buildFilePath("readingFileDB"), xmlDocument);
     }
 
     public Map<String, Element> readBookDatabaseDocument()
@@ -183,10 +174,10 @@ public class IOManager {
     JDOMException,
     IOException {
         Map<String,Element> bookXMLObjects = new HashMap<String,Element>();
-        Document bookDBDocument = buildXMLDocument(this.buildFilePath("bookDB"));
-        List<Element> books = bookDBDocument.getRootElement().getChildren("Book");
-        for (Element iterator : books) {
-            bookXMLObjects.put(iterator.getChildText("Title"), iterator);
+        Document document = buildXMLDocument(this.buildFilePath("bookDB"));
+        List<Element> books = document.getRootElement().getChildren("Book");
+        for (Element iterElement : books) {
+            bookXMLObjects.put(iterElement.getChildText("Title"), iterElement);
         }
         return bookXMLObjects;
     }
@@ -196,14 +187,11 @@ public class IOManager {
     JDOMException,
     IOException {
         Map<String,Element> readingFileXMLObjects = new HashMap<String,Element>();
-        System.out.println("Built HashMap");
-        Document readingFileDocument = this.buildXMLDocument(this.buildFilePath("readingFileDB"));
-        System.out.println("Built Document");
-        List<Element> readingFiles = readingFileDocument.getRootElement().getChildren("ReadingFile");
-        for (Element iterator : readingFiles) {
-            readingFileXMLObjects.put(iterator.getChildText("Title"), iterator);
+        Document document = this.buildXMLDocument(this.buildFilePath("readingFileDB"));
+        List<Element> readingFiles = document.getRootElement().getChildren("ReadingFile");
+        for (Element iterElement : readingFiles) {
+            readingFileXMLObjects.put(iterElement.getChildText("Title"), iterElement);
         }
-        System.out.println("Returning");
         return readingFileXMLObjects;
     }
 

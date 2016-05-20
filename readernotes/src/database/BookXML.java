@@ -5,6 +5,8 @@ import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import readernotes.src.core.Book;
+import readernotes.src.exceptions.EmptyTitleException;
+import readernotes.src.exceptions.EmptyAuthorException;
 
 public class BookXML extends AbstractXMLObjectBuilder {
 	private Book _bookObject;
@@ -41,12 +43,22 @@ public class BookXML extends AbstractXMLObjectBuilder {
 
 	public void buildXMLObject() {
 		Element bookElement = new Element("Book");
-		
+
         bookElement.addContent(this.createTitleElement());
 		bookElement.addContent(this.createAuthorElement());
 		bookElement.addContent(this.createSinopseElement());
 
-		setXMLObject(bookElement);
+		this.setXMLObject(bookElement);
+	}
+
+	public static Book buildBookObject(Element bookElement)
+	throws
+	EmptyTitleException,
+	EmptyAuthorException {
+		Book newBook = new Book(bookElement.getChild("Title").getText(),
+								bookElement.getChild("Author").getText(),
+								bookElement.getChild("Sinopse").getText());
+		return newBook;
 	}
 
 }

@@ -7,6 +7,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import java.io.IOException;
 import readernotes.src.core.ReadingFile;
+import readernotes.src.exceptions.EmptyTitleException;
 
 
 public class ReadingFileXML extends AbstractXMLObjectBuilder {
@@ -49,6 +50,15 @@ public class ReadingFileXML extends AbstractXMLObjectBuilder {
         readingFileElement.addContent(this.createBookTitleElement());
         readingFileElement.addContent(this.createContentElement());
 
-        setXMLObject(readingFileElement);
+        this.setXMLObject(readingFileElement);
 	}
+
+    public static ReadingFile buildReadingFile(Element readingFileElement)
+    throws
+    EmptyTitleException {
+        ReadingFile newReadingFile = new ReadingFile(readingFileElement.getChild("Title").getText(),
+                                                        readingFileElement.getChild("Book_Title").getText(),
+                                                        readingFileElement.getChild("Content").getText());
+        return newReadingFile;
+    }
 }

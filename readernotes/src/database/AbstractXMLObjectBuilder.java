@@ -17,23 +17,7 @@ public abstract class AbstractXMLObjectBuilder {
 	public Element getXMLObject() {
 		return _xmlObject;
 	}
-    
-    public Document getXMLObjectDocument() {
-        return new Document(getXMLObject());
-    }
-        
-	public abstract void buildXMLObject();
 
-	public void printXMLObject()
-	throws
-	IOException,
-    InexistentBookException {
-		if (getXMLObject() == null) {
-			throw new InexistentBookException("XML");
-		} else {
-			XMLOutputter xmlOutput = new XMLOutputter();
-			xmlOutput.setFormat(Format.getPrettyFormat());
-			xmlOutput.output(getXMLObjectDocument(), System.out);
-		}
-	}
+	public abstract void buildXMLObject();
+	
 }
