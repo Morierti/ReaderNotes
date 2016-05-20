@@ -60,7 +60,7 @@ public class Library {
         } catch (EmptyTitleException
                 | JDOMException
                 | IOException exception) {
-            this.setReadingFile(new HashMap<String, ReadingFile>());
+            this.setReadingFileDB(new HashMap<String, ReadingFile>());
         }
     }
 

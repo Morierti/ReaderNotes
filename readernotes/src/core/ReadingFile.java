@@ -34,7 +34,7 @@ public class ReadingFile {
         if (verifyIfEmpty(title)) {
             throw new EmptyTitleException();
         } else {
-            _title = tittle;
+            _title = title;
         }
     }
 
@@ -45,10 +45,10 @@ public class ReadingFile {
     public void setBookTitle(String title)
     throws
     EmptyTitleException {
-        if (verifyIfEmpty(bookTitle)) {
+        if (verifyIfEmpty(title)) {
             throw new EmptyTitleException();
         } else {
-            _bookTitle = title
+            _bookTitle = title;
         }
     }
 
