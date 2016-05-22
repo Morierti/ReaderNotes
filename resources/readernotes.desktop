@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-Exec=readernotes.sh
+Exec=./usr/bin/readernotes/bin/readernotes.sh
 Icon=
 Version=0.1
 Terminal=false;

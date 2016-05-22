@@ -44,7 +44,8 @@ import readernotes.src.core.Book;
 //TEST
 import java.util.ArrayList;
 
-public class MainWindow extends JFrame {
+public class MainWindow
+extends JFrame {
 	private static MainWindow _instance;
 
 	public static MainWindow getInstance() {
@@ -67,7 +68,7 @@ public class MainWindow extends JFrame {
 		this.createNewReadingFileList(panel);
 		this.add(panel);
         this.setTitle("Reader Notes");
-        this.setSize(500, 500);
+        this.setSize(900,600);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -83,9 +84,6 @@ public class MainWindow extends JFrame {
     private void createNewReadingFileList(JPanel panel) {
 		Library library = Library.getInstance();
 		Map<String, ReadingFile> readingFileDatabase = library.getReadingFileDB();
-		if (readingFileDatabase == null) {
-			System.out.println("It's null");
-		}
 		Set<String> readingFileDatabaseKeys = readingFileDatabase.keySet();
 		JList list = new JList(readingFileDatabaseKeys.toArray());
 		list.addMouseListener(new MouseAdapter() {
@@ -99,7 +97,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 		JScrollPane pane = new JScrollPane();
-		pane.setPreferredSize(new Dimension(200,400));
+		pane.setPreferredSize(new Dimension(400,500));
 		pane.getViewport().add(list);
 		panel.add(pane);
 
@@ -121,7 +119,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 		JScrollPane pane = new JScrollPane();
-		pane.setPreferredSize(new Dimension(200,400));
+		pane.setPreferredSize(new Dimension(400,500));
 		pane.getViewport().add(list);
 		panel.add(pane);
     }

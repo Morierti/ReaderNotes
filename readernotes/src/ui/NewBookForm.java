@@ -20,6 +20,7 @@ package readernotes.src.ui;
 
 import java.awt.Container;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -29,6 +30,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.GroupLayout;
 import javax.swing.BorderFactory;
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 import readernotes.src.core.Book;
 import readernotes.src.core.Library;
 import readernotes.src.exceptions.DoubleEntryException;
@@ -38,37 +41,38 @@ import java.io.Writer;
 import java.io.StringWriter;
 import java.io.IOException;
 
-public class NewBookForm extends JFrame {
-	private JTextArea _titleArea;
-	private JTextArea _authorArea;
-	private JTextArea _sinopseArea;
+public class NewBookForm
+extends JFrame {
+	private JScrollPane _titleArea;
+	private JScrollPane _authorArea;
+	private JScrollPane _sinopseArea;
 
 	public NewBookForm() {
 		this.initUI();
 		this.setVisible(true);
 	}
 
-	private void setTitleArea(JTextArea titleArea) {
+	private void setTitleArea(JScrollPane titleArea) {
 		_titleArea = titleArea;
 	}
 
-	private JTextArea getTitleArea() {
+	private JScrollPane getTitleArea() {
 		return _titleArea;
 	}
 
-	private void setAuthorArea(JTextArea authorArea) {
+	private void setAuthorArea(JScrollPane authorArea) {
 		_authorArea = authorArea;
 	}
 
-	private JTextArea getAuthorArea() {
+	private JScrollPane getAuthorArea() {
 		return _authorArea;
 	}
 
-	private void setSinopseArea(JTextArea sinopseArea) {
+	private void setSinopseArea(JScrollPane sinopseArea) {
 		_sinopseArea = sinopseArea;
 	}
 
-	private JTextArea getSinopseArea() {
+	private JScrollPane getSinopseArea() {
 		return _sinopseArea;
 	}
 
@@ -79,9 +83,16 @@ public class NewBookForm extends JFrame {
 			public void actionPerformed(ActionEvent event) {
 				try {
 					Library library = Library.getInstance();
-					library.addBook(new Book(getTitleArea().getText().trim(),
-											getAuthorArea().getText().trim(),
-											getSinopseArea().getText().trim()));
+					JViewport titleViewport = getTitleArea().getViewport();
+					JViewport authorViewport = getAuthorArea().getViewport();
+					JViewport sinopseViewport = getSinopseArea().getViewport();
+					JTextArea titleArea = (JTextArea) titleViewport.getView();
+					JTextArea authorArea = (JTextArea) authorViewport.getView();
+					JTextArea sinopseArea = (JTextArea) sinopseViewport.getView();
+
+					library.addBook(new Book(titleArea.getText().trim(),
+											authorArea.getText().trim(),
+											sinopseArea.getText().trim()));
 				} catch (DoubleEntryException
 						| EmptyTitleException
 						| EmptyAuthorException exception) {
@@ -94,31 +105,37 @@ public class NewBookForm extends JFrame {
 		return saveButton;
 	}
 
-	private JTextArea createTitleArea() {
+	private JScrollPane createTitleArea() {
 		JTextArea titleArea = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(titleArea);
+		scrollPane.setBounds(90,15,300,20);
+
 		titleArea.setLineWrap(true);
 		titleArea.setWrapStyleWord(true);
-		titleArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
-		titleArea.setBounds(90,15,300,20);
-		return titleArea;
+
+		return scrollPane;
 	}
 
-	private JTextArea createAuthorArea() {
+	private JScrollPane createAuthorArea() {
 		JTextArea authorArea = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(authorArea);
+		scrollPane.setBounds(90,55,300,20);
+
 		authorArea.setLineWrap(true);
 		authorArea.setWrapStyleWord(true);
-		authorArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
-		authorArea.setBounds(90,55,300,20);
-		return authorArea;
+
+		return scrollPane;
 	}
 
-	private JTextArea createSinopseArea() {
+	private JScrollPane createSinopseArea() {
 		JTextArea sinopseArea = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(sinopseArea);
+		scrollPane.setBounds(90,90,300,65);
+
 		sinopseArea.setLineWrap(true);
 		sinopseArea.setWrapStyleWord(true);
-		sinopseArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
-		sinopseArea.setBounds(90,90,300,65);
-		return sinopseArea;
+
+		return scrollPane;
 	}
 
 	private JLabel createNewLabel(String name) {
@@ -127,8 +144,7 @@ public class NewBookForm extends JFrame {
 		return newLabel;
 	}
 
-	private void createLayout() {
-		Container pane = this.getContentPane();
+	private void createLayout(JPanel panel) {
 		JButton saveButton = this.createSaveButton();
 		JLabel sinopseLabel = this.createNewLabel("Sinopse");
 		JLabel authorLabel = this.createNewLabel("Author");
@@ -142,19 +158,20 @@ public class NewBookForm extends JFrame {
 		authorLabel.setBounds(10,50,70,30);
 		titleLabel.setBounds(10,10,70,30);
 
-		pane.add(titleLabel);
-		pane.add(authorLabel);
-		pane.add(sinopseLabel);
-		pane.add(saveButton);
-		pane.add(this.getTitleArea());
-		pane.add(this.getAuthorArea());
-		pane.add(this.getSinopseArea());
+		panel.add(titleLabel);
+		panel.add(authorLabel);
+		panel.add(sinopseLabel);
+		panel.add(saveButton);
+		panel.add(this.getTitleArea());
+		panel.add(this.getAuthorArea());
+		panel.add(this.getSinopseArea());
 
 	}
 
 	private void initUI() {
 		JPanel panel = new JPanel();
-		this.createLayout();
+		panel.setLayout(null);
+		this.createLayout(panel);
 		this.add(panel);
 		this.setTitle("New Book");
 		this.setSize(400,220);

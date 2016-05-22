@@ -27,6 +27,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 import javax.swing.BorderFactory;
 import readernotes.src.core.ReadingFile;
 import readernotes.src.core.Library;
@@ -35,9 +37,9 @@ import readernotes.src.exceptions.EmptyTitleException;
 
 public class ReadingFileForm extends JFrame {
 	private ReadingFile _readingFile;
-	private JTextArea _titleArea;
-	private JTextArea _bookTitleArea;
-	private JTextArea _contentArea;
+	private JScrollPane _titleArea;
+	private JScrollPane _bookTitleArea;
+	private JScrollPane _contentArea;
 
 	public ReadingFileForm(String title) {
 		this.setReadingFile(title);
@@ -45,27 +47,27 @@ public class ReadingFileForm extends JFrame {
 		this.setVisible(true);
 	}
 
-	private void setTitleArea(JTextArea titleArea) {
+	private void setTitleArea(JScrollPane titleArea) {
 		_titleArea = titleArea;
 	}
 
-	private JTextArea getTitleArea() {
+	private JScrollPane getTitleArea() {
 		return _titleArea;
 	}
 
-	private void setBookTitleArea(JTextArea bookTitleArea) {
+	private void setBookTitleArea(JScrollPane bookTitleArea) {
 		_bookTitleArea = bookTitleArea;
 	}
 
-	private JTextArea getBookTitleArea() {
+	private JScrollPane getBookTitleArea() {
 		return _bookTitleArea;
 	}
 
-	private void setContentArea(JTextArea contentArea) {
+	private void setContentArea(JScrollPane contentArea) {
 		_contentArea = contentArea;
 	}
 
-	private JTextArea getContentArea() {
+	private JScrollPane getContentArea() {
 		return _contentArea;
 	}
 
@@ -88,34 +90,40 @@ public class ReadingFileForm extends JFrame {
 		return label;
 	}
 
-	private JTextArea createTitleArea() {
+	private JScrollPane createTitleArea() {
 		JTextArea titleArea = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(titleArea);
+		scrollPane.setBounds(90,15,300,20);
+
 		titleArea.setText(this.getReadingFile().getTitle());
 		titleArea.setLineWrap(true);
 		titleArea.setWrapStyleWord(true);
-		titleArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
-		titleArea.setBounds(90,15,300,20);
-		return titleArea;
+
+		return scrollPane;
 	}
 
-	private JTextArea createBookTitleArea() {
+	private JScrollPane createBookTitleArea() {
 		JTextArea bookTitleArea = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(bookTitleArea);
+		scrollPane.setBounds(90,55,300,20);
+
 		bookTitleArea.setText(this.getReadingFile().getBookTitle());
 		bookTitleArea.setLineWrap(true);
 		bookTitleArea.setWrapStyleWord(true);
-		bookTitleArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
-		bookTitleArea.setBounds(90,55,300,20);
-		return bookTitleArea;
+
+		return scrollPane;
 	}
 
-	private JTextArea createContentArea() {
+	private JScrollPane createContentArea() {
 		JTextArea contentArea = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(contentArea);
+		scrollPane.setBounds(10,120,380,320);
+
 		contentArea.setText(this.getReadingFile().getContent());
 		contentArea.setLineWrap(true);
 		contentArea.setWrapStyleWord(true);
-		contentArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
-		contentArea.setBounds(10,120,380,320);
-		return contentArea;
+
+		return scrollPane;
 	}
 
 	private JButton createSaveButton() {
@@ -125,16 +133,24 @@ public class ReadingFileForm extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				//Some calls are for ReadingFileFrom class.
+				JViewport titleViewport = getTitleArea().getViewport();
+				JViewport bookTitleViewport = getBookTitleArea().getViewport();
+				JViewport contentViewport = getContentArea().getViewport();
+
+				JTextArea title = (JTextArea) titleViewport.getView();
+				JTextArea bookTitle = (JTextArea) bookTitleViewport.getView();
+				JTextArea content = (JTextArea) contentViewport.getView();
+
 				try {
 					ReadingFile readingFile = getReadingFile();
-					if (getTitleArea().getText() != null) {
-						readingFile.setTitle(getTitleArea().getText().trim());
+					if (title.getText() != null) {
+						readingFile.setTitle(title.getText().trim());
 					}
-					if (getBookTitleArea().getText() != null) {
-						readingFile.setBookTitle(getBookTitleArea().getText().trim());
+					if (bookTitle.getText() != null) {
+						readingFile.setBookTitle(bookTitle.getText().trim());
 					}
-					if (getContentArea().getText() != null) {
-						readingFile.setContent(getContentArea().getText().trim());
+					if (content.getText() != null) {
+						readingFile.setContent(content.getText().trim());
 					}
 				} catch (EmptyTitleException exception) {
 					System.err.print(exception.getMessage());
@@ -145,8 +161,7 @@ public class ReadingFileForm extends JFrame {
 		return saveButton;
 	}
 
-	private void createLayout() {
-		Container pane = this.getContentPane();
+	private void createLayout(JPanel panel) {
 		JButton saveButton = this.createSaveButton();
 		JLabel titleLabel = this.createLabel("Title");
 		JLabel bookTitleLabel = this.createLabel("Book Title");
@@ -160,18 +175,19 @@ public class ReadingFileForm extends JFrame {
 		this.setBookTitleArea(this.createBookTitleArea());
 		this.setContentArea(this.createContentArea());
 
-		pane.add(titleLabel);
-		pane.add(bookTitleLabel);
-		pane.add(contentLabel);
-		pane.add(saveButton);
-		pane.add(this.getTitleArea());
-		pane.add(this.getBookTitleArea());
-		pane.add(this.getContentArea());
+		panel.add(titleLabel);
+		panel.add(bookTitleLabel);
+		panel.add(contentLabel);
+		panel.add(saveButton);
+		panel.add(this.getTitleArea());
+		panel.add(this.getBookTitleArea());
+		panel.add(this.getContentArea());
 	}
 
 	private void initUI() {
 		JPanel panel = new JPanel();
-		this.createLayout();
+		panel.setLayout(null);
+		this.createLayout(panel);
 		this.add(panel);
 		this.setTitle("Reading File");
 		this.setSize(400,510);
