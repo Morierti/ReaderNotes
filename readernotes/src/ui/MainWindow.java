@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.ListModel;
+import javax.swing.DefaultListModel;
 import java.util.Map;
 import java.util.Set;
 import readernotes.src.core.Library;
@@ -47,6 +48,8 @@ import java.util.ArrayList;
 public class MainWindow
 extends JFrame {
 	private static MainWindow _instance;
+	private JList _bookList;
+	private JList _readingFileList;
 
 	public static MainWindow getInstance() {
 		if (_instance == null) {
@@ -59,6 +62,22 @@ extends JFrame {
 		_instance = this;
         initUI();
     }
+
+	private void setBookList(JList bookList) {
+		_bookList = bookList;
+	}
+
+	private JList getBookList() {
+		return _bookList;
+	}
+
+	private void setReadingFileList(JList readingFileList) {
+		_readingFileList = readingFileList;
+	}
+
+	private JList getReadingFileList() {
+		return _readingFileList;
+	}
 
     private void initUI() {
         this.createMenuBar();
@@ -81,11 +100,38 @@ extends JFrame {
         this.setJMenuBar(menubar);
     }
 
+	private DefaultListModel buildBookListModel() {
+		DefaultListModel listModel = new DefaultListModel();
+		Map<String, Book> bookDatabase = Library.getInstance().getBookDB();
+		Set<String> keySet = bookDatabase.keySet();
+
+		for (String key : keySet) {
+			Book book = bookDatabase.get(key);
+			listModel.addElement(book.getTitle());
+		}
+
+		return listModel;
+	}
+
+	private DefaultListModel buildReadingFileListModel() {
+		DefaultListModel listModel = new DefaultListModel();
+		Map<String, ReadingFile> readingFileDatabase = Library.getInstance().getReadingFileDB();
+		Set<String> keySet = readingFileDatabase.keySet();
+
+		for (String key : keySet) {
+			ReadingFile readingFile = readingFileDatabase.get(key);
+			listModel.addElement(readingFile.getTitle());
+		}
+
+		return listModel;
+	}
+
     private void createNewReadingFileList(JPanel panel) {
-		Library library = Library.getInstance();
-		Map<String, ReadingFile> readingFileDatabase = library.getReadingFileDB();
-		Set<String> readingFileDatabaseKeys = readingFileDatabase.keySet();
-		JList list = new JList(readingFileDatabaseKeys.toArray());
+		JList list = new JList(this.buildReadingFileListModel());
+
+		JScrollPane scrollPane = new JScrollPane(list);
+		scrollPane.setPreferredSize(new Dimension(400,500));
+
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
@@ -96,18 +142,18 @@ extends JFrame {
 				}
 			}
 		});
-		JScrollPane pane = new JScrollPane();
-		pane.setPreferredSize(new Dimension(400,500));
-		pane.getViewport().add(list);
-		panel.add(pane);
+
+		this.setReadingFileList(list);
+		panel.add(scrollPane);
 
     }
 
     private void createNewBookList(JPanel panel) {
-		Library library = Library.getInstance();
-		Map<String, Book> bookDatabase = library.getBookDB();
-		Set<String> bookDatabaseKeys = bookDatabase.keySet();
-		JList list = new JList(bookDatabaseKeys.toArray());
+		JList list = new JList(this.buildBookListModel());
+
+		JScrollPane scrollPane = new JScrollPane(list);
+		scrollPane.setPreferredSize(new Dimension(400,500));
+
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
@@ -118,11 +164,30 @@ extends JFrame {
 				}
 			}
 		});
-		JScrollPane pane = new JScrollPane();
-		pane.setPreferredSize(new Dimension(400,500));
-		pane.getViewport().add(list);
-		panel.add(pane);
+
+		this.setBookList(list);
+		panel.add(scrollPane);
     }
+
+	public void updateBookList() {
+		DefaultListModel listModel = this.buildBookListModel();
+		JList bookList = this.getBookList();
+
+		bookList.setModel(listModel);
+		bookList.setSelectedIndex(0);
+
+		System.out.println("Updated Book List");
+	}
+
+	public void updateReadingFileList() {
+		DefaultListModel listModel = this.buildReadingFileListModel();
+		JList readingFileList = this.getReadingFileList();
+
+		readingFileList.setModel(listModel);
+		readingFileList.setSelectedIndex(0);
+		
+		System.out.println("Updated Reading File List");
+	}
 
     private void createFileMenu(JMenuBar menubar) {
     	JMenu fileMenu = new JMenu("File");

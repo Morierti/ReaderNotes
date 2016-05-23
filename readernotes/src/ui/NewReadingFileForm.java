@@ -130,6 +130,8 @@ public class NewReadingFileForm extends JFrame {
 					library.addReadingFile(new ReadingFile(title.getText().trim(),
 												 			bookTitle.getText().trim(),
 												 			content.getText().trim()));
+					//Update List on main window
+					MainWindow.getInstance().updateReadingFileList();
 					dispose();
 				} catch (EmptyTitleException
 						 | DoubleEntryException exception) {

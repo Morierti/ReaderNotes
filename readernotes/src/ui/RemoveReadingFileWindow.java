@@ -73,6 +73,10 @@ public class RemoveReadingFileWindow extends JFrame {
                 System.out.println("Title: " + getTitleArea().getText().trim());
                 Library library = Library.getInstance();
                 library.removeReadingFile(getTitleArea().getText().trim());
+
+                //Update list on main window
+                MainWindow.getInstance().updateReadingFileList();
+                
                 dispose();
             }
         });

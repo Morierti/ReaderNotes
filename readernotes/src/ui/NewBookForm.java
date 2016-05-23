@@ -93,6 +93,9 @@ extends JFrame {
 					library.addBook(new Book(titleArea.getText().trim(),
 											authorArea.getText().trim(),
 											sinopseArea.getText().trim()));
+
+					//Update List on Main Window
+					MainWindow.getInstance().updateBookList();
 				} catch (DoubleEntryException
 						| EmptyTitleException
 						| EmptyAuthorException exception) {

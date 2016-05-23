@@ -73,6 +73,10 @@ public class RemoveBookWindow extends JFrame {
                 System.out.println("Title: " + getTitleArea().getText().trim());
                 Library library = Library.getInstance();
                 library.removeBook(getTitleArea().getText().trim());
+
+                //Update list on main window.
+                MainWindow.getInstance().updateBookList();
+                
                 dispose();
             }
         });
