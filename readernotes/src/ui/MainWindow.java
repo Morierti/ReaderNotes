@@ -41,6 +41,7 @@ import java.util.Set;
 import readernotes.src.core.Library;
 import readernotes.src.core.ReadingFile;
 import readernotes.src.core.Book;
+import readernotes.src.ui.listeners.MainWindowListener;
 
 //TEST
 import java.util.ArrayList;
@@ -89,6 +90,7 @@ extends JFrame {
         this.setTitle("Reader Notes");
         this.setSize(900,600);
         this.setLocationRelativeTo(null);
+		this.addWindowListener(new MainWindowListener());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -139,6 +141,7 @@ extends JFrame {
 					int index = list.locationToIndex(event.getPoint());
 					ListModel listModel = list.getModel();
 					new ReadingFileForm((String) listModel.getElementAt(index));
+					setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 				}
 			}
 		});
@@ -161,6 +164,7 @@ extends JFrame {
 					int index = list.locationToIndex(event.getPoint());
 					ListModel listModel = list.getModel();
 					new BookForm((String) listModel.getElementAt(index));
+					setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 				}
 			}
 		});
@@ -185,8 +189,6 @@ extends JFrame {
 
 		readingFileList.setModel(listModel);
 		readingFileList.setSelectedIndex(0);
-		
-		System.out.println("Updated Reading File List");
 	}
 
     private void createFileMenu(JMenuBar menubar) {
@@ -222,16 +224,14 @@ extends JFrame {
 				Library library = Library.getInstance();
 				library.storeBookDatabase();
 				library.storeReadingFileDatabase();
+				setDefaultCloseOperation(EXIT_ON_CLOSE);
 			}
 		});
 
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-				Library library = Library.getInstance();
-				library.storeBookDatabase();
-				library.storeReadingFileDatabase();
-                System.exit(0);
+				new SaveMessageWindow();
             }
         });
 
@@ -282,6 +282,7 @@ extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				new NewReadingFileForm();
+				setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 			}
 		});
 
@@ -289,6 +290,7 @@ extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				new RemoveBookWindow();
+				setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 			}
 		});
 
@@ -296,6 +298,7 @@ extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				new RemoveReadingFileWindow();
+				setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 			}
 		});
 
@@ -303,6 +306,7 @@ extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				new SearchWindow();
+				setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 			}
 		});
 
