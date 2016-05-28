@@ -23,8 +23,6 @@ import java.util.HashMap;
 import org.jdom2.JDOMException;
 import java.io.IOException;
 import readernotes.src.database.IOManager;
-import readernotes.src.database.ReadingFileXML;
-import readernotes.src.database.BookXML;
 import readernotes.src.exceptions.DoubleEntryException;
 import readernotes.src.exceptions.InexistentBookException;
 import readernotes.src.exceptions.InexistentReadingFileException;
@@ -57,8 +55,8 @@ public class Library {
         this.loadReadingFileDatabase();
     }
 
-    private void setInstance(Library instance) {
-        _instance = instance;
+    private void setInstance(Library value) {
+        _instance = value;
     }
 
     public void loadBookDatabase() {
@@ -68,6 +66,7 @@ public class Library {
                 | EmptyAuthorException
                 | JDOMException
                 | IOException exception) {
+
             this.setBookDB(new HashMap<String, Book>());
         }
     }
@@ -78,6 +77,7 @@ public class Library {
         } catch (EmptyTitleException
                 | JDOMException
                 | IOException exception) {
+
             this.setReadingFileDB(new HashMap<String, ReadingFile>());
         }
     }
@@ -86,6 +86,7 @@ public class Library {
     throws
     DoubleEntryException {
         Map<String, Book> bookDatabase = this.getBookDB();
+
         if (bookDatabase.containsKey(newBook.getTitle())) {
             throw new DoubleEntryException(newBook.getTitle());
         } else {
@@ -95,6 +96,7 @@ public class Library {
 
     public void removeBook(String bookTitle) {
         Map<String, Book> bookDatabase = this.getBookDB();
+
         bookDatabase.remove(bookTitle);
     }
 
@@ -102,6 +104,7 @@ public class Library {
     throws
     InexistentBookException {
         Map<String,Book> bookDatabase = this.getBookDB();
+
         if (bookDatabase.containsKey(bookTitle)) {
             return bookDatabase.get(bookTitle);
         } else {
@@ -113,6 +116,7 @@ public class Library {
     throws
     DoubleEntryException {
         Map<String, ReadingFile> readingFileDatabase = this.getReadingFileDB();
+
         if (readingFileDatabase.containsKey(newReadingFile.getTitle())) {
             throw new DoubleEntryException(newReadingFile.getTitle());
         } else {
@@ -122,6 +126,7 @@ public class Library {
 
     public void removeReadingFile(String title) {
         Map<String, ReadingFile> readingFileDatabase = this.getReadingFileDB();
+
         readingFileDatabase.remove(title);
     }
 
@@ -129,6 +134,7 @@ public class Library {
     throws
     InexistentReadingFileException {
         Map<String, ReadingFile> readingFileDatabase = this.getReadingFileDB();
+
         if (!readingFileDatabase.containsKey(readingFileTitle)) {
             throw new InexistentReadingFileException(readingFileTitle);
         } else {

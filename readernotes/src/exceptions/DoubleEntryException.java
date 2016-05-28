@@ -18,7 +18,8 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package readernotes.src.exceptions;
 
-public class DoubleEntryException extends Exception {
+public class DoubleEntryException
+extends Exception {
     private String _title;
     private String _message = _title + " already exists!";
 

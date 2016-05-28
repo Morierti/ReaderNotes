@@ -1,8 +1,8 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-Exec=./usr/bin/readernotes/bin/readernotes.sh
-Icon=
-Version=0.1
+Exec=/usr/bin/readernotes/readernotes.sh
+Icon=/usr/share/pixmaps/readernotes_logo.sh
+Version=0.2.5
 Terminal=false;
 Categories=Office;

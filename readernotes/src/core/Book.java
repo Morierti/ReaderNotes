@@ -22,38 +22,38 @@ import readernotes.src.exceptions.EmptyTitleException;
 import readernotes.src.exceptions.EmptyAuthorException;
 
 public class Book {
-    private static final String defaultValue = "DEFAULT";
     private String _title;
     private String _author;
     private String _sinopse;
+    public static final String DEFAULT_VALUE = "DEFAULT";
 
     public Book(String title, String author)
     throws
     EmptyTitleException,
     EmptyAuthorException {
-        this(title, author, defaultValue);
+        this(title, author, Book.DEFAULT_VALUE);
     }
 
     public Book(String title, String author, String sinopse)
     throws
     EmptyTitleException,
     EmptyAuthorException {
-        init(title, author, sinopse);
+        this.init(title, author, sinopse);
     }
 
-    public void init(String title, String author, String sinopse)
+    private void init(String title, String author, String sinopse)
     throws
     EmptyTitleException,
     EmptyAuthorException {
-        setTitle(title);
-        setAuthor(author);
-        setSinopse(sinopse);
+        this.setTitle(title);
+        this.setAuthor(author);
+        this.setSinopse(sinopse);
     }
 
     public void setTitle(String title)
     throws
     EmptyTitleException {
-        if (!verifyIfEmpty(title)) {
+        if (!this.verifyIfEmpty(title)) {
             _title = title;
         } else {
             throw new EmptyTitleException();
@@ -67,7 +67,7 @@ public class Book {
     public void setAuthor(String author)
     throws
     EmptyAuthorException {
-        if (!verifyIfEmpty(author)) {
+        if (!this.verifyIfEmpty(author)) {
             _author = author;
         } else {
             throw new EmptyAuthorException();
@@ -89,4 +89,5 @@ public class Book {
     public boolean verifyIfEmpty(String value) {
         return value == null || value == "";
     }
+
 }

@@ -18,47 +18,50 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package readernotes.src.database;
 
-import org.jdom2.Attribute;
-import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
 import java.io.IOException;
 import readernotes.src.core.ReadingFile;
 import readernotes.src.exceptions.EmptyTitleException;
 
 
-public class ReadingFileXML extends AbstractXMLObjectBuilder {
+public class ReadingFileXML
+extends AbstractXMLObjectBuilder {
     private ReadingFile _readingFile;
 
-	public ReadingFileXML(ReadingFile readingFileObject) {
-        this.setReadingFileObject(readingFileObject);
+	public ReadingFileXML(ReadingFile readingFile) {
+        this.setReadingFile(readingFile);
 	}
 
-	public void setReadingFileObject(ReadingFile readingFileObject) {
-        _readingFile = readingFileObject;
+	public void setReadingFile(ReadingFile value) {
+        _readingFile = value;
 	}
 
-	public ReadingFile getReadingFileObject() {
+	public ReadingFile getReadingFile() {
 		return _readingFile;
 	}
 
 	public Element createTitleElement() {
-		Element titleElement = new Element("Title");
-        titleElement.setText(_readingFile.getTitle());
-        return titleElement;
+		Element title = new Element("Title");
+
+        title.setText(this.getReadingFile().getTitle());
+
+        return title;
 	}
 
 	public Element createBookTitleElement() {
-		Element bookTitleElement = new Element("Book_Title");
-        bookTitleElement.setText(_readingFile.getBookTitle());
-        return bookTitleElement;
+		Element bookTitle = new Element("Book_Title");
+
+        bookTitle.setText(this.getReadingFile().getBookTitle());
+
+        return bookTitle;
 	}
 
 	public Element createContentElement() {
-		Element contentElement = new Element("Content");
-        contentElement.setText(_readingFile.getContent());
-        return contentElement;
+		Element content = new Element("Content");
+
+        content.setText(this.getReadingFile().getContent());
+
+        return content;
 	}
 
 	public void buildXMLObject() {
@@ -74,9 +77,12 @@ public class ReadingFileXML extends AbstractXMLObjectBuilder {
     public static ReadingFile buildReadingFile(Element readingFileElement)
     throws
     EmptyTitleException {
-        ReadingFile newReadingFile = new ReadingFile(readingFileElement.getChild("Title").getText(),
-                                                        readingFileElement.getChild("Book_Title").getText(),
-                                                        readingFileElement.getChild("Content").getText());
-        return newReadingFile;
+        ReadingFile readingFile = new ReadingFile(
+                                        readingFileElement.getChild("Title").getText(),
+                                        readingFileElement.getChild("Book_Title").getText(),
+                                        readingFileElement.getChild("Content").getText()
+                                    );
+
+        return readingFile;
     }
 }

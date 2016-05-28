@@ -18,7 +18,8 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package readernotes.src.exceptions;
 
-public class EmptyAuthorException extends Exception {
+public class EmptyAuthorException
+extends Exception {
     private static final String _errorMessage = "Please insert an author.";
 
     public String getMessage() {

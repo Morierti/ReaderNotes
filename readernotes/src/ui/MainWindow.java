@@ -59,9 +59,14 @@ extends JFrame {
 		return _instance;
 	}
 
+	private void setInstance(MainWindow value) {
+		_instance = value;
+	}
+
     private MainWindow() {
-		_instance = this;
-        initUI();
+		this.setInstance(this);
+        this.initUI();
+		this.setVisible(true);
     }
 
 	private void setBookList(JList bookList) {

@@ -19,43 +19,49 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 package readernotes.src.database;
 
 import java.io.IOException;
-import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import readernotes.src.core.Book;
 import readernotes.src.exceptions.EmptyTitleException;
 import readernotes.src.exceptions.EmptyAuthorException;
 
-public class BookXML extends AbstractXMLObjectBuilder {
-	private Book _bookObject;
+public class BookXML
+extends AbstractXMLObjectBuilder {
+	private Book _book;
 
-	public BookXML(Book bookObject) {
-		this.setBookObject(bookObject);
+	public BookXML(Book book) {
+		this.setBook(book);
 	}
 
-	public void setBookObject(Book bookObject) {
-		_bookObject = bookObject;
+	public void setBook(Book value) {
+		_book = value;
 	}
 
-	public Book getBookObject() {
-		return _bookObject;
+	public Book getBook() {
+		return _book;
 	}
 
 	public Element createTitleElement() {
 		Element titleElement = new Element("Title");
-		titleElement.setText(_bookObject.getTitle());
+
+		titleElement.setText(this.getBook().getTitle());
+
 		return titleElement;
 	}
 
 	public Element createAuthorElement() {
 		Element authorElement = new Element("Author");
-		authorElement.setText(_bookObject.getAuthor());
+
+		authorElement.setText(this.getBook().getAuthor());
+
 		return authorElement;
 	}
 
 	public Element createSinopseElement() {
 		Element sinopseElement = new Element("Sinopse");
-		sinopseElement.setText(_bookObject.getSinopse());
+
+		sinopseElement.setText(this.getBook().getSinopse());
+
 		return sinopseElement;
 	}
 
@@ -73,10 +79,12 @@ public class BookXML extends AbstractXMLObjectBuilder {
 	throws
 	EmptyTitleException,
 	EmptyAuthorException {
-		Book newBook = new Book(bookElement.getChild("Title").getText(),
-								bookElement.getChild("Author").getText(),
-								bookElement.getChild("Sinopse").getText());
-		return newBook;
+		Book book = new Book(
+							bookElement.getChild("Title").getText(),
+							bookElement.getChild("Author").getText(),
+							bookElement.getChild("Sinopse").getText()
+						);
+		return book;
 	}
 
 }

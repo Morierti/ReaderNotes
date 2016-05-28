@@ -1,11 +1,11 @@
 #!/bin/bash
 
-read option
-
-if [ "$option" == "run" ]; then
-	java -jar /usr/bin/readernotes/bin/readernotes.jar
-elif [ "$option" == "install" ]; then
-	./usr/bin/readernotes/bin/install.sh
-elif [ "$option" == "uninstall" ]; then
-	./usr/bin/readernotes/bin/uninstall.sh
+cd /home/$USER/
+if [ -d ".readernotes" ]; then
+	echo "Directory exists."
+	java -jar /usr/bin/readernotes/readernotes.jar
+else
+	mkdir /home/$USER/.readernotes
+	java -jar /usr/bin/readernotes/readernotes.jar
 fi
+
