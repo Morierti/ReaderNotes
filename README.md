@@ -9,7 +9,7 @@ all the books and reading files organized in one place.
 
 If you are in a debian based system, download the deb package and run
 
-dpkg -i readernotes-0.2.5.deb
+	dpkg -i readernotes-0.2.5.deb
 
 in case you are not in a debian based system you have to download the source
 code and compile it.
