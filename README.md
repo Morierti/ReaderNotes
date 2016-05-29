@@ -55,6 +55,17 @@ java -jar readernotes-0.2.5.jar
 
 All dependencies are releases along with the source code and binary packages.
 
-jdom-2.0.6
-java-hamcrest-2.0.0.0
-junit-4.12
+###Essencial
+	- Java 1.8
+	- jdom-2.0.6
+
+###Not Essencial
+	- java-hamcrest-2.0.0.0
+	- junit-4.12
+
+##Systems Tested
+<hr>
+
+Ubuntu 16.04
+Lubuntu 14.04
+
