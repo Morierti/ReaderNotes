@@ -22,17 +22,17 @@ Download the source code
 
 Compite it in the root directory of the project with:
 
-- make
-- make package-jar
+	make
+	make package-jar
 
 ###Step 3: 
 
 Create folder in the root directory and copy the .jar file and the libs package
 to that new folder, example:
 
-mkdir readernotes
-mv readernotes-0.2.5 readernotes
-cp libs readernotes
+	mkdir readernotes
+	mv readernotes-0.2.5 readernotes
+	cp libs readernotes
 
 ###Step4:
 
@@ -48,7 +48,7 @@ and the .png file to /usr/share/pixmaps and you are all set.
 
 To run the program run
 
-java -jar readernotes-0.2.5.jar
+	java -jar readernotes-0.2.5.jar
 
 ##Dependencies
 <hr>
