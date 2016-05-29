@@ -23,6 +23,10 @@ import java.awt.EventQueue;
 import java.io.File;
 
 public class Shell {
+	public static final String VERSION = "Version: 0.2.5";
+	public static final String NAME = "Reader Notes";
+	public static final String WEBSITE = "https://github.com/Morierti/ReaderNotes";
+	public static final String DESCRIPTION = "-";
 
 	public static void main(String[] args)
 	throws
@@ -33,6 +37,7 @@ public class Shell {
 	        @Override
 	        public void run() {
 				Shell.createWorkDirectory();
+				Shell.getOSName();
 	            MainWindow.getInstance();
 	        }
 	    });
@@ -61,5 +66,10 @@ public class Shell {
 		} else {
 			System.out.println(Shell.getUserDirectory() + " already exists.");
 		}
+	}
+
+	public static void getOSName() {
+		String osName = System.getProperty("os.name");
+		System.out.println(osName);
 	}
 }
