@@ -93,7 +93,7 @@ extends JFrame {
 		this.createNewReadingFileList(panel);
 		this.add(panel);
         this.setTitle("Reader Notes");
-        this.setSize(900,600);
+        this.setSize(900,500);
         this.setLocationRelativeTo(null);
 		this.addWindowListener(new MainWindowListener());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -137,7 +137,7 @@ extends JFrame {
 		JList list = new JList(this.buildReadingFileListModel());
 
 		JScrollPane scrollPane = new JScrollPane(list);
-		scrollPane.setPreferredSize(new Dimension(400,500));
+		scrollPane.setPreferredSize(new Dimension(400,400));
 
 		list.addMouseListener(new MouseAdapter() {
 			@Override
@@ -160,7 +160,7 @@ extends JFrame {
 		JList list = new JList(this.buildBookListModel());
 
 		JScrollPane scrollPane = new JScrollPane(list);
-		scrollPane.setPreferredSize(new Dimension(400,500));
+		scrollPane.setPreferredSize(new Dimension(400,400));
 
 		list.addMouseListener(new MouseAdapter() {
 			@Override

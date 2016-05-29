@@ -20,6 +20,7 @@ package readernotes;
 
 import readernotes.src.ui.MainWindow;
 import java.awt.EventQueue;
+import java.io.File;
 
 public class Shell {
 
@@ -31,8 +32,34 @@ public class Shell {
 
 	        @Override
 	        public void run() {
+				Shell.createWorkDirectory();
 	            MainWindow.getInstance();
 	        }
 	    });
+	}
+
+	public static String getUserDirectory() {
+		String userDir = "/home/";
+		String user = System.getProperty("user.name");
+
+		userDir = userDir.concat(user);
+		userDir = userDir.concat("/.readernotes");
+
+		return userDir;
+	}
+
+	public static void createWorkDirectory() {
+		File workDir = new File(Shell.getUserDirectory());
+
+		if(!workDir.exists()) {
+			System.out.println("Creating work directory.");
+			try {
+				workDir.mkdir();
+			} catch (SecurityException exception) {
+				exception.printStackTrace();
+			}
+		} else {
+			System.out.println(Shell.getUserDirectory() + " already exists.");
+		}
 	}
 }
