@@ -22,8 +22,8 @@ Download the source code
 
 Compite it in the root directory of the project with:
 
-make
-make package-jar
+.make
+.make package-jar
 
 ###Step 3: 
 
