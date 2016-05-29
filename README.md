@@ -7,6 +7,9 @@ all the books and reading files organized in one place.
 ##Instalation:
 <hr>
 
+Download either the .deb package or the source code from here:
+https://github.com/Morierti/ReaderNotes/releases
+
 If you are in a debian based system, download the deb package and run
 
 	dpkg -i readernotes-0.2.5.deb
