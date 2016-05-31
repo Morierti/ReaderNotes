@@ -24,9 +24,15 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
+import javax.swing.JViewport;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.Dimension;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionListener;
@@ -37,7 +43,7 @@ extends JFrame
 implements ItemListener {
     public static final String BOOK = "Book";
     public static final String READING_FILE = "Reading File";
-    private JTextArea _titleArea;
+    private JScrollPane _titleArea;
     private String _searchParameter;
     private JButton _seeObjectButton;
 
@@ -47,11 +53,11 @@ implements ItemListener {
         this.setVisible(true);
     }
 
-    private void setTitleArea(JTextArea titleArea) {
+    private void setTitleArea(JScrollPane titleArea) {
         _titleArea = titleArea;
     }
 
-    private JTextArea getTitleArea() {
+    private JScrollPane getTitleArea() {
         return _titleArea;
     }
 
@@ -73,17 +79,21 @@ implements ItemListener {
 
     private JLabel createNewLabel(String value) {
         JLabel label = new JLabel(value);
+
         label.setBorder(BorderFactory.createEmptyBorder(5,5,5,0));
+
         return label;
     }
 
-    private JTextArea createTitleArea() {
+    private JScrollPane createTitleArea() {
         JTextArea titleArea = new JTextArea();
+        JScrollPane scrollPane = new JScrollPane(titleArea);
+
         titleArea.setLineWrap(true);
         titleArea.setWrapStyleWord(true);
-        titleArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
-        titleArea.setBounds(60,15,320,20);
-        return titleArea;
+        titleArea.setPreferredSize(new Dimension(110,20));
+
+        return scrollPane;
     }
 
     @Override
@@ -91,6 +101,7 @@ implements ItemListener {
         if(event.getStateChange() == ItemEvent.SELECTED) {
             String selectedValue = event.getItem().toString();
             System.out.println(selectedValue);
+
             this.setSearchParameter(selectedValue);
             this.getSeeObjectButton().setText("See " + selectedValue);
         }
@@ -99,21 +110,25 @@ implements ItemListener {
     private JComboBox<String> createJComboBox() {
         String[] selectionTypes = {BOOK, READING_FILE};
         JComboBox<String> selectionList = new JComboBox<String>(selectionTypes);
+
         selectionList.addItemListener(this);
-        selectionList.setBounds(30,60,150,30);
+
         return selectionList;
     }
 
     private JButton createSeeObjectButton() {
         JButton button = new JButton("See Book");
-        button.setBounds(230,60,150,30);
+
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+                JViewport viewport = getTitleArea().getViewport();
+                JTextArea titleArea = (JTextArea) viewport.getView();
+
                 if (getSearchParameter() == BOOK) {
-                    new BookForm(getTitleArea().getText().trim());
+                    new BookForm(titleArea.getText().trim());
                 } else {
-                    new ReadingFileForm(getTitleArea().getText().trim());
+                    new ReadingFileForm(titleArea.getText().trim());
                 }
             }
         });
@@ -122,23 +137,37 @@ implements ItemListener {
         return button;
     }
 
-    private void createLayout() {
-        Container pane = this.getContentPane();
+    private void createLayout(JPanel panel) {
+        JPanel upperPanel = new JPanel();
+        JPanel lowerPanel = new JPanel();
         JLabel titleLabel = this.createNewLabel("Title");
+
+        upperPanel.setLayout(new BoxLayout(upperPanel, BoxLayout.X_AXIS));
+        lowerPanel.setLayout(new BoxLayout(lowerPanel, BoxLayout.X_AXIS));
 
         this.setTitleArea(this.createTitleArea());
 
-        titleLabel.setBounds(10,10,70,30);
+        upperPanel.add(titleLabel);
+        upperPanel.add(Box.createRigidArea(new Dimension(10,0)));
+        upperPanel.add(this.getTitleArea());
+        upperPanel.add(Box.createRigidArea(new Dimension(5,0)));
 
-        pane.add(titleLabel);
-        pane.add(this.getTitleArea());
-        pane.add(this.createJComboBox());
-        pane.add(this.createSeeObjectButton());
+        lowerPanel.add(this.createJComboBox());
+        lowerPanel.add(Box.createHorizontalGlue());
+        lowerPanel.add(this.createSeeObjectButton());
+
+        panel.add(upperPanel);
+        panel.add(Box.createRigidArea(new Dimension(0,20)));
+        panel.add(lowerPanel);
     }
 
     private void initUI() {
         JPanel panel = new JPanel();
-        this.createLayout();
+
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+
+        this.createLayout(panel);
         this.add(panel);
         this.setTitle("Search");
         this.setSize(400,110);
