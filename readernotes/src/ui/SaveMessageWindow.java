@@ -4,6 +4,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
+import javax.swing.BorderFactory;
+import java.awt.GridLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import readernotes.src.core.Library;
@@ -17,7 +22,7 @@ public class SaveMessageWindow extends JFrame {
 
     private JButton createYesButton() {
         JButton button = new JButton("Yes");
-        button.setBounds(230,60,70,30);
+
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -32,39 +37,53 @@ public class SaveMessageWindow extends JFrame {
 
     private JButton createNoButton() {
         JButton button = new JButton("No");
-        button.setBounds(310,60,70,30);
+
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 System.exit(0);
             }
         });
+        
         return button;
     }
 
     private JLabel createInformationLabel() {
         JLabel label = new JLabel("Do you want to save the modifications?");
-        label.setBounds(60,10,300,30);
+
         return label;
+    }
+
+    private JPanel createLowerPanel() {
+        JPanel lowerPanel = new JPanel();
+
+        lowerPanel.setLayout(new BoxLayout(lowerPanel, BoxLayout.X_AXIS));
+
+        lowerPanel.add(Box.createHorizontalGlue());
+        lowerPanel.add(this.createYesButton());
+        lowerPanel.add(Box.createRigidArea(new Dimension(10,0)));
+        lowerPanel.add(this.createNoButton());
+
+        return lowerPanel;
     }
 
     private void createLayout(JPanel panel) {
         JLabel infoLabel = this.createInformationLabel();
-        JButton noButton = this.createNoButton();
-        JButton yesButton = this.createYesButton();
 
         panel.add(infoLabel);
-        panel.add(noButton);
-        panel.add(yesButton);
+        panel.add(this.createLowerPanel());
     }
 
     private void initUI() {
         JPanel panel = new JPanel();
-        panel.setLayout(null);
+
+        panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        panel.setLayout(new GridLayout(2,0));
+
         this.createLayout(panel);
         this.add(panel);
         this.setTitle("Save");
-        this.setSize(400,120);
+        this.setSize(350,100);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }

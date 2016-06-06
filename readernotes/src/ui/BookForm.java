@@ -31,9 +31,12 @@ import javax.swing.JTextArea;
 import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
 import java.awt.Container;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -89,18 +92,22 @@ extends JFrame {
 
 	private JLabel createLabel(String value) {
 		JLabel label = new JLabel(value);
+
 		label.setBorder(BorderFactory.createEmptyBorder(5,5,5,0));
+
 		return label;
 	}
 
 	private JScrollPane createTitleArea() {
 		JTextArea titleArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(titleArea);
-		scrollPane.setBounds(90,15,300,20);
 
 		titleArea.setText(this.getBook().getTitle());
 		titleArea.setLineWrap(true);
 		titleArea.setWrapStyleWord(true);
+
+		scrollPane.setPreferredSize(new Dimension(300,20));
+		scrollPane.setMaximumSize(new Dimension(2000,20));
 
 		return scrollPane;
 	}
@@ -108,11 +115,13 @@ extends JFrame {
 	private JScrollPane createAuthorArea() {
 		JTextArea authorArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(authorArea);
-		scrollPane.setBounds(90,55,300,20);
 
 		authorArea.setText(this.getBook().getAuthor());
 		authorArea.setLineWrap(true);
 		authorArea.setWrapStyleWord(true);
+
+		scrollPane.setPreferredSize(new Dimension(300,20));
+		scrollPane.setMaximumSize(new Dimension(2000,20));
 
 		return scrollPane;
 	}
@@ -120,18 +129,19 @@ extends JFrame {
 	private JScrollPane createSinopseArea() {
 		JTextArea sinopseArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(sinopseArea);
-		scrollPane.setBounds(90,90,300,65);
 
 		sinopseArea.setText(this.getBook().getSinopse());
 		sinopseArea.setLineWrap(true);
 		sinopseArea.setWrapStyleWord(true);
+
+		scrollPane.setPreferredSize(new Dimension(300,65));
 
 		return scrollPane;
 	}
 
 	private JButton createSaveButton() {
 		JButton saveButton = new JButton("Save");
-		saveButton.setBounds(320,170,70,30);
+
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -154,6 +164,7 @@ extends JFrame {
 					if (sinopseArea.getText() != null) {
 						book.setSinopse(sinopseArea.getText().trim());
 					}
+
 				} catch (EmptyTitleException
 						| EmptyAuthorException exception) {
 					System.err.print(exception.getMessage());
@@ -161,37 +172,81 @@ extends JFrame {
 				dispose();
 			}
 		});
+
 		return saveButton;
 	}
 
-	private void createLayout(JPanel panel) {
-		JLabel titleLabel = this.createLabel("Title:");
-		JLabel authorLabel = this.createLabel("Author:");
-		JLabel sinopseLabel = this.createLabel("Sinopse:");
-		JButton saveButton = this.createSaveButton();
+	private JPanel createTitlePanel() {
+		JPanel titlePanel = new JPanel();
+		JLabel titleLabel = this.createLabel("Title");
 
 		this.setTitleArea(this.createTitleArea());
+
+		titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.X_AXIS));
+		titlePanel.add(titleLabel);
+		titlePanel.add(Box.createRigidArea(new Dimension(35,0)));
+		titlePanel.add(this.getTitleArea());
+
+		return titlePanel;
+
+	}
+
+	private JPanel createAuthorPanel() {
+		JPanel authorPanel = new JPanel();
+		JLabel authorLabel = this.createLabel("Author");
+
 		this.setAuthorArea(this.createAuthorArea());
+
+		authorPanel.setLayout(new BoxLayout(authorPanel, BoxLayout.X_AXIS));
+		authorPanel.add(authorLabel);
+		authorPanel.add(Box.createRigidArea(new Dimension(19,0)));
+		authorPanel.add(this.getAuthorArea());
+
+		return authorPanel;
+	}
+
+	private JPanel createSinopsePanel() {
+		JPanel sinopsePanel = new JPanel();
+		JLabel sinopseLabel = this.createLabel("Sinopse");
+
 		this.setSinopseArea(this.createSinopseArea());
 
-		titleLabel.setBounds(10,10,70,30);
-		authorLabel.setBounds(10,50,70,30);
-		sinopseLabel.setBounds(10,90,70,30);
+		sinopsePanel.setLayout(new BoxLayout(sinopsePanel, BoxLayout.X_AXIS));
+		sinopsePanel.add(sinopseLabel);
+		sinopsePanel.add(Box.createRigidArea(new Dimension(10,0)));
+		sinopsePanel.add(this.getSinopseArea());
 
-		panel.add(titleLabel);
-		panel.add(authorLabel);
-		panel.add(sinopseLabel);
-		panel.add(saveButton);
-		panel.add(this.getTitleArea());
-		panel.add(this.getAuthorArea());
-		panel.add(this.getSinopseArea());
+		return sinopsePanel;
+	}
+
+	private JPanel createButtonPanel() {
+		JPanel buttonPanel = new JPanel();
+
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+		buttonPanel.add(Box.createHorizontalGlue());
+		buttonPanel.add(this.createSaveButton());
+
+		return buttonPanel;
+	}
+
+	private JPanel createLayout() {
+		JPanel panel = new JPanel();
+
+		panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.add(this.createTitlePanel());
+		panel.add(Box.createRigidArea(new Dimension(0,10)));
+		panel.add(this.createAuthorPanel());
+		panel.add(Box.createRigidArea(new Dimension(0,10)));
+		panel.add(this.createSinopsePanel());
+		panel.add(Box.createRigidArea(new Dimension(0,10)));
+		panel.add(this.createButtonPanel());
+
+		return panel;
 	}
 
 	private void initUI() {
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		this.createLayout(panel);
-		this.add(panel);
+		this.add(this.createLayout());
 		this.setTitle("Book");
 		this.setSize(400,220);
 		this.setLocationRelativeTo(null);
