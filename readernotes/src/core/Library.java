@@ -19,7 +19,7 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 package readernotes.src.core;
 
 import java.util.Map;
-import java.util.HashMap;
+import java.util.TreeMap;
 import org.jdom2.JDOMException;
 import java.io.IOException;
 import readernotes.src.database.IOManager;
@@ -67,7 +67,7 @@ public class Library {
                 | JDOMException
                 | IOException exception) {
 
-            this.setBookDB(new HashMap<String, Book>());
+            this.setBookDB(new TreeMap<String, Book>());
         }
     }
 
@@ -78,7 +78,7 @@ public class Library {
                 | JDOMException
                 | IOException exception) {
 
-            this.setReadingFileDB(new HashMap<String, ReadingFile>());
+            this.setReadingFileDB(new TreeMap<String, ReadingFile>());
         }
     }
 

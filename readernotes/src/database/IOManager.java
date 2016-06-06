@@ -23,7 +23,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.input.SAXBuilder;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Set;
 import java.util.List;
 import java.io.*;
@@ -101,7 +101,7 @@ public class IOManager {
     EmptyAuthorException,
     JDOMException,
     IOException {
-        HashMap<String, Book> bookDB = new HashMap<String, Book>();
+        TreeMap<String, Book> bookDB = new TreeMap<String, Book>();
         Map<String, Element> bookXMLObjects = this.readBookDatabaseDocument();
 
         if (!bookXMLObjects.isEmpty()) {
@@ -120,7 +120,7 @@ public class IOManager {
     EmptyTitleException,
     JDOMException,
     IOException {
-        Map<String, ReadingFile> readingFileDB = new HashMap<String, ReadingFile>();
+        Map<String, ReadingFile> readingFileDB = new TreeMap<String, ReadingFile>();
         Map<String, Element> readingFileXMLObjects = this.readReadingFileDatabaseDocument();
 
         if (!readingFileXMLObjects.isEmpty()) {
@@ -139,7 +139,7 @@ public class IOManager {
     InexistentBookException {
         Library library = Library.getInstance();
         Set<String> keySet = library.getBookDB().keySet();
-        Map<String,Element> bookXMLMap = new HashMap<String,Element>();
+        Map<String,Element> bookXMLMap = new TreeMap<String,Element>();
 
         for (String key : keySet) {
             BookXML keyBookXML = new BookXML(library.getBook(key));
@@ -155,7 +155,7 @@ public class IOManager {
     InexistentReadingFileException {
         Library library = Library.getInstance();
         Set<String> keySet = library.getReadingFileDB().keySet();
-        Map<String,Element> readingFileXMLMap = new HashMap<String,Element>();
+        Map<String,Element> readingFileXMLMap = new TreeMap<String,Element>();
 
         for (String key : keySet) {
             ReadingFileXML keyReadingFileXML = new ReadingFileXML(library.getReadingFile(key));
@@ -203,7 +203,7 @@ public class IOManager {
     throws
     JDOMException,
     IOException {
-        Map<String,Element> bookXMLObjects = new HashMap<String,Element>();
+        Map<String,Element> bookXMLObjects = new TreeMap<String,Element>();
         Document document = buildDocument(this.buildFilePath(IOManager.BOOK_DB));
         List<Element> books = document.getRootElement().getChildren("Book");
 
@@ -217,7 +217,7 @@ public class IOManager {
     throws
     JDOMException,
     IOException {
-        Map<String,Element> readingFileXMLObjects = new HashMap<String,Element>();
+        Map<String,Element> readingFileXMLObjects = new TreeMap<String,Element>();
         Document document = this.buildDocument(this.buildFilePath(IOManager.READINGFILE_DB));
         List<Element> readingFiles = document.getRootElement().getChildren("ReadingFile");
 
