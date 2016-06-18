@@ -23,60 +23,68 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JViewport;
+import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
-import java.awt.Container;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
+import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import readernotes.src.core.Library;
 
 public class RemoveReadingFileWindow extends JFrame {
-    private JTextArea _titleArea;
+    private JScrollPane _titleArea;
 
     public RemoveReadingFileWindow() {
         this.initUI();
         this.setVisible(true);
     }
 
-    private void setTitleArea(JTextArea titleArea) {
+    private void setTitleArea(JScrollPane titleArea) {
         _titleArea = titleArea;
     }
 
-    private JTextArea getTitleArea() {
+    private JScrollPane getTitleArea() {
         return _titleArea;
     }
 
     private JLabel createNewLabel(String value) {
         JLabel label = new JLabel(value);
-        label.setBorder(BorderFactory.createEmptyBorder(5,5,5,0));
+
         return label;
     }
 
-    private JTextArea createTitleArea() {
+    private JScrollPane createTitleArea() {
         JTextArea titleArea = new JTextArea();
+        JScrollPane scrollPanel = new JScrollPane(titleArea);
+
         titleArea.setLineWrap(true);
         titleArea.setWrapStyleWord(true);
-        titleArea.setBorder(BorderFactory.createLineBorder(Color.GRAY,1));
-        titleArea.setBounds(60,15,320,20);
-        return titleArea;
+
+        scrollPanel.setPreferredSize(new Dimension(300,20));
+        scrollPanel.setMaximumSize(new Dimension(2000,20));
+
+        return scrollPanel;
     }
 
     private JButton createRemoveButton() {
         JButton removeButton = new JButton("Remove");
-        removeButton.setBounds(290,70,100,30);
+
         removeButton.addActionListener(new ActionListener() {
             //Some calls belong to RemoveBookWindow class.
             @Override
             public void actionPerformed(ActionEvent evetn) {
-                //Code
-                System.out.println("Remove Button Pressed.");
-                System.out.println("Title: " + getTitleArea().getText().trim());
                 Library library = Library.getInstance();
-                library.removeReadingFile(getTitleArea().getText().trim());
+                JViewport titleViewport = getTitleArea().getViewport();
+                JTextArea title = (JTextArea) titleViewport.getView();
+
+                library.removeReadingFile(title.getText().trim());
 
                 //Update list on main window
                 MainWindow.getInstance().updateReadingFileList();
-                
+
                 dispose();
             }
         });
@@ -84,39 +92,62 @@ public class RemoveReadingFileWindow extends JFrame {
     }
 
     private JButton createSeeReadingFileButton() {
-        JButton seeBookButton = new JButton("See Book");
-        seeBookButton.setBounds(180,70,100,30);
+        JButton seeBookButton = new JButton("See Reading File");
+
         seeBookButton.addActionListener(new ActionListener() {
             //Some calls belong to RemoveBookWindow class.
             @Override
             public void actionPerformed(ActionEvent event) {
-                System.out.println("See Reading File Button Pressed.");
-                new ReadingFileForm(getTitleArea().getText().trim());
+                JViewport titleViewport = getTitleArea().getViewport();
+                JTextArea title = (JTextArea) titleViewport.getView();
+
+                new ReadingFileForm(title.getText().trim());
             }
         });
         return seeBookButton;
     }
 
-    private void createLayout() {
-        Container pane = this.getContentPane();
-        JLabel titleLabel = this.createNewLabel("Title");
+    private JPanel createTitlePanel() {
+        JPanel panel = new JPanel();
 
         this.setTitleArea(this.createTitleArea());
 
-        titleLabel.setBounds(10,10,70,30);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.add(this.createNewLabel("Title"));
+        panel.add(Box.createRigidArea(new Dimension(10,0)));
+        panel.add(this.getTitleArea());
 
-        pane.add(titleLabel);
-        pane.add(this.getTitleArea());
-        pane.add(this.createSeeReadingFileButton());
-        pane.add(this.createRemoveButton());
+        return panel;
+    }
+
+    private JPanel createButtonPanel() {
+        JPanel panel = new JPanel();
+
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.add(Box.createHorizontalGlue());
+        panel.add(this.createSeeReadingFileButton());
+        panel.add(Box.createRigidArea(new Dimension(10,0)));
+        panel.add(this.createRemoveButton());
+
+        return panel;
+    }
+
+    private JPanel createLayout() {
+        JPanel panel = new JPanel();
+
+        panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(this.createTitlePanel());
+        panel.add(Box.createVerticalGlue());
+        panel.add(this.createButtonPanel());
+
+        return panel;
     }
 
     private void initUI() {
-        JPanel panel = new JPanel();
-        this.createLayout();
-        this.add(panel);
+        this.add(this.createLayout());
         this.setTitle("Remove Reading File");
-        this.setSize(400,110);
+        this.setSize(400,80);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }

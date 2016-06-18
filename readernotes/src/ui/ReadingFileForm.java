@@ -20,6 +20,7 @@ package readernotes.src.ui;
 
 import java.awt.Container;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
@@ -30,6 +31,8 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
 import readernotes.src.core.ReadingFile;
 import readernotes.src.core.Library;
 import readernotes.src.exceptions.InexistentReadingFileException;
@@ -84,20 +87,22 @@ public class ReadingFileForm extends JFrame {
 		return _readingFile;
 	}
 
-	private JLabel createLabel(String value) {
+	private JLabel createNewLabel(String value) {
 		JLabel label = new JLabel(value);
-		label.setBorder(BorderFactory.createEmptyBorder(5,5,5,0));
+
 		return label;
 	}
 
 	private JScrollPane createTitleArea() {
 		JTextArea titleArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(titleArea);
-		scrollPane.setBounds(90,15,300,20);
 
 		titleArea.setText(this.getReadingFile().getTitle());
 		titleArea.setLineWrap(true);
 		titleArea.setWrapStyleWord(true);
+
+		scrollPane.setPreferredSize(new Dimension(300,20));
+		scrollPane.setMaximumSize(new Dimension(2000,20));
 
 		return scrollPane;
 	}
@@ -105,11 +110,13 @@ public class ReadingFileForm extends JFrame {
 	private JScrollPane createBookTitleArea() {
 		JTextArea bookTitleArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(bookTitleArea);
-		scrollPane.setBounds(90,55,300,20);
 
 		bookTitleArea.setText(this.getReadingFile().getBookTitle());
 		bookTitleArea.setLineWrap(true);
 		bookTitleArea.setWrapStyleWord(true);
+
+		scrollPane.setPreferredSize(new Dimension(250,20));
+		scrollPane.setMaximumSize(new Dimension(2000,20));
 
 		return scrollPane;
 	}
@@ -117,18 +124,19 @@ public class ReadingFileForm extends JFrame {
 	private JScrollPane createContentArea() {
 		JTextArea contentArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(contentArea);
-		scrollPane.setBounds(10,120,380,320);
 
 		contentArea.setText(this.getReadingFile().getContent());
 		contentArea.setLineWrap(true);
 		contentArea.setWrapStyleWord(true);
+
+		scrollPane.setPreferredSize(new Dimension(300,65));
 
 		return scrollPane;
 	}
 
 	private JButton createSaveButton() {
 		JButton saveButton = new JButton("Save");
-		saveButton.setBounds(320,450,70,30);
+
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -161,34 +169,81 @@ public class ReadingFileForm extends JFrame {
 		return saveButton;
 	}
 
-	private void createLayout(JPanel panel) {
-		JButton saveButton = this.createSaveButton();
-		JLabel titleLabel = this.createLabel("Title");
-		JLabel bookTitleLabel = this.createLabel("Book Title");
-		JLabel contentLabel = this.createLabel("Content");
-
-		titleLabel.setBounds(10,10,70,30);
-		bookTitleLabel.setBounds(10,50,100,30);
-		contentLabel.setBounds(10,90,70,30);
+	private JPanel createTitlePanel() {
+		JPanel titlePanel = new JPanel();
+		JLabel label = this.createNewLabel("Title");
 
 		this.setTitleArea(this.createTitleArea());
+
+		titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.X_AXIS));
+		titlePanel.add(label);
+		titlePanel.add(Box.createRigidArea(new Dimension(48,0)));
+		titlePanel.add(this.getTitleArea());
+
+		return titlePanel;
+	}
+
+	private JPanel createBookTitlePanel() {
+		JPanel bookTitlePanel = new JPanel();
+		JLabel label = this.createNewLabel("Book Title");
+
 		this.setBookTitleArea(this.createBookTitleArea());
+
+		bookTitlePanel.setLayout(new BoxLayout(bookTitlePanel, BoxLayout.X_AXIS));
+		bookTitlePanel.add(label);
+		bookTitlePanel.add(Box.createRigidArea(new Dimension(10,0)));
+		bookTitlePanel.add(this.getBookTitleArea());
+
+		return bookTitlePanel;
+	}
+
+	private JPanel createContentPanel() {
+		JPanel contentPanel = new JPanel();
+		JPanel auxPanel = new JPanel();
+		JLabel label = this.createNewLabel("Content");
+
 		this.setContentArea(this.createContentArea());
 
-		panel.add(titleLabel);
-		panel.add(bookTitleLabel);
-		panel.add(contentLabel);
-		panel.add(saveButton);
-		panel.add(this.getTitleArea());
-		panel.add(this.getBookTitleArea());
-		panel.add(this.getContentArea());
+		auxPanel.setLayout(new BoxLayout(auxPanel, BoxLayout.X_AXIS));
+		auxPanel.add(label);
+		auxPanel.add(Box.createHorizontalGlue());
+
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+		contentPanel.add(auxPanel);
+		contentPanel.add(Box.createRigidArea(new Dimension(0,10)));
+		contentPanel.add(this.getContentArea());
+
+		return contentPanel;
+	}
+
+	private JPanel createButtonPanel() {
+		JPanel buttonPanel = new JPanel();
+
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+		buttonPanel.add(Box.createHorizontalGlue());
+		buttonPanel.add(this.createSaveButton());
+
+		return buttonPanel;
+	}
+
+	private JPanel createLayout() {
+		JPanel panel = new JPanel();
+
+		panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.add(this.createTitlePanel());
+		panel.add(Box.createRigidArea(new Dimension(0,10)));
+		panel.add(this.createBookTitlePanel());
+		panel.add(Box.createRigidArea(new Dimension(0,10)));
+		panel.add(this.createContentPanel());
+		panel.add(Box.createRigidArea(new Dimension(0,10)));
+		panel.add(this.createButtonPanel());
+
+		return panel;
 	}
 
 	private void initUI() {
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		this.createLayout(panel);
-		this.add(panel);
+		this.add(this.createLayout());
 		this.setTitle("Reading File");
 		this.setSize(400,510);
 		this.setLocationRelativeTo(null);
