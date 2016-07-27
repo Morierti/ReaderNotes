@@ -104,11 +104,11 @@ public class Library {
     throws
     InexistentBookException {
         Map<String,Book> bookDatabase = this.getBookDB();
-
+        System.out.println(bookTitle);
         if (bookDatabase.containsKey(bookTitle)) {
             return bookDatabase.get(bookTitle);
         } else {
-            throw new InexistentBookException(bookTitle);
+            throw new InexistentBookException();
         }
     }
 
@@ -136,7 +136,7 @@ public class Library {
         Map<String, ReadingFile> readingFileDatabase = this.getReadingFileDB();
 
         if (!readingFileDatabase.containsKey(readingFileTitle)) {
-            throw new InexistentReadingFileException(readingFileTitle);
+            throw new InexistentReadingFileException();
         } else {
             return readingFileDatabase.get(readingFileTitle);
         }

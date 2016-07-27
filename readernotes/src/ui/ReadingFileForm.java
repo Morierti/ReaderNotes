@@ -33,6 +33,7 @@ import javax.swing.JViewport;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Box;
+import javax.swing.JOptionPane;
 import readernotes.src.core.ReadingFile;
 import readernotes.src.core.Library;
 import readernotes.src.exceptions.InexistentReadingFileException;
@@ -80,6 +81,7 @@ public class ReadingFileForm extends JFrame {
 			_readingFile = library.getReadingFile(title);
 		} catch (InexistentReadingFileException exception) {
 			System.err.print(exception.getMessage());
+			JOptionPane.showMessageDialog(this, exception.getMessage());
 		}
 	}
 

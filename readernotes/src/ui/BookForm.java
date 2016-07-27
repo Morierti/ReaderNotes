@@ -33,6 +33,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.BoxLayout;
 import javax.swing.Box;
+import javax.swing.JOptionPane;
 import java.awt.Container;
 import java.awt.Color;
 import java.awt.Font;
@@ -83,6 +84,7 @@ extends JFrame {
 			_book = library.getBook(bookTitle);
 		} catch (InexistentBookException exception) {
 			System.err.print(exception.getMessage());
+			JOptionPane.showMessageDialog(this, exception.getMessage());
 		}
 	}
 
