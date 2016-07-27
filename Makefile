@@ -10,8 +10,8 @@ JUNIT_PATH=libs/junit-4.12.jar
 HAMCREST=libs/java-hamcrest-2.0.0.0.jar
 JDOM=libs/jdom-2.0.6/jdom-2.0.6.jar
 JUNIT_EXEC=org.junit.runner.JUnitCore
-BUILD=readernotes-0.2.5
-BINARY=readernotes-0.2.5.deb
+BUILD=readernotes-0.2.6
+BINARY=readernotes-0.2.6.deb
 
 all:
 	javac -cp $(JUNIT_PATH):$(JDOM) `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) \

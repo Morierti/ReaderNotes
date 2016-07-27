@@ -12,7 +12,7 @@ https://github.com/Morierti/ReaderNotes/releases
 
 If you are in a debian based system, download the deb package and run
 
-	dpkg -i readernotes-0.2.5.deb
+	dpkg -i readernotes-0.2.6.deb
 
 in case you are not in a debian based system you have to download the source
 code and compile it.
@@ -34,7 +34,7 @@ Create folder in the root directory and copy the .jar file and the libs package
 to that new folder, example:
 
 	mkdir readernotes
-	mv readernotes-0.2.5 readernotes
+	mv readernotes-0.2.6 readernotes
 	cp libs readernotes
 
 ###Step4:
