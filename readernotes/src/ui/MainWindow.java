@@ -137,7 +137,7 @@ extends JFrame {
 	}
 
     private void createNewReadingFileList(JPanel panel) {
-		JList list = new JList(this.buildReadingFileListModel());
+		final JList list = new JList(this.buildReadingFileListModel());
 
 		JScrollPane scrollPane = new JScrollPane(list);
 		scrollPane.setPreferredSize(new Dimension(400,400));
@@ -160,7 +160,7 @@ extends JFrame {
     }
 
     private void createNewBookList(JPanel panel) {
-		JList list = new JList(this.buildBookListModel());
+		final JList list = new JList(this.buildBookListModel());
 
 		JScrollPane scrollPane = new JScrollPane(list);
 		scrollPane.setPreferredSize(new Dimension(400,400));
@@ -169,8 +169,8 @@ extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent event) {
 				if (event.getClickCount() == 2) {
-					int index = list.locationToIndex(event.getPoint());
-					ListModel listModel = list.getModel();
+					final int index = list.locationToIndex(event.getPoint());
+					final ListModel listModel = list.getModel();
 					new BookForm((String) listModel.getElementAt(index));
 					setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 				}
