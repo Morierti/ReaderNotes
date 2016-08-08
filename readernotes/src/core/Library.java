@@ -112,6 +112,11 @@ public class Library {
         }
     }
 
+    // SEARCH FOR BOOKS WITH MULTIPLE PARAMETERS
+    public Map<String,Book> findBook(String bookID) {
+        return null;
+    }
+
     public void addReadingFile(ReadingFile newReadingFile)
     throws
     DoubleEntryException {
@@ -140,6 +145,11 @@ public class Library {
         } else {
             return readingFileDatabase.get(readingFileTitle);
         }
+    }
+
+    //SEARCH FOR READING FILE WITH MULTIPLE PARAMETERS
+    public Map<String, ReadingFile> findReadingFile(String readingFileID) {
+        return null;
     }
 
 	public void storeBookDatabase() {

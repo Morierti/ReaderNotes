@@ -47,6 +47,7 @@ extends JFrame {
 	private JScrollPane _titleArea;
 	private JScrollPane _authorArea;
 	private JScrollPane _sinopseArea;
+	private JScrollPane _isbnArea;
 
 	public BookForm(String bookTitle) {
 		this.setBook(bookTitle);
@@ -76,6 +77,14 @@ extends JFrame {
 
 	private JScrollPane getSinopseArea() {
 		return _sinopseArea;
+	}
+
+	private void setISBNArea(JScrollPane isbnArea) {
+		_isbnArea = isbnArea;
+	}
+
+	private JScrollPane getISBNArea() {
+		return _isbnArea;
 	}
 
 	private void setBook(String bookTitle) {
@@ -128,6 +137,20 @@ extends JFrame {
 		return scrollPane;
 	}
 
+	private JScrollPane createISBNArea() {
+		JTextArea isbnArea = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(isbnArea);
+
+		isbnArea.setText(this.getBook().getISBN());
+		isbnArea.setLineWrap(true);
+		isbnArea.setWrapStyleWord(true);
+
+		scrollPane.setPreferredSize(new Dimension(300,20));
+		scrollPane.setMaximumSize(new Dimension(2000,20));
+
+		return scrollPane;
+	}
+
 	private JScrollPane createSinopseArea() {
 		JTextArea sinopseArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(sinopseArea);
@@ -151,9 +174,12 @@ extends JFrame {
 			JViewport titleViewport = getTitleArea().getViewport();
 			JViewport authorViewport = getAuthorArea().getViewport();
 			JViewport sinopseViewport = getSinopseArea().getViewport();
+			JViewport isbnViewport = getISBNArea().getViewport();
+
 			JTextArea titleArea = (JTextArea) titleViewport.getView();
 			JTextArea authorArea = (JTextArea) authorViewport.getView();
 			JTextArea sinopseArea = (JTextArea) sinopseViewport.getView();
+			JTextArea isbnArea = (JTextArea) isbnViewport.getView();
 
 				try {
 					Book book = getBook();
@@ -165,6 +191,9 @@ extends JFrame {
 					}
 					if (sinopseArea.getText() != null) {
 						book.setSinopse(sinopseArea.getText().trim());
+					}
+					if (isbnArea.getText() != null) {
+						book.setISBN(isbnArea.getText().trim());
 					}
 
 				} catch (EmptyTitleException
@@ -207,6 +236,20 @@ extends JFrame {
 		return authorPanel;
 	}
 
+	private JPanel createISBNPanel() {
+		JPanel isbnPanel = new JPanel();
+		JLabel isbnLabel = this.createLabel("ISBN");
+
+		this.setISBNArea(this.createISBNArea());
+
+		isbnPanel.setLayout(new BoxLayout(isbnPanel, BoxLayout.X_AXIS));
+		isbnPanel.add(isbnLabel);
+		isbnPanel.add(Box.createRigidArea(new Dimension(36,0)));
+		isbnPanel.add(this.getISBNArea());
+
+		return isbnPanel;
+	}
+
 	private JPanel createSinopsePanel() {
 		JPanel sinopsePanel = new JPanel();
 		JLabel sinopseLabel = this.createLabel("Sinopse");
@@ -215,6 +258,7 @@ extends JFrame {
 
 		sinopsePanel.setLayout(new BoxLayout(sinopsePanel, BoxLayout.X_AXIS));
 		sinopsePanel.add(sinopseLabel);
+		System.out.println("Added Label");
 		sinopsePanel.add(Box.createRigidArea(new Dimension(10,0)));
 		sinopsePanel.add(this.getSinopseArea());
 
@@ -240,6 +284,8 @@ extends JFrame {
 		panel.add(Box.createRigidArea(new Dimension(0,10)));
 		panel.add(this.createAuthorPanel());
 		panel.add(Box.createRigidArea(new Dimension(0,10)));
+		panel.add(this.createISBNPanel());
+		panel.add(Box.createRigidArea(new Dimension(0,10)));
 		panel.add(this.createSinopsePanel());
 		panel.add(Box.createRigidArea(new Dimension(0,10)));
 		panel.add(this.createButtonPanel());
@@ -250,7 +296,7 @@ extends JFrame {
 	private void initUI() {
 		this.add(this.createLayout());
 		this.setTitle("Book");
-		this.setSize(400,220);
+		this.setSize(400,320);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}

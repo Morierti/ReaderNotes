@@ -65,12 +65,21 @@ extends AbstractXMLObjectBuilder {
 		return sinopseElement;
 	}
 
+	public Element createISBNElement() {
+		Element isbnElement = new Element("ISBN");
+
+		isbnElement.setText(this.getBook().getISBN());
+
+		return isbnElement;
+	}
+
 	public void buildXMLObject() {
 		Element bookElement = new Element("Book");
 
         bookElement.addContent(this.createTitleElement());
 		bookElement.addContent(this.createAuthorElement());
 		bookElement.addContent(this.createSinopseElement());
+		bookElement.addContent(this.createISBNElement());
 
 		this.setXMLObject(bookElement);
 	}
@@ -82,7 +91,8 @@ extends AbstractXMLObjectBuilder {
 		Book book = new Book(
 							bookElement.getChild("Title").getText(),
 							bookElement.getChild("Author").getText(),
-							bookElement.getChild("Sinopse").getText()
+							bookElement.getChild("Sinopse").getText(),
+							bookElement.getChild("ISBN").getText()
 						);
 		return book;
 	}

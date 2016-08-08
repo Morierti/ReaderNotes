@@ -47,6 +47,7 @@ extends JFrame {
 	private JScrollPane _titleArea;
 	private JScrollPane _authorArea;
 	private JScrollPane _sinopseArea;
+	private JScrollPane _isbnArea;
 
 	public NewBookForm() {
 		this.initUI();
@@ -77,6 +78,14 @@ extends JFrame {
 		return _sinopseArea;
 	}
 
+	private void setISBNArea(JScrollPane isbnArea) {
+		_isbnArea = isbnArea;
+	}
+
+	private JScrollPane getISBNArea() {
+		return _isbnArea;
+	}
+
 	private JButton createSaveButton() {
 		JButton saveButton = new JButton("Save");
 
@@ -85,16 +94,21 @@ extends JFrame {
 			public void actionPerformed(ActionEvent event) {
 				try {
 					Library library = Library.getInstance();
+
 					JViewport titleViewport = getTitleArea().getViewport();
 					JViewport authorViewport = getAuthorArea().getViewport();
 					JViewport sinopseViewport = getSinopseArea().getViewport();
+					JViewport isbnViewport = getISBNArea().getViewport();
+
 					JTextArea titleArea = (JTextArea) titleViewport.getView();
 					JTextArea authorArea = (JTextArea) authorViewport.getView();
 					JTextArea sinopseArea = (JTextArea) sinopseViewport.getView();
+					JTextArea isbnArea = (JTextArea) isbnViewport.getView();
 
 					library.addBook(new Book(titleArea.getText().trim(),
 											authorArea.getText().trim(),
-											sinopseArea.getText().trim()));
+											sinopseArea.getText().trim(),
+											isbnArea.getText().trim()));
 
 					//Update List on Main Window
 					MainWindow.getInstance().updateBookList();
@@ -148,6 +162,19 @@ extends JFrame {
 		return scrollPane;
 	}
 
+	private JScrollPane createISBNArea() {
+		JTextArea isbnArea = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(isbnArea);
+
+		isbnArea.setLineWrap(true);
+		isbnArea.setWrapStyleWord(true);
+
+		scrollPane.setPreferredSize(new Dimension(300,20));
+		scrollPane.setMaximumSize(new Dimension(2000,20));
+
+		return scrollPane;
+	}
+
 	private JLabel createNewLabel(String name) {
 		JLabel newLabel = new JLabel(name);
 
@@ -185,6 +212,20 @@ extends JFrame {
 		return authorPanel;
 	}
 
+	private JPanel createISBNPanel() {
+		JPanel isbnPanel = new JPanel();
+		JLabel isbnLabel = this.createNewLabel("ISBN");
+
+		this.setISBNArea(this.createISBNArea());
+
+		isbnPanel.setLayout(new BoxLayout(isbnPanel, BoxLayout.X_AXIS));
+		isbnPanel.add(isbnLabel);
+		isbnPanel.add(Box.createRigidArea(new Dimension(36,0)));
+		isbnPanel.add(this.getISBNArea());
+
+		return isbnPanel;
+	}
+
 	private JPanel createSinopsePanel() {
 		JPanel sinopsePanel = new JPanel();
 		JLabel sinopseLabel = this.createNewLabel("Sinopse");
@@ -218,6 +259,8 @@ extends JFrame {
 		panel.add(Box.createRigidArea(new Dimension(0,10)));
 		panel.add(this.createAuthorPanel());
 		panel.add(Box.createRigidArea(new Dimension(0,10)));
+		panel.add(this.createISBNPanel());
+		panel.add(Box.createRigidArea(new Dimension(0,10)));
 		panel.add(this.createSinopsePanel());
 		panel.add(Box.createRigidArea(new Dimension(0,10)));
 		panel.add(this.createButtonPanel());
@@ -228,7 +271,7 @@ extends JFrame {
 	private void initUI() {
 		this.add(this.createLayout());
 		this.setTitle("New Book");
-		this.setSize(400,220);
+		this.setSize(400,320);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
