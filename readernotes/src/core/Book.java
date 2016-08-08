@@ -26,23 +26,24 @@ public class Book {
     private String _author;
     private String _sinopse;
     private String _isbn;
+    private String _subject;
     public static final String DEFAULT_VALUE = "DEFAULT";
 
     public Book(String title, String author)
     throws
     EmptyTitleException,
     EmptyAuthorException {
-        this(title, author, Book.DEFAULT_VALUE, Book.DEFAULT_VALUE);
+        this(title, author, Book.DEFAULT_VALUE, Book.DEFAULT_VALUE, Book.DEFAULT_VALUE);
     }
 
-    public Book(String title, String author, String sinopse, String isbn)
+    public Book(String title, String author, String sinopse, String isbn, String subject)
     throws
     EmptyTitleException,
     EmptyAuthorException {
-        this.init(title, author, sinopse, isbn);
+        this.init(title, author, sinopse, isbn, subject);
     }
 
-    private void init(String title, String author, String sinopse, String isbn)
+    private void init(String title, String author, String sinopse, String isbn, String subject)
     throws
     EmptyTitleException,
     EmptyAuthorException {
@@ -50,6 +51,7 @@ public class Book {
         this.setAuthor(author);
         this.setSinopse(sinopse);
         this.setISBN(isbn);
+        this.setSubject(subject);
     }
 
     public void setTitle(String title)
@@ -94,6 +96,14 @@ public class Book {
 
     public String getISBN() {
         return _isbn;
+    }
+
+    public void setSubject(String subject) {
+        _subject = subject;
+    }
+
+    public String getSubject() {
+        return _subject;
     }
 
     public boolean verifyIfEmpty(String value) {

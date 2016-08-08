@@ -57,12 +57,12 @@ extends AbstractXMLObjectBuilder {
 		return authorElement;
 	}
 
-	public Element createSinopseElement() {
-		Element sinopseElement = new Element("Sinopse");
+	public Element createSubjectElement() {
+		Element subjectElement = new Element("Subject");
 
-		sinopseElement.setText(this.getBook().getSinopse());
+		subjectElement.setText(this.getBook().getSubject());
 
-		return sinopseElement;
+		return subjectElement;
 	}
 
 	public Element createISBNElement() {
@@ -73,13 +73,22 @@ extends AbstractXMLObjectBuilder {
 		return isbnElement;
 	}
 
+	public Element createSinopseElement() {
+		Element sinopseElement = new Element("Sinopse");
+
+		sinopseElement.setText(this.getBook().getSinopse());
+
+		return sinopseElement;
+	}
+
 	public void buildXMLObject() {
 		Element bookElement = new Element("Book");
 
         bookElement.addContent(this.createTitleElement());
 		bookElement.addContent(this.createAuthorElement());
-		bookElement.addContent(this.createSinopseElement());
 		bookElement.addContent(this.createISBNElement());
+		bookElement.addContent(this.createSubjectElement());
+		bookElement.addContent(this.createSinopseElement());
 
 		this.setXMLObject(bookElement);
 	}
@@ -91,8 +100,9 @@ extends AbstractXMLObjectBuilder {
 		Book book = new Book(
 							bookElement.getChild("Title").getText(),
 							bookElement.getChild("Author").getText(),
-							bookElement.getChild("Sinopse").getText(),
-							bookElement.getChild("ISBN").getText()
+							bookElement.getChild("ISBN").getText(),
+							bookElement.getChild("Subject").getText(),
+							bookElement.getChild("Sinopse").getText()
 						);
 		return book;
 	}

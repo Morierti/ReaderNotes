@@ -46,8 +46,9 @@ extends JFrame {
 	private Book _book;
 	private JScrollPane _titleArea;
 	private JScrollPane _authorArea;
-	private JScrollPane _sinopseArea;
 	private JScrollPane _isbnArea;
+	private JScrollPane _subjectArea;
+	private JScrollPane _sinopseArea;
 
 	public BookForm(String bookTitle) {
 		this.setBook(bookTitle);
@@ -71,20 +72,28 @@ extends JFrame {
 		return _authorArea;
 	}
 
-	private void setSinopseArea(JScrollPane sinopseArea) {
-		_sinopseArea = sinopseArea;
-	}
-
-	private JScrollPane getSinopseArea() {
-		return _sinopseArea;
-	}
-
 	private void setISBNArea(JScrollPane isbnArea) {
 		_isbnArea = isbnArea;
 	}
 
 	private JScrollPane getISBNArea() {
 		return _isbnArea;
+	}
+
+	private void setSubjectArea(JScrollPane subjectArea) {
+		_subjectArea = subjectArea;
+	}
+
+	private JScrollPane getSubjectArea() {
+		return _subjectArea;
+	}
+
+	private void setSinopseArea(JScrollPane sinopseArea) {
+		_sinopseArea = sinopseArea;
+	}
+
+	private JScrollPane getSinopseArea() {
+		return _sinopseArea;
 	}
 
 	private void setBook(String bookTitle) {
@@ -151,6 +160,20 @@ extends JFrame {
 		return scrollPane;
 	}
 
+	private JScrollPane createSubjectArea() {
+		JTextArea subjectArea = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(subjectArea);
+
+		subjectArea.setText(this.getBook().getSubject());
+		subjectArea.setLineWrap(true);
+		subjectArea.setWrapStyleWord(true);
+
+		scrollPane.setPreferredSize(new Dimension(300,20));
+		scrollPane.setMaximumSize(new Dimension(2000,20));
+
+		return scrollPane;
+	}
+
 	private JScrollPane createSinopseArea() {
 		JTextArea sinopseArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(sinopseArea);
@@ -173,13 +196,15 @@ extends JFrame {
 			//Some calls are for the BookForm Class.
 			JViewport titleViewport = getTitleArea().getViewport();
 			JViewport authorViewport = getAuthorArea().getViewport();
-			JViewport sinopseViewport = getSinopseArea().getViewport();
 			JViewport isbnViewport = getISBNArea().getViewport();
+			JViewport subjectViewport = getSubjectArea().getViewport();
+			JViewport sinopseViewport = getSinopseArea().getViewport();
 
 			JTextArea titleArea = (JTextArea) titleViewport.getView();
 			JTextArea authorArea = (JTextArea) authorViewport.getView();
-			JTextArea sinopseArea = (JTextArea) sinopseViewport.getView();
 			JTextArea isbnArea = (JTextArea) isbnViewport.getView();
+			JTextArea subjectArea = (JTextArea) subjectViewport.getView();
+			JTextArea sinopseArea = (JTextArea) sinopseViewport.getView();
 
 				try {
 					Book book = getBook();
@@ -194,6 +219,9 @@ extends JFrame {
 					}
 					if (isbnArea.getText() != null) {
 						book.setISBN(isbnArea.getText().trim());
+					}
+					if (subjectArea.getText() != null) {
+						book.setSubject(subjectArea.getText().trim());
 					}
 
 				} catch (EmptyTitleException
@@ -250,6 +278,20 @@ extends JFrame {
 		return isbnPanel;
 	}
 
+	private JPanel createSubjectPanel() {
+		JPanel subjectPanel = new JPanel();
+		JLabel subjectLabel = this.createLabel("Subject");
+
+		this.setSubjectArea(this.createSubjectArea());
+
+		subjectPanel.setLayout(new BoxLayout(subjectPanel, BoxLayout.X_AXIS));
+		subjectPanel.add(subjectLabel);
+		subjectPanel.add(Box.createRigidArea(new Dimension(16,0)));
+		subjectPanel.add(this.getSubjectArea());
+
+		return subjectPanel;
+	}
+
 	private JPanel createSinopsePanel() {
 		JPanel sinopsePanel = new JPanel();
 		JLabel sinopseLabel = this.createLabel("Sinopse");
@@ -285,6 +327,8 @@ extends JFrame {
 		panel.add(this.createAuthorPanel());
 		panel.add(Box.createRigidArea(new Dimension(0,10)));
 		panel.add(this.createISBNPanel());
+		panel.add(Box.createRigidArea(new Dimension(0,10)));
+		panel.add(this.createSubjectPanel());
 		panel.add(Box.createRigidArea(new Dimension(0,10)));
 		panel.add(this.createSinopsePanel());
 		panel.add(Box.createRigidArea(new Dimension(0,10)));
