@@ -45,7 +45,7 @@ implements ItemListener {
     public static final String READING_FILE = "Reading File";
     private JScrollPane _titleArea;
     private String _searchParameter;
-    private JButton _seeObjectButton;
+    private JButton _SearchButton;
 
     public SearchWindow() {
         this.initUI();
@@ -69,12 +69,12 @@ implements ItemListener {
         return _searchParameter;
     }
 
-    private void setSeeObjectButton(JButton value) {
-        _seeObjectButton = value;
+    private void setSearchButton(JButton value) {
+        _SearchButton = value;
     }
 
-    private JButton getSeeObjectButton() {
-        return _seeObjectButton;
+    private JButton getSearchButton() {
+        return _SearchButton;
     }
 
     private JLabel createNewLabel(String value) {
@@ -100,10 +100,9 @@ implements ItemListener {
     public void itemStateChanged(ItemEvent event) {
         if(event.getStateChange() == ItemEvent.SELECTED) {
             String selectedValue = event.getItem().toString();
-            System.out.println(selectedValue);
 
             this.setSearchParameter(selectedValue);
-            this.getSeeObjectButton().setText("See " + selectedValue);
+            this.getSearchButton().setText("Search");
         }
     }
 
@@ -116,7 +115,7 @@ implements ItemListener {
         return selectionList;
     }
 
-    private JButton createSeeObjectButton() {
+    private JButton createSearchButton() {
         JButton button = new JButton("See Book");
 
         button.addActionListener(new ActionListener() {
@@ -133,7 +132,7 @@ implements ItemListener {
             }
         });
 
-        this.setSeeObjectButton(button);
+        this.setSearchButton(button);
         return button;
     }
 
@@ -154,7 +153,7 @@ implements ItemListener {
 
         lowerPanel.add(this.createJComboBox());
         lowerPanel.add(Box.createHorizontalGlue());
-        lowerPanel.add(this.createSeeObjectButton());
+        lowerPanel.add(this.createSearchButton());
 
         panel.add(upperPanel);
         panel.add(Box.createRigidArea(new Dimension(0,20)));
