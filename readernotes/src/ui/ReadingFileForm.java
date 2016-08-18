@@ -43,6 +43,7 @@ public class ReadingFileForm extends JFrame {
 	private ReadingFile _readingFile;
 	private JScrollPane _titleArea;
 	private JScrollPane _bookTitleArea;
+	private JScrollPane _subjectArea;
 	private JScrollPane _contentArea;
 
 	public ReadingFileForm(String title) {
@@ -65,6 +66,14 @@ public class ReadingFileForm extends JFrame {
 
 	private JScrollPane getBookTitleArea() {
 		return _bookTitleArea;
+	}
+
+	private void setSubjectArea(JScrollPane subjectArea) {
+		_subjectArea = subjectArea;
+	}
+
+	private JScrollPane getSubjectArea() {
+		return _subjectArea;
 	}
 
 	private void setContentArea(JScrollPane contentArea) {
@@ -123,6 +132,20 @@ public class ReadingFileForm extends JFrame {
 		return scrollPane;
 	}
 
+	private JScrollPane createSubjectArea() {
+		JTextArea subjectArea = new JTextArea();
+		JScrollPane scrollPane = new JScrollPane(subjectArea);
+
+		subjectArea.setText(this.getReadingFile().getSubject());
+		subjectArea.setLineWrap(true);
+		subjectArea.setWrapStyleWord(true);
+
+		scrollPane.setPreferredSize(new Dimension(250,20));
+		scrollPane.setMaximumSize(new Dimension(2000,20));
+
+		return scrollPane;
+	}
+
 	private JScrollPane createContentArea() {
 		JTextArea contentArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(contentArea);
@@ -145,10 +168,12 @@ public class ReadingFileForm extends JFrame {
 				//Some calls are for ReadingFileFrom class.
 				JViewport titleViewport = getTitleArea().getViewport();
 				JViewport bookTitleViewport = getBookTitleArea().getViewport();
+				JViewport subjectViewport = getSubjectArea().getViewport();
 				JViewport contentViewport = getContentArea().getViewport();
 
 				JTextArea title = (JTextArea) titleViewport.getView();
 				JTextArea bookTitle = (JTextArea) bookTitleViewport.getView();
+				JTextArea subject = (JTextArea) subjectViewport.getView();
 				JTextArea content = (JTextArea) contentViewport.getView();
 
 				try {
@@ -158,6 +183,9 @@ public class ReadingFileForm extends JFrame {
 					}
 					if (bookTitle.getText() != null) {
 						readingFile.setBookTitle(bookTitle.getText().trim());
+					}
+					if (subject.getText() != null) {
+						readingFile.setSubject(subject.getText().trim());
 					}
 					if (content.getText() != null) {
 						readingFile.setContent(content.getText().trim());
@@ -199,6 +227,20 @@ public class ReadingFileForm extends JFrame {
 		return bookTitlePanel;
 	}
 
+	private JPanel createSubjectPanel() {
+		JPanel subjectPanel = new JPanel();
+		JLabel label = this.createNewLabel("Subject");
+
+		this.setSubjectArea(this.createSubjectArea());
+
+		subjectPanel.setLayout(new BoxLayout(subjectPanel, BoxLayout.X_AXIS));
+		subjectPanel.add(label);
+		subjectPanel.add(Box.createRigidArea(new Dimension(27,0)));
+		subjectPanel.add(this.getSubjectArea());
+
+		return subjectPanel;
+	}
+
 	private JPanel createContentPanel() {
 		JPanel contentPanel = new JPanel();
 		JPanel auxPanel = new JPanel();
@@ -236,6 +278,8 @@ public class ReadingFileForm extends JFrame {
 		panel.add(this.createTitlePanel());
 		panel.add(Box.createRigidArea(new Dimension(0,10)));
 		panel.add(this.createBookTitlePanel());
+		panel.add(Box.createRigidArea(new Dimension(0,10)));
+		panel.add(this.createSubjectPanel());
 		panel.add(Box.createRigidArea(new Dimension(0,10)));
 		panel.add(this.createContentPanel());
 		panel.add(Box.createRigidArea(new Dimension(0,10)));

@@ -56,6 +56,14 @@ extends AbstractXMLObjectBuilder {
         return bookTitle;
 	}
 
+    public Element createSubjectElement() {
+        Element subject = new Element("Subject");
+
+        subject.setText(this.getReadingFile().getSubject());
+
+        return subject;
+    }
+
 	public Element createContentElement() {
 		Element content = new Element("Content");
 
@@ -69,6 +77,7 @@ extends AbstractXMLObjectBuilder {
 
         readingFileElement.addContent(this.createTitleElement());
         readingFileElement.addContent(this.createBookTitleElement());
+        readingFileElement.addContent(this.createSubjectElement());
         readingFileElement.addContent(this.createContentElement());
 
         this.setXMLObject(readingFileElement);
@@ -80,6 +89,7 @@ extends AbstractXMLObjectBuilder {
         ReadingFile readingFile = new ReadingFile(
                                         readingFileElement.getChild("Title").getText(),
                                         readingFileElement.getChild("Book_Title").getText(),
+                                        readingFileElement.getChild("Subject").getText(),
                                         readingFileElement.getChild("Content").getText()
                                     );
 

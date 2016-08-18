@@ -23,26 +23,28 @@ import readernotes.src.exceptions.EmptyTitleException;
 public class ReadingFile {
     private String _title;
     private String _bookTitle;
+    private String _subject;
     private String _content;
     public static final String DEFAULT_VALUE = "DEFAULT";
 
     public ReadingFile(String title, String bookTitle)
     throws
     EmptyTitleException {
-        this(title, bookTitle, ReadingFile.DEFAULT_VALUE);
+        this(title, bookTitle, ReadingFile.DEFAULT_VALUE, ReadingFile.DEFAULT_VALUE);
     }
 
-    public ReadingFile(String title, String bookTitle, String content)
+    public ReadingFile(String title, String bookTitle, String subject, String content)
     throws
     EmptyTitleException {
-        this.init(title, bookTitle, content);
+        this.init(title, bookTitle, content, ReadingFile.DEFAULT_VALUE);
     }
 
-    private void init(String title, String bookTitle, String content)
+    private void init(String title, String bookTitle,  String subject, String content)
     throws
     EmptyTitleException {
         this.setTitle(title);
         this.setBookTitle(bookTitle);
+        this.setSubject(subject);
         this.setContent(content);
     }
 
@@ -72,6 +74,14 @@ public class ReadingFile {
 
     public String getBookTitle() {
         return _bookTitle;
+    }
+
+    public void setSubject(String subject) {
+        _subject = subject;
+    }
+
+    public String getSubject() {
+        return _subject;
     }
 
     public void setContent(String content) {
