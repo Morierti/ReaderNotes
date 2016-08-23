@@ -36,7 +36,7 @@ public class ReadingFile {
     public ReadingFile(String title, String bookTitle, String subject, String content)
     throws
     EmptyTitleException {
-        this.init(title, bookTitle, content, ReadingFile.DEFAULT_VALUE);
+        this.init(title, bookTitle, subject, content);
     }
 
     private void init(String title, String bookTitle,  String subject, String content)
