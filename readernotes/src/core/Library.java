@@ -20,6 +20,7 @@ package readernotes.src.core;
 
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Set;
 import org.jdom2.JDOMException;
 import java.io.IOException;
 import readernotes.src.database.IOManager;
@@ -100,21 +101,27 @@ public class Library {
         bookDatabase.remove(bookTitle);
     }
 
-    public Book getBook(String bookTitle)
+    public Book getBook(String bookID)
     throws
     InexistentBookException {
         Map<String,Book> bookDatabase = this.getBookDB();
-        System.out.println(bookTitle);
-        if (bookDatabase.containsKey(bookTitle)) {
-            return bookDatabase.get(bookTitle);
+        System.out.println(bookID);
+        if (bookDatabase.containsKey(bookID)) {
+            return bookDatabase.get(bookID);
         } else {
-            throw new InexistentBookException();
-        }
-    }
+            Set<String> bookTitles = bookDatabase.keySet();
+            Book iterator = null;
 
-    // SEARCH FOR BOOKS WITH MULTIPLE PARAMETERS
-    public Map<String,Book> findBook(String bookID) {
-        return null;
+            for (String title : bookTitles) {
+                iterator = bookDatabase.get(title);
+                if (bookID.equals(iterator.getAuthor())
+                    || bookID.equals(iterator.getISBN())
+                    || bookID.equals(iterator.getSubject())) {
+                        return iterator;
+                }
+            }
+        }
+        throw new InexistentBookException();
     }
 
     public void addReadingFile(ReadingFile newReadingFile)
@@ -135,23 +142,28 @@ public class Library {
         readingFileDatabase.remove(title);
     }
 
-    public ReadingFile getReadingFile(String readingFileTitle)
+    public ReadingFile getReadingFile(String readingFileID)
     throws
     InexistentReadingFileException {
         Map<String, ReadingFile> readingFileDatabase = this.getReadingFileDB();
 
-        if (!readingFileDatabase.containsKey(readingFileTitle)) {
-            throw new InexistentReadingFileException();
+        if (readingFileDatabase.containsKey(readingFileID)) {
+            return readingFileDatabase.get(readingFileID);
         } else {
-            return readingFileDatabase.get(readingFileTitle);
+            Set<String> readingFiles = readingFileDatabase.keySet();
+            ReadingFile iterator = null;
+
+            for (String title : readingFiles) {
+                iterator = readingFileDatabase.get(title);
+                if (readingFileID.equals(iterator.getBookTitle())
+                    || readingFileID.equals(iterator.getSubject())) {
+                        return iterator;
+                    }
+            }
         }
+        throw new InexistentReadingFileException();
     }
-
-    //SEARCH FOR READING FILE WITH MULTIPLE PARAMETERS
-    public Map<String, ReadingFile> findReadingFile(String readingFileID) {
-        return null;
-    }
-
+    
 	public void storeBookDatabase() {
 		try {
 			IOManager.getInstance().writeBookDatabaseDocument();

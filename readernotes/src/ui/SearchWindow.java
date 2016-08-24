@@ -98,12 +98,7 @@ implements ItemListener {
 
     @Override
     public void itemStateChanged(ItemEvent event) {
-        if(event.getStateChange() == ItemEvent.SELECTED) {
-            String selectedValue = event.getItem().toString();
-
-            this.setSearchParameter(selectedValue);
-            this.getSearchButton().setText("Search");
-        }
+        // Leave it like this. 
     }
 
     private JComboBox<String> createJComboBox() {
@@ -116,7 +111,7 @@ implements ItemListener {
     }
 
     private JButton createSearchButton() {
-        JButton button = new JButton("See Book");
+        JButton button = new JButton("Search");
 
         button.addActionListener(new ActionListener() {
             @Override
@@ -139,7 +134,7 @@ implements ItemListener {
     private void createLayout(JPanel panel) {
         JPanel upperPanel = new JPanel();
         JPanel lowerPanel = new JPanel();
-        JLabel titleLabel = this.createNewLabel("Title");
+        JLabel titleLabel = this.createNewLabel("Item ID");
 
         upperPanel.setLayout(new BoxLayout(upperPanel, BoxLayout.X_AXIS));
         lowerPanel.setLayout(new BoxLayout(lowerPanel, BoxLayout.X_AXIS));

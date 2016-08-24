@@ -43,7 +43,7 @@ public class Book {
         this.init(title, author, sinopse, isbn, subject);
     }
 
-    private void init(String title, String author, String sinopse, String isbn, String subject)
+    private void init(String title, String author, String isbn, String subject, String sinopse)
     throws
     EmptyTitleException,
     EmptyAuthorException {
