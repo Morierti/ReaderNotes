@@ -98,7 +98,8 @@ implements ItemListener {
 
     @Override
     public void itemStateChanged(ItemEvent event) {
-        // Leave it like this.
+        setSearchParameter((String) event.getItem());
+        System.out.println("Search Parameter: " + this.getSearchParameter());
     }
 
     private JComboBox<String> createJComboBox() {
