@@ -109,19 +109,37 @@ public class Library {
         if (bookDatabase.containsKey(bookID)) {
             return bookDatabase.get(bookID);
         } else {
-            Set<String> bookTitles = bookDatabase.keySet();
-            Book iterator = null;
+            throw new InexistentBookException();
+        }
+    }
 
-            for (String title : bookTitles) {
-                iterator = bookDatabase.get(title);
-                if (bookID.equals(iterator.getAuthor())
-                    || bookID.equals(iterator.getISBN())
-                    || bookID.equals(iterator.getSubject())) {
-                        return iterator;
-                }
+    public Map<String, Book> getAllMatchingBooks(String bookID)
+    throws
+    InexistentBookException {
+        Map<String, Book> matchingBooks = new TreeMap<String, Book>();
+        Map<String, Book> bookDatabase = this.getBookDB();
+        Set<String> bookTitles = bookDatabase.keySet();
+        Book iterator = null;
+
+        for (String title : bookTitles) {
+            iterator = bookDatabase.get(title);
+            if (this.matchesBookID(bookID, iterator)) {
+                matchingBooks.put(title, iterator);
             }
         }
-        throw new InexistentBookException();
+
+        if (matchingBooks.isEmpty()) {
+            throw new InexistentBookException();
+        }
+
+        return matchingBooks;
+    }
+
+    public boolean matchesBookID(String bookID, Book book) {
+        return bookID.equals(book.getTitle())
+                || bookID.equals(book.getAuthor())
+                || bookID.equals(book.getISBN())
+                || bookID.equals(book.getSubject());
     }
 
     public void addReadingFile(ReadingFile newReadingFile)
@@ -163,7 +181,35 @@ public class Library {
         }
         throw new InexistentReadingFileException();
     }
-    
+
+    public Map<String, ReadingFile> getAllMatchingReadingFiles(String rfID)
+    throws
+    InexistentReadingFileException {
+        Map<String, ReadingFile> matchingReadingFiles = new TreeMap<String, ReadingFile>();
+        Map<String, ReadingFile> readingFileDatabase = this.getReadingFileDB();
+        Set<String> titles = readingFileDatabase.keySet();
+        ReadingFile iterator = null;
+
+        for (String title : titles) {
+            iterator = readingFileDatabase.get(title);
+            if (this.matchesReadingFileID(rfID, iterator)) {
+                matchingReadingFiles.put(title, iterator);
+            }
+        }
+
+        if (matchingReadingFiles.isEmpty()) {
+            throw new InexistentReadingFileException();
+        }
+
+        return matchingReadingFiles;
+    }
+
+    public boolean matchesReadingFileID(String rfID, ReadingFile comparator) {
+        return rfID.equals(comparator.getTitle())
+                || rfID.equals(comparator.getBookTitle())
+                || rfID.equals(comparator.getSubject());
+    }
+
 	public void storeBookDatabase() {
 		try {
 			IOManager.getInstance().writeBookDatabaseDocument();

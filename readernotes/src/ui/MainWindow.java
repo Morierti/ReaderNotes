@@ -116,8 +116,7 @@ extends JFrame {
 		Set<String> keySet = bookDatabase.keySet();
 
 		for (String key : keySet) {
-			Book book = bookDatabase.get(key);
-			listModel.addElement(book.getTitle());
+			listModel.addElement(key);
 		}
 
 		return listModel;
@@ -129,8 +128,7 @@ extends JFrame {
 		Set<String> keySet = readingFileDatabase.keySet();
 
 		for (String key : keySet) {
-			ReadingFile readingFile = readingFileDatabase.get(key);
-			listModel.addElement(readingFile.getTitle());
+			listModel.addElement(key);
 		}
 
 		return listModel;

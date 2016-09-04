@@ -43,9 +43,9 @@ extends JFrame
 implements ItemListener {
     public static final String BOOK = "Book";
     public static final String READING_FILE = "Reading File";
-    private JScrollPane _titleArea;
+    private JScrollPane _itemIDArea;
     private String _searchParameter;
-    private JButton _SearchButton;
+    private JButton _searchButton;
 
     public SearchWindow() {
         this.initUI();
@@ -53,12 +53,12 @@ implements ItemListener {
         this.setVisible(true);
     }
 
-    private void setTitleArea(JScrollPane titleArea) {
-        _titleArea = titleArea;
+    private void setItemIDArea(JScrollPane itemIDArea) {
+        _itemIDArea = itemIDArea;
     }
 
-    private JScrollPane getTitleArea() {
-        return _titleArea;
+    private JScrollPane getItemIDArea() {
+        return _itemIDArea;
     }
 
     private void setSearchParameter(String value) {
@@ -70,11 +70,11 @@ implements ItemListener {
     }
 
     private void setSearchButton(JButton value) {
-        _SearchButton = value;
+        _searchButton = value;
     }
 
     private JButton getSearchButton() {
-        return _SearchButton;
+        return _searchButton;
     }
 
     private JLabel createNewLabel(String value) {
@@ -85,20 +85,20 @@ implements ItemListener {
         return label;
     }
 
-    private JScrollPane createTitleArea() {
-        JTextArea titleArea = new JTextArea();
-        JScrollPane scrollPane = new JScrollPane(titleArea);
+    private JScrollPane createItemIDArea() {
+        JTextArea itemIDArea = new JTextArea();
+        JScrollPane scrollPane = new JScrollPane(itemIDArea);
 
-        titleArea.setLineWrap(true);
-        titleArea.setWrapStyleWord(true);
-        titleArea.setPreferredSize(new Dimension(110,20));
+        itemIDArea.setLineWrap(true);
+        itemIDArea.setWrapStyleWord(true);
+        itemIDArea.setPreferredSize(new Dimension(110,20));
 
         return scrollPane;
     }
 
     @Override
     public void itemStateChanged(ItemEvent event) {
-        // Leave it like this. 
+        // Leave it like this.
     }
 
     private JComboBox<String> createJComboBox() {
@@ -116,14 +116,10 @@ implements ItemListener {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JViewport viewport = getTitleArea().getViewport();
-                JTextArea titleArea = (JTextArea) viewport.getView();
+                JViewport viewport = getItemIDArea().getViewport();
+                JTextArea itemIDArea = (JTextArea) viewport.getView();
 
-                if (getSearchParameter() == BOOK) {
-                    new BookForm(titleArea.getText().trim());
-                } else {
-                    new ReadingFileForm(titleArea.getText().trim());
-                }
+                new SearchResultWindow(itemIDArea.getText().trim(), getSearchParameter());
             }
         });
 
@@ -139,11 +135,11 @@ implements ItemListener {
         upperPanel.setLayout(new BoxLayout(upperPanel, BoxLayout.X_AXIS));
         lowerPanel.setLayout(new BoxLayout(lowerPanel, BoxLayout.X_AXIS));
 
-        this.setTitleArea(this.createTitleArea());
+        this.setItemIDArea(this.createItemIDArea());
 
         upperPanel.add(titleLabel);
         upperPanel.add(Box.createRigidArea(new Dimension(10,0)));
-        upperPanel.add(this.getTitleArea());
+        upperPanel.add(this.getItemIDArea());
         upperPanel.add(Box.createRigidArea(new Dimension(5,0)));
 
         lowerPanel.add(this.createJComboBox());
