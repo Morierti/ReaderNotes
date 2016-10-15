@@ -87,11 +87,11 @@ extends AbstractXMLObjectBuilder {
     throws
     EmptyTitleException {
         ReadingFile readingFile = new ReadingFile(
-                                        readingFileElement.getChild("Title").getText(),
-                                        readingFileElement.getChild("Book_Title").getText(),
-                                        readingFileElement.getChild("Subject").getText(),
-                                        readingFileElement.getChild("Content").getText()
-                                    );
+            readingFileElement.getChild("Title").getText(),
+            readingFileElement.getChild("Book_Title").getText(),
+            readingFileElement.getChild("Subject").getText(),
+            readingFileElement.getChild("Content").getText()
+        );
 
         return readingFile;
     }

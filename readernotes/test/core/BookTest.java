@@ -110,7 +110,7 @@ public class BookTest {
         Book newBook = new Book(TITLE_SUCCESS, AUTHOR_SUCCESS);
         newBook.setSinopse(EMPTY_SINOPSE);
 
-        assertEquals(DEFAULT, newBook.getSinopse());
+        assertEquals(EMPTY_SINOPSE, newBook.getSinopse());
     }
 
     //Null Sinopse
@@ -122,6 +122,6 @@ public class BookTest {
         Book newBook = new Book(TITLE_SUCCESS, AUTHOR_SUCCESS);
         newBook.setSinopse(NULL_SINOPSE);
 
-        assertEquals(DEFAULT, newBook.getSinopse());
+        assertEquals(NULL_SINOPSE, newBook.getSinopse());
     }
 }

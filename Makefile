@@ -24,8 +24,8 @@ run:
 #This is how to run junit from the jar package inside the project.
 test:
 	java -cp .:$(HAMCREST):$(JUNIT_PATH) $(JUNIT_EXEC) readernotes.test.core.BookTest
-	java -cp .:$(HAMCREST):$(JUNIT_PATH) $(JUNIT_EXEC) readernotes.test.core.SinteseTest
-	java -cp .:$(HAMCREST):$(JUNIT_PATH) $(JUNIT_EXEC) readernotes.test.core.ShellTest
+	java -cp .:$(HAMCREST):$(JUNIT_PATH) $(JUNIT_EXEC) readernotes.test.core.ReadingFileTest
+	java -cp .:$(HAMCREST):$(JUNIT_PATH) $(JUNIT_EXEC) readernotes.test.core.LibraryTest
 
 package-jar:
 	jar cvfm readernotes.jar manifest.txt `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) -name *.class`

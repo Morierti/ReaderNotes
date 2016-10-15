@@ -98,12 +98,12 @@ extends AbstractXMLObjectBuilder {
 	EmptyTitleException,
 	EmptyAuthorException {
 		Book book = new Book(
-							bookElement.getChild("Title").getText(),
-							bookElement.getChild("Author").getText(),
-							bookElement.getChild("ISBN").getText(),
-							bookElement.getChild("Subject").getText(),
-							bookElement.getChild("Sinopse").getText()
-						);
+			bookElement.getChild("Title").getText(),
+			bookElement.getChild("Author").getText(),
+			bookElement.getChild("ISBN").getText(),
+			bookElement.getChild("Subject").getText(),
+			bookElement.getChild("Sinopse").getText()
+		);
 		return book;
 	}
 
