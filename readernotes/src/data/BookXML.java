@@ -16,7 +16,7 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 **/
 
-package readernotes.src.database;
+package readernotes.src.data;
 
 import java.io.IOException;
 import org.jdom2.Document;
@@ -27,6 +27,12 @@ import readernotes.src.exceptions.EmptyAuthorException;
 
 public class BookXML
 extends AbstractXMLObjectBuilder {
+	public static final String BOOK = "Book";
+	public static final String TITLE = "Title";
+	public static final String AUTHOR = "Author";
+	public static final String SUBJECT = "Subject";
+	public static final String ISBN = "ISBN";
+	public static final String SINOPSE = "Sinopse";
 	private Book _book;
 
 	public BookXML(Book book) {
@@ -42,7 +48,7 @@ extends AbstractXMLObjectBuilder {
 	}
 
 	public Element createTitleElement() {
-		Element titleElement = new Element("Title");
+		Element titleElement = new Element(BookXML.TITLE);
 
 		titleElement.setText(this.getBook().getTitle());
 
@@ -50,7 +56,7 @@ extends AbstractXMLObjectBuilder {
 	}
 
 	public Element createAuthorElement() {
-		Element authorElement = new Element("Author");
+		Element authorElement = new Element(BookXML.AUTHOR);
 
 		authorElement.setText(this.getBook().getAuthor());
 
@@ -58,7 +64,7 @@ extends AbstractXMLObjectBuilder {
 	}
 
 	public Element createSubjectElement() {
-		Element subjectElement = new Element("Subject");
+		Element subjectElement = new Element(BookXML.SUBJECT);
 
 		subjectElement.setText(this.getBook().getSubject());
 
@@ -66,7 +72,7 @@ extends AbstractXMLObjectBuilder {
 	}
 
 	public Element createISBNElement() {
-		Element isbnElement = new Element("ISBN");
+		Element isbnElement = new Element(BookXML.SUBJECT);
 
 		isbnElement.setText(this.getBook().getISBN());
 
@@ -74,7 +80,7 @@ extends AbstractXMLObjectBuilder {
 	}
 
 	public Element createSinopseElement() {
-		Element sinopseElement = new Element("Sinopse");
+		Element sinopseElement = new Element(BookXML.SINOPSE);
 
 		sinopseElement.setText(this.getBook().getSinopse());
 
@@ -82,7 +88,7 @@ extends AbstractXMLObjectBuilder {
 	}
 
 	public void buildXMLObject() {
-		Element bookElement = new Element("Book");
+		Element bookElement = new Element(BookXML.BOOK);
 
         bookElement.addContent(this.createTitleElement());
 		bookElement.addContent(this.createAuthorElement());
@@ -98,11 +104,11 @@ extends AbstractXMLObjectBuilder {
 	EmptyTitleException,
 	EmptyAuthorException {
 		Book book = new Book(
-			bookElement.getChild("Title").getText(),
-			bookElement.getChild("Author").getText(),
-			bookElement.getChild("ISBN").getText(),
-			bookElement.getChild("Subject").getText(),
-			bookElement.getChild("Sinopse").getText()
+			bookElement.getChild(BookXML.TITLE).getText(),
+			bookElement.getChild(BookXML.AUTHOR).getText(),
+			bookElement.getChild(BookXML.ISBN).getText(),
+			bookElement.getChild(BookXML.SUBJECT).getText(),
+			bookElement.getChild(BookXML.SINOPSE).getText()
 		);
 		return book;
 	}

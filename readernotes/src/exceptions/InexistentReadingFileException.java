@@ -19,9 +19,10 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 package readernotes.src.exceptions;
 
 public class InexistentReadingFileException
-extends Exception {
+extends AbstractException {
     private String _message = "The Reading File does not exist.";
-
+	
+	@Override
     public String getMessage() {
         return _message;
     }

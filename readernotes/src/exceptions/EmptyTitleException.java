@@ -19,9 +19,10 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 package readernotes.src.exceptions;
 
 public class EmptyTitleException
-extends Exception {
+extends AbstractException {
     private static final String _errorMessage = "Please insert a title.";
-
+	
+	@Override
     public String getMessage() {
         return _errorMessage;
     }

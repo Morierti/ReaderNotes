@@ -4,7 +4,7 @@ UI	= readernotes/src/ui
 BASE = readernotes
 SRC = readernotes/src
 EXCEPTIONS = readernotes/src/exceptions
-DATABASE = readernotes/src/database
+DATABASE = readernotes/src/data
 CORE_TESTS = readernotes/test/core
 JUNIT_PATH=libs/junit-4.12.jar
 HAMCREST=libs/java-hamcrest-2.0.0.0.jar
@@ -54,7 +54,7 @@ package:
 clean:
 	rm readernotes/src/core/*.class
 	rm readernotes/src/exceptions/*.class
-	rm readernotes/src/database/*.class
+	rm readernotes/src/data/*.class
 	rm readernotes/src/ui/*.class
 	rm readernotes/src/ui/listeners/*.class
 	rm readernotes/test/core/*.class

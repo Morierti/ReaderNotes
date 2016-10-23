@@ -19,7 +19,7 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 package readernotes.src.exceptions;
 
 public class DoubleEntryException
-extends Exception {
+extends AbstractException {
     private String _title;
     private String _message = _title + " already exists!";
 
@@ -31,6 +31,7 @@ extends Exception {
         _title = title;
     }
 
+	@Override
     public String getMessage() {
         return _message;
     }

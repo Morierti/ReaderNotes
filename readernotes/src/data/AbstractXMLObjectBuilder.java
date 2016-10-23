@@ -16,7 +16,7 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 **/
 
-package readernotes.src.database;
+package readernotes.src.data;
 
 import java.io.IOException;
 import org.jdom2.Element;

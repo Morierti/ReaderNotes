@@ -23,7 +23,7 @@ import java.util.TreeMap;
 import java.util.Set;
 import org.jdom2.JDOMException;
 import java.io.IOException;
-import readernotes.src.database.IOManager;
+import readernotes.src.data.IOManager;
 import readernotes.src.exceptions.DoubleEntryException;
 import readernotes.src.exceptions.InexistentBookException;
 import readernotes.src.exceptions.InexistentReadingFileException;

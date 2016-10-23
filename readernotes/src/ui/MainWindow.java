@@ -136,7 +136,7 @@ extends JFrame {
 
     private void createNewReadingFileList(JPanel panel) {
 		final JList list = new JList(this.buildReadingFileListModel());
-
+	
 		JScrollPane scrollPane = new JScrollPane(list);
 		scrollPane.setPreferredSize(new Dimension(400,400));
 
