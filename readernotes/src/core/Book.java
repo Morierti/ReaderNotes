@@ -36,7 +36,7 @@ public class Book {
         this(title, author, Book.DEFAULT_VALUE, Book.DEFAULT_VALUE, Book.DEFAULT_VALUE);
     }
 
-    public Book(String title, String author, String sinopse, String isbn, String subject)
+    public Book(String title, String author, String isbn, String subject, String sinopse)
     throws
     EmptyTitleException,
     EmptyAuthorException {
