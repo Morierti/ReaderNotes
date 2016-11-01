@@ -1,0 +1,71 @@
+IDEAS
+
+- Having Several Diferent Libraries
+
+	NEW CLASSES
+		- LibraryManager.java (readernotes.src.core)
+		- LibraryIO.java (readernotes.src.database) (Old IOManager.java)
+	CHANGED CLASSES
+		- IOManager.java (To Deal with Several Libraries)
+	NEW FEATURES
+		- New Library
+		- Delete Library
+		- Edit Library
+
+--> The application should only load one library at a time, not allowing to
+hava multiple Libraries loaded in memory at the same time. 
+
+OPERATIONS
+
+DIRECTORY STRUCTURE
+
+- libs
+	- jdom-2.0.6
+	- java-hamcrest-2.0.0.0.jar
+	- junit-4.12.jar
+- readernotes
+	- src
+		- core
+			- Book.java
+			- Library.java
+			- ReadingFile.java
+		- database
+			- AbstractXMLObjectBuilder.java
+			- BookXML.java
+			- IOManager.java
+			- ReadingFileXML.java
+		- exceptions
+			- DoubleEntryException.java
+			- EmptyAuthorException.java
+			- EmptyTitleException.java
+			- InexistentBookException.java
+			- InexistentReadingFileException.java
+		- ui
+			- listeners
+				- MainWindowListener.java
+			- AboutWindow.java
+			- BookForm.java
+			- MainWindow.java
+			- NewBookForm.java
+			- NewReadingFile.java
+			- ReadingFileForm.java
+			- RemoveBookWindow.java
+			- RemoveReadingFileWindow.java
+			- SaveMessageWindow.java
+			- SearchResultWindow.java
+			- SearchWindow.java
+	- test
+		- core
+			- BookTest.java
+			- LibraryTest.java
+			- ReadingFileTest.java
+	- Shell.java
+- resources
+	- control
+	- readernotes.desktop
+	- readernotes_logo.png
+- LICENSE
+- Makefile
+- Manifest.txt
+- README.txt
+- Resources

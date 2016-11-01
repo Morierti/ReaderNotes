@@ -1,6 +1,7 @@
 #Makefile
 CORE = readernotes/src/core
 UI	= readernotes/src/ui
+USER = readernotes/src/user
 BASE = readernotes
 SRC = readernotes/src
 EXCEPTIONS = readernotes/src/exceptions
@@ -14,7 +15,7 @@ BUILD=readernotes-0.3.0
 BINARY=readernotes-0.3.0.deb
 
 all:
-	javac -cp $(JUNIT_PATH):$(JDOM) `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) \
+	javac -cp $(JUNIT_PATH):$(JDOM) `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) $(USER) \
     -name *.java`
 
 run:
@@ -26,12 +27,14 @@ test:
 	java -cp .:$(HAMCREST):$(JUNIT_PATH) $(JUNIT_EXEC) readernotes.test.core.BookTest
 	java -cp .:$(HAMCREST):$(JUNIT_PATH) $(JUNIT_EXEC) readernotes.test.core.ReadingFileTest
 	java -cp .:$(HAMCREST):$(JUNIT_PATH) $(JUNIT_EXEC) readernotes.test.core.LibraryTest
+	java -cp .:$(HAMCREST):$(JUNIT_PATH) $(JUNIT_EXEC) readernotes.test.user.LocalAccount
+	java -cp .:$(HAMCREST):$(JUNIT_PATH) $(JUNIT_EXEC) readernotes.test.user.AccountManager
 
 package-jar:
-	jar cvfm readernotes.jar manifest.txt `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) -name *.class`
+	jar cvfm readernotes.jar manifest.txt `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) $(USER) -name *.class`
 
 package:
-	jar cvfm readernotes.jar manifest.txt `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) -name *.class`
+	jar cvfm readernotes.jar manifest.txt `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) $(USER) -name *.class`
 	echo "Building projecto structure"
 	mkdir $(BUILD)
 	mkdir $(BUILD)/usr
@@ -57,5 +60,6 @@ clean:
 	rm readernotes/src/data/*.class
 	rm readernotes/src/ui/*.class
 	rm readernotes/src/ui/listeners/*.class
+	rm readernotes/src/user/*.class
 	rm readernotes/test/core/*.class
 	rm readernotes/Shell.class
