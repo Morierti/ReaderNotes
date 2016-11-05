@@ -18,34 +18,38 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package readernotes.src.ui.listeners;
 
-// Lib Imports.
+// Lib imports
+import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-// Application Imports
+// Application imports
+import readernotes.src.ui.NewBookForm;
+import readernotes.src.ui.MainWindow;
+import readernotes.src.core.Library;
 import readernotes.src.core.Book;
-import readernotes.src.ui.BookForm;
+import readernotes.src.exceptions.DoubleEntryException;
 import readernotes.src.exceptions.EmptyTitleException;
 import readernotes.src.exceptions.EmptyAuthorException;
 
-public class BookFormListener
+public class NewBookFormListener
 extends FormListener {
-    private BookForm _bookForm;
+    private NewBookForm _newBookForm;
     private String _title;
     private String _author;
     private String _isbn;
     private String _subject;
     private String _sinopse;
-    
-    public BookFormListener(BookForm bookForm) {
-        this.setBookForm(bookForm);                    
+
+    public NewBookFormListener(NewBookForm newBookForm) {
+        this.setNewBookForm(newBookForm);      
     }
     
-    private void setBookForm(BookForm bookForm) {
-        _bookForm = bookForm;
+    private void setNewBookForm(NewBookForm newBookForm) {
+        _newBookForm = newBookForm;
     }
     
-    public BookForm getBookForm() {
-        return _bookForm;
+    public NewBookForm getNewBookForm() {
+        return _newBookForm;
     }
     
     private void setTitle(String title) {
@@ -90,40 +94,30 @@ extends FormListener {
     
     @Override
     public void setup() {
-        this.setTitle(this.parseScrollPane(getBookForm().getTitleArea()));
-        this.setAuthor(this.parseScrollPane(getBookForm().getAuthorArea()));
-        this.setISBN(this.parseScrollPane(getBookForm().getISBNArea()));
-        this.setSubject(this.parseScrollPane(getBookForm().getSubjectArea()));
-        this.setSinopse(this.parseScrollPane(getBookForm().getSinopseArea())); 
+        this.setTitle(this.parseScrollPane(getNewBookForm().getTitleArea()));
+        this.setAuthor(this.parseScrollPane(getNewBookForm().getAuthorArea()));
+        this.setISBN(this.parseScrollPane(getNewBookForm().getISBNArea()));
+        this.setSubject(this.parseScrollPane(getNewBookForm().getSubjectArea()));
+        this.setSinopse(this.parseScrollPane(getNewBookForm().getSinopseArea())); 
     }
-    
+
     @Override
     public void execute(ActionEvent event) {
         try {
-		    Book book = getBookForm().getBook();
-			if (this.getTitle() != null) {
-				book.setTitle(this.getTitle());
-			}
-			if (this.getAuthor() != null) {
-				book.setAuthor(this.getAuthor());
-			}
-			if (this.getSinopse() != null) {
-				book.setSinopse(this.getSinopse());
-			}
-			if (this.getISBN() != null) {
-				book.setISBN(this.getISBN());
-			}
-			if (this.getSubject() != null)   {
-				book.setSubject(this.getSubject());
-			}
-
-		} catch (EmptyTitleException
-				| EmptyAuthorException exception) {
-			System.err.print(exception.getMessage());
-		}
-		getBookForm().dispose();
+            Library library = Library.getInstance();
+            
+            library.addBook(new Book(this.getTitle(),
+                                     this.getAuthor(),
+                                     this.getISBN(),
+                                     this.getSubject(),
+                                     this.getSinopse()));
+            // Update List on Main Window
+		    MainWindow.getInstance().updateBookList();
+        } catch (DoubleEntryException
+                 | EmptyTitleException
+                 | EmptyAuthorException exception) {
+          System.err.println(exception.getMessage());
+        }
+        this.getNewBookForm().dispose();
     }
-             
-    
-
 }

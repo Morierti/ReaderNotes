@@ -192,9 +192,8 @@ extends JFrame {
 
 	private JButton createSaveButton() {
 		JButton saveButton = new JButton("Save");
-        BookFormListener listener = new BookFormListener(this);
 
-		saveButton.addActionListener((ActionListener)listener);
+		saveButton.addActionListener(new BookFormListener(this));
 
 		return saveButton;
 	}
