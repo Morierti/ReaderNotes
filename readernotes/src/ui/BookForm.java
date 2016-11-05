@@ -35,7 +35,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 // Application Imports
 import readernotes.src.core.Library;
@@ -43,6 +42,7 @@ import readernotes.src.core.Book;
 import readernotes.src.exceptions.InexistentBookException;
 import readernotes.src.exceptions.EmptyTitleException;
 import readernotes.src.exceptions.EmptyAuthorException;
+import readernotes.src.ui.listeners.BookFormListener;
 
 public class BookForm
 extends JFrame {
@@ -63,7 +63,7 @@ extends JFrame {
 		_titleArea = titleArea;
 	}
 
-	private JScrollPane getTitleArea() {
+	public JScrollPane getTitleArea() {
 		return _titleArea;
 	}
 
@@ -71,7 +71,7 @@ extends JFrame {
 		_authorArea = authorArea;
 	}
 
-	private JScrollPane getAuthorArea() {
+	public JScrollPane getAuthorArea() {
 		return _authorArea;
 	}
 
@@ -79,7 +79,7 @@ extends JFrame {
 		_isbnArea = isbnArea;
 	}
 
-	private JScrollPane getISBNArea() {
+	public JScrollPane getISBNArea() {
 		return _isbnArea;
 	}
 
@@ -87,7 +87,7 @@ extends JFrame {
 		_subjectArea = subjectArea;
 	}
 
-	private JScrollPane getSubjectArea() {
+	public JScrollPane getSubjectArea() {
 		return _subjectArea;
 	}
 
@@ -95,7 +95,7 @@ extends JFrame {
 		_sinopseArea = sinopseArea;
 	}
 
-	private JScrollPane getSinopseArea() {
+	public JScrollPane getSinopseArea() {
 		return _sinopseArea;
 	}
 
@@ -109,7 +109,7 @@ extends JFrame {
 		}
 	}
 
-	private Book getBook() {
+	public Book getBook() {
 		return _book;
 	}
 
@@ -192,48 +192,9 @@ extends JFrame {
 
 	private JButton createSaveButton() {
 		JButton saveButton = new JButton("Save");
+        BookFormListener listener = new BookFormListener(this);
 
-		saveButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-			//Some calls are for the BookForm Class.
-			JViewport titleViewport = getTitleArea().getViewport();
-			JViewport authorViewport = getAuthorArea().getViewport();
-			JViewport isbnViewport = getISBNArea().getViewport();
-			JViewport subjectViewport = getSubjectArea().getViewport();
-			JViewport sinopseViewport = getSinopseArea().getViewport();
-
-			JTextArea titleArea = (JTextArea) titleViewport.getView();
-			JTextArea authorArea = (JTextArea) authorViewport.getView();
-			JTextArea isbnArea = (JTextArea) isbnViewport.getView();
-			JTextArea subjectArea = (JTextArea) subjectViewport.getView();
-			JTextArea sinopseArea = (JTextArea) sinopseViewport.getView();
-
-				try {
-					Book book = getBook();
-					if (titleArea.getText() != null) {
-						book.setTitle(titleArea.getText().trim());
-					}
-					if (authorArea.getText() != null) {
-						book.setAuthor(authorArea.getText().trim());
-					}
-					if (sinopseArea.getText() != null) {
-						book.setSinopse(sinopseArea.getText().trim());
-					}
-					if (isbnArea.getText() != null) {
-						book.setISBN(isbnArea.getText().trim());
-					}
-					if (subjectArea.getText() != null) {
-						book.setSubject(subjectArea.getText().trim());
-					}
-
-				} catch (EmptyTitleException
-						| EmptyAuthorException exception) {
-					System.err.print(exception.getMessage());
-				}
-				dispose();
-			}
-		});
+		saveButton.addActionListener((ActionListener)listener);
 
 		return saveButton;
 	}
