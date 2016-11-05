@@ -98,22 +98,22 @@ public class LibraryTest {
 
     @Test
     public void matchesBookTitleID() {
-        assertTrue(_library.matchesBookID(BOOK_TITLE, _testBook));
+        assertTrue(_testBook.matchesEntity(BOOK_TITLE));
     }
 
     @Test
     public void matchesBookAuthorID() {
-        assertTrue(_library.matchesBookID(BOOK_AUTHOR, _testBook));
+        assertTrue(_testBook.matchesEntity(BOOK_AUTHOR));
     }
 
     @Test
     public void matchesBooISBN() {
-        assertTrue(_library.matchesBookID(BOOK_ISBN, _testBook));
+        assertTrue(_testBook.matchesEntity(BOOK_ISBN));
     }
 
     @Test
     public void matchesBookSubject() {
-        assertTrue(_library.matchesBookID(BOOK_SUBJECT, _testBook));
+        assertTrue(_testBook.matchesEntity(BOOK_SUBJECT));
     }
 
 }

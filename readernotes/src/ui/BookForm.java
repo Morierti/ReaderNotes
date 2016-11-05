@@ -18,12 +18,8 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package readernotes.src.ui;
 
+// Lib Imports
 import javax.swing.JFrame;
-import readernotes.src.core.Library;
-import readernotes.src.core.Book;
-import readernotes.src.exceptions.InexistentBookException;
-import readernotes.src.exceptions.EmptyTitleException;
-import readernotes.src.exceptions.EmptyAuthorException;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -40,6 +36,13 @@ import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+// Application Imports
+import readernotes.src.core.Library;
+import readernotes.src.core.Book;
+import readernotes.src.exceptions.InexistentBookException;
+import readernotes.src.exceptions.EmptyTitleException;
+import readernotes.src.exceptions.EmptyAuthorException;
 
 public class BookForm
 extends JFrame {

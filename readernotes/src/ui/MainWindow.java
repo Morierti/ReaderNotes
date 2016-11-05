@@ -18,6 +18,7 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package readernotes.src.ui;
 
+// Lib Imports
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -34,11 +35,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JLabel;
 import javax.swing.ListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.BorderFactory;
 import java.util.Map;
 import java.util.Set;
+
+// Application Imports
 import readernotes.src.core.Library;
 import readernotes.src.core.ReadingFile;
 import readernotes.src.core.Book;

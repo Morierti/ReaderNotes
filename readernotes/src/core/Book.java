@@ -18,17 +18,16 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package readernotes.src.core;
 
-import readernotes.src.exceptions.EmptyTitleException;
+// Application Imports
 import readernotes.src.exceptions.EmptyAuthorException;
+import readernotes.src.exceptions.EmptyTitleException;
 
-public class Book {
-    private String _title;
+public class Book
+extends Entity {
     private String _author;
     private String _sinopse;
     private String _isbn;
-    private String _subject;
-    public static final String DEFAULT_VALUE = "DEFAULT";
-
+    
     public Book(String title, String author)
     throws
     EmptyTitleException,
@@ -40,32 +39,11 @@ public class Book {
     throws
     EmptyTitleException,
     EmptyAuthorException {
-        this.init(title, author, sinopse, isbn, subject);
-    }
-
-    private void init(String title, String author, String isbn, String subject, String sinopse)
-    throws
-    EmptyTitleException,
-    EmptyAuthorException {
         this.setTitle(title);
         this.setAuthor(author);
         this.setSinopse(sinopse);
         this.setISBN(isbn);
         this.setSubject(subject);
-    }
-
-    public void setTitle(String title)
-    throws
-    EmptyTitleException {
-        if (!this.verifyIfEmpty(title)) {
-            _title = title;
-        } else {
-            throw new EmptyTitleException();
-        }
-    }
-
-    public String getTitle() {
-        return _title;
     }
 
     public void setAuthor(String author)
@@ -97,17 +75,13 @@ public class Book {
     public String getISBN() {
         return _isbn;
     }
-
-    public void setSubject(String subject) {
-        _subject = subject;
-    }
-
-    public String getSubject() {
-        return _subject;
-    }
-
-    public boolean verifyIfEmpty(String value) {
-        return value == null || value == "";
+    
+    @Override
+    public boolean matchesEntity(String itemID) {
+        return itemID.equals(this.getTitle())
+               || itemID.equals(this.getAuthor())
+               || itemID.equals(this.getISBN())
+               || itemID.equals(this.getSubject());
     }
 
 }

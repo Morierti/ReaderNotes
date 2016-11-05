@@ -21,53 +21,40 @@ package readernotes.src.core;
 // Application Imports
 import readernotes.src.exceptions.EmptyTitleException;
 
-public class ReadingFile
-extends Entity {
-    private String _bookTitle;
-    private String _content;
+public abstract class Entity {
     public static final String DEFAULT_VALUE = "DEFAULT";
-
-    public ReadingFile(String title, String bookTitle)
+    private String _title;
+    private String _subject;
+    
+    public void setTitle(String newTitle)
     throws
     EmptyTitleException {
-        this(title, bookTitle, ReadingFile.DEFAULT_VALUE, ReadingFile.DEFAULT_VALUE);
-    }
-
-    public ReadingFile(String title, String bookTitle, String subject, String content)
-    throws
-    EmptyTitleException {
-        this.setTitle(title);
-        this.setBookTitle(title);
-        this.setSubject(subject);
-        this.setContent(content);
-    }
-
-    public void setBookTitle(String title)
-    throws
-    EmptyTitleException {
-        if (!this.verifyIfEmpty(title)) {
-            this._bookTitle = title;
+        if (!this.verifyIfEmpty(newTitle)) {
+            this._title = newTitle;
         } else {
             throw new EmptyTitleException();
         }
     }
-
-    public String getBookTitle() {
-        return _bookTitle;
-    }
-
-    public void setContent(String content) {
-        _content = content;
-    }
-
-    public String getContent() {
-        return _content;
+    
+    public String getTitle() {
+        return this._title;
     }
     
-    @Override
-    public boolean matchesEntity(String itemID) {
-        return itemID.equals(this.getTitle())
-               || itemID.equals(this.getBookTitle())
-               || itemID.equals(this.getSubject());
+    public void setSubject(String newSubject) {
+        this._subject = newSubject;
     }
+    
+    public String getSubject() {
+        return this._subject;
+    }
+    
+    public boolean matchesEntity(String itemID) {
+        return itemID == this.getTitle();
+    }
+    
+    public boolean verifyIfEmpty(String value) {
+        return value == null || value == "";
+    }
+
+
 }

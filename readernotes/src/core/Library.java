@@ -18,13 +18,17 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package readernotes.src.core;
 
+// Lib imports
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Set;
 import org.jdom2.JDOMException;
 import java.io.IOException;
+
+// Application Imports
 import readernotes.src.data.IOManager;
 import readernotes.src.exceptions.DoubleEntryException;
+import readernotes.src.exceptions.InexistentEntityException;
 import readernotes.src.exceptions.InexistentBookException;
 import readernotes.src.exceptions.InexistentReadingFileException;
 import readernotes.src.exceptions.EmptyTitleException;
@@ -113,9 +117,7 @@ public class Library {
         }
     }
 
-    public Map<String, Book> getAllMatchingBooks(String bookID)
-    throws
-    InexistentBookException {
+    public Map<String, Book> getAllMatchingBooks(String bookID) {
         Map<String, Book> matchingBooks = new TreeMap<String, Book>();
         Map<String, Book> bookDatabase = this.getBookDB();
         Set<String> bookTitles = bookDatabase.keySet();
@@ -123,23 +125,12 @@ public class Library {
 
         for (String title : bookTitles) {
             iterator = bookDatabase.get(title);
-            if (this.matchesBookID(bookID, iterator)) {
+            if (iterator.matchesEntity(bookID)) {
                 matchingBooks.put(title, iterator);
             }
         }
 
-        if (matchingBooks.isEmpty()) {
-            throw new InexistentBookException();
-        }
-
         return matchingBooks;
-    }
-
-    public boolean matchesBookID(String bookID, Book book) {
-        return bookID.equals(book.getTitle())
-                || bookID.equals(book.getAuthor())
-                || bookID.equals(book.getISBN())
-                || bookID.equals(book.getSubject());
     }
 
     public void addReadingFile(ReadingFile newReadingFile)
@@ -164,27 +155,15 @@ public class Library {
     throws
     InexistentReadingFileException {
         Map<String, ReadingFile> readingFileDatabase = this.getReadingFileDB();
-
+        
         if (readingFileDatabase.containsKey(readingFileID)) {
             return readingFileDatabase.get(readingFileID);
         } else {
-            Set<String> readingFiles = readingFileDatabase.keySet();
-            ReadingFile iterator = null;
-
-            for (String title : readingFiles) {
-                iterator = readingFileDatabase.get(title);
-                if (readingFileID.equals(iterator.getBookTitle())
-                    || readingFileID.equals(iterator.getSubject())) {
-                        return iterator;
-                    }
-            }
+            throw new InexistentReadingFileException();
         }
-        throw new InexistentReadingFileException();
     }
 
-    public Map<String, ReadingFile> getAllMatchingReadingFiles(String rfID)
-    throws
-    InexistentReadingFileException {
+    public Map<String, ReadingFile> getAllMatchingReadingFiles(String rfID) {
         Map<String, ReadingFile> matchingReadingFiles = new TreeMap<String, ReadingFile>();
         Map<String, ReadingFile> readingFileDatabase = this.getReadingFileDB();
         Set<String> titles = readingFileDatabase.keySet();
@@ -192,22 +171,12 @@ public class Library {
 
         for (String title : titles) {
             iterator = readingFileDatabase.get(title);
-            if (this.matchesReadingFileID(rfID, iterator)) {
+            if (iterator.matchesEntity(rfID)) {
                 matchingReadingFiles.put(title, iterator);
             }
         }
-
-        if (matchingReadingFiles.isEmpty()) {
-            throw new InexistentReadingFileException();
-        }
-
+        
         return matchingReadingFiles;
-    }
-
-    public boolean matchesReadingFileID(String rfID, ReadingFile comparator) {
-        return rfID.equals(comparator.getTitle())
-                || rfID.equals(comparator.getBookTitle())
-                || rfID.equals(comparator.getSubject());
     }
 
 	public void storeBookDatabase() {

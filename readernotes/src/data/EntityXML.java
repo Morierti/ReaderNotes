@@ -21,7 +21,7 @@ package readernotes.src.data;
 import java.io.IOException;
 import org.jdom2.Element;
 
-public abstract class AbstractXMLObjectBuilder {
+public abstract class EntityXML {
 	private Element _xmlObject;
 
 	public void setXMLObject(Element xmlObject) {

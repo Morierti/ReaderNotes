@@ -18,14 +18,17 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package readernotes.src.data;
 
+// Lib Imports
 import org.jdom2.Element;
 import java.io.IOException;
+
+// Application Imports
 import readernotes.src.core.ReadingFile;
 import readernotes.src.exceptions.EmptyTitleException;
 
 
 public class ReadingFileXML
-extends AbstractXMLObjectBuilder {
+extends EntityXML {
 	public static final String READING_FILE = "ReadingFile";
 	public static final String TITLE = "Title";
 	public static final String BOOK_TITLE = "Book_Title";

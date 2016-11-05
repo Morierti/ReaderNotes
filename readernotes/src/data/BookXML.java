@@ -18,15 +18,18 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package readernotes.src.data;
 
+// Lib Imports
 import java.io.IOException;
 import org.jdom2.Document;
 import org.jdom2.Element;
+
+// Application Imports
 import readernotes.src.core.Book;
 import readernotes.src.exceptions.EmptyTitleException;
 import readernotes.src.exceptions.EmptyAuthorException;
 
 public class BookXML
-extends AbstractXMLObjectBuilder {
+extends EntityXML {
 	public static final String BOOK = "Book";
 	public static final String TITLE = "Title";
 	public static final String AUTHOR = "Author";
