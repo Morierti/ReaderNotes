@@ -60,6 +60,7 @@ clean:
 	rm readernotes/src/data/*.class
 	rm readernotes/src/ui/*.class
 	rm readernotes/src/ui/listeners/*.class
+	rm readernotes/src/ui/dto/*.class
 	rm readernotes/src/user/*.class
 	rm readernotes/test/core/*.class
 	rm readernotes/Shell.class
