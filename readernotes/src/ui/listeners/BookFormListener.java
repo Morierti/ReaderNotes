@@ -92,7 +92,4 @@ extends FormListener {
 		}
 		getBookForm().dispose();
     }
-             
-    
-
 }

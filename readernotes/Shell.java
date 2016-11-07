@@ -32,15 +32,7 @@ public class Shell {
 	throws
 	Exception {
 
-	    EventQueue.invokeLater(new Runnable() {
-
-	        @Override
-	        public void run() {
-				Shell.createWorkDirectory();
-				Shell.getOSName();
-	            MainWindow.getInstance();
-	        }
-	    });
+	    EventQueue.invokeLater(new Run());
 	}
 
 	public static String getUserDirectory() {

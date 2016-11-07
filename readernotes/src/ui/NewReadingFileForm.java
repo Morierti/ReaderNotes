@@ -54,7 +54,7 @@ public class NewReadingFileForm extends JFrame {
 		_titleArea = titleArea;
 	}
 
-	private JScrollPane getTitleArea() {
+	public JScrollPane getTitleArea() {
 		return _titleArea;
 	}
 
@@ -62,7 +62,7 @@ public class NewReadingFileForm extends JFrame {
 		_bookTitleArea = bookTitleArea;
 	}
 
-	private JScrollPane getBookTitleArea() {
+	public JScrollPane getBookTitleArea() {
 		return _bookTitleArea;
 	}
 
@@ -70,7 +70,7 @@ public class NewReadingFileForm extends JFrame {
 		_subjectArea = subjectArea;
 	}
 
-	private JScrollPane getSubjectArea() {
+	public JScrollPane getSubjectArea() {
 		return _subjectArea;
 	}
 
@@ -78,7 +78,7 @@ public class NewReadingFileForm extends JFrame {
 		_contentArea = contentArea;
 	}
 
-	private JScrollPane getContentArea() {
+	public JScrollPane getContentArea() {
 		return _contentArea;
 	}
 

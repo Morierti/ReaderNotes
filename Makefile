@@ -63,4 +63,4 @@ clean:
 	rm readernotes/src/ui/dto/*.class
 	rm readernotes/src/user/*.class
 	rm readernotes/test/core/*.class
-	rm readernotes/Shell.class
+	rm readernotes/*.class

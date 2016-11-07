@@ -1,6 +1,0 @@
-    
-    public Map<String, Entity> getAllMatchingEntities(String itemID, String type) {
-        Map<String, Entity> matchingEntities = new TreeMap<String, Entity>();
-        
-    
-    }
