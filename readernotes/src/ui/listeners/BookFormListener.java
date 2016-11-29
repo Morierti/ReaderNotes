@@ -55,14 +55,15 @@ extends FormListener {
 
     @Override
     public void setup() {
-        this.setBookDTO(new BookDTO(
-                             this.parseScrollPane(getBookForm().getTitleArea()),
-                             this.parseScrollPane(getBookForm().getAuthorArea()),
-                             this.parseScrollPane(getBookForm().getISBNArea()),
-                             this.parseScrollPane(getBookForm().getSubjectArea()),
-                             this.parseScrollPane(getBookForm().getSinopseArea())
-                            )
-              );
+        this.setBookDTO(
+            new BookDTO(
+                this.parseScrollPane(getBookForm().getTitleArea()),
+                this.parseScrollPane(getBookForm().getAuthorArea()),
+                this.parseScrollPane(getBookForm().getISBNArea()),
+                this.parseScrollPane(getBookForm().getSubjectArea()),
+                this.parseScrollPane(getBookForm().getSinopseArea())
+            )
+        );
     }
 
     @Override
