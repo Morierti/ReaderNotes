@@ -2,6 +2,8 @@
 CORE = readernotes/src/core
 UI	= readernotes/src/ui
 USER = readernotes/src/user
+INTEGRATION = readernotes/src/integration
+DTO = readernotes/src/integration/dto
 BASE = readernotes
 SRC = readernotes/src
 EXCEPTIONS = readernotes/src/exceptions
@@ -15,7 +17,7 @@ BUILD=readernotes-0.3.0
 BINARY=readernotes-0.3.0.deb
 
 all:
-	javac -cp $(JUNIT_PATH):$(JDOM) `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) $(USER) \
+	javac -cp $(JUNIT_PATH):$(JDOM) `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) $(USER) $(DTO) \
     -name *.java`
 
 run:
@@ -34,7 +36,7 @@ package-jar:
 	jar cvfm readernotes.jar manifest.txt `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) $(USER) -name *.class`
 
 package:
-	jar cvfm readernotes.jar manifest.txt `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) $(USER) -name *.class`
+	jar cvfm readernotes.jar manifest.txt `find $(CORE) $(EXCEPTIONS) $(CORE_TESTS) $(DATABASE) $(BASE) $(UI) $(USER) $(DTO) -name *.class`
 	echo "Building projecto structure"
 	mkdir $(BUILD)
 	mkdir $(BUILD)/usr
@@ -56,11 +58,11 @@ package:
 	mv $(BINARY) /home/$(USER)/Desktop
 clean:
 	rm readernotes/src/core/*.class
+	rm readernotes/src/integration/dto/*.class
 	rm readernotes/src/exceptions/*.class
 	rm readernotes/src/data/*.class
 	rm readernotes/src/ui/*.class
 	rm readernotes/src/ui/listeners/*.class
-	rm readernotes/src/ui/dto/*.class
 	rm readernotes/src/user/*.class
 	rm readernotes/test/core/*.class
 	rm readernotes/*.class
