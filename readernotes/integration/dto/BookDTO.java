@@ -16,51 +16,62 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 **/
 
-package readernotes.src.ui.dto;
+package readernotes.src.integration.dto;
 
-public class ReadingFileDTO {
+public class BookDTO {
     private String _title;
-    private String _bookTitle;
+    private String _author;
+    private String _isbn;
     private String _subject;
-    private String _content;
-    
-    public ReadingFileDTO(String title, String bookTitle, String subject,
-                          String content) {
+    private String _sinopse;
+
+    public BookDTO(String title, String author, String isbn, String subject,
+                   String sinopse) {
         this.setTitle(title);
-        this.setBookTitle(bookTitle);
+        this.setAuthor(author);
+        this.setISBN(isbn);
         this.setSubject(subject);
-        this.setContent(content);                     
+        this.setSinopse(sinopse);
     }
-    
-    public void setTitle(String title) {
+
+
+    private void setTitle(String title) {
         _title = title;
     }
-    
+
     public String getTitle() {
         return _title;
     }
-    
-    public void setBookTitle(String bookTitle) {
-        _bookTitle = bookTitle;
+
+    private void setAuthor(String author) {
+        _author = author;
     }
-    
-    public String getBookTitle() {
-        return _bookTitle;
+
+    public String getAuthor() {
+        return _author;
     }
-    
-    public void setSubject(String subject) {
+
+    private void setISBN(String isbn) {
+        _isbn = isbn;
+    }
+
+    public String getISBN() {
+        return _isbn;
+    }
+
+    private void setSubject(String subject) {
         _subject = subject;
     }
-    
+
     public String getSubject() {
         return _subject;
     }
-    
-    public void setContent(String content) {
-        _content = content;
+
+    private void setSinopse(String sinopse) {
+        _sinopse = sinopse;
     }
-    
-    public String getContent() {
-        return _content;
+
+    public String getSinopse() {
+        return _sinopse;
     }
 }

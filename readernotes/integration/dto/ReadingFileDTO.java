@@ -16,62 +16,51 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 **/
 
-package readernotes.src.ui.dto;
+package readernotes.src.integration.dto;
 
-public class BookDTO {
+public class ReadingFileDTO {
     private String _title;
-    private String _author;
-    private String _isbn;
+    private String _bookTitle;
     private String _subject;
-    private String _sinopse;
-    
-    public BookDTO(String title, String author, String isbn, String subject,
-                   String sinopse) {
+    private String _content;
+
+    public ReadingFileDTO(String title, String bookTitle, String subject,
+                          String content) {
         this.setTitle(title);
-        this.setAuthor(author);
-        this.setISBN(isbn);
+        this.setBookTitle(bookTitle);
         this.setSubject(subject);
-        this.setSinopse(sinopse);
+        this.setContent(content);
     }
 
-
-    private void setTitle(String title) {
+    public void setTitle(String title) {
         _title = title;
     }
-    
+
     public String getTitle() {
         return _title;
     }
-    
-    private void setAuthor(String author) {
-        _author = author;
+
+    public void setBookTitle(String bookTitle) {
+        _bookTitle = bookTitle;
     }
-    
-    public String getAuthor() {
-        return _author;
+
+    public String getBookTitle() {
+        return _bookTitle;
     }
-    
-    private void setISBN(String isbn) {
-        _isbn = isbn;
-    }
-    
-    public String getISBN() {
-        return _isbn;
-    }
-    
-    private void setSubject(String subject) {
+
+    public void setSubject(String subject) {
         _subject = subject;
     }
-    
+
     public String getSubject() {
         return _subject;
     }
-    
-    private void setSinopse(String sinopse) {
-        _sinopse = sinopse;
+
+    public void setContent(String content) {
+        _content = content;
     }
-    
-    public String getSinopse() {
-        return _sinopse;
+
+    public String getContent() {
+        return _content;
     }
 }

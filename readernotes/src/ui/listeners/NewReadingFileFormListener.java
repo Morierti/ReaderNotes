@@ -26,7 +26,7 @@ import readernotes.src.core.ReadingFile;
 import readernotes.src.core.Library;
 import readernotes.src.ui.NewReadingFileForm;
 import readernotes.src.ui.MainWindow;
-import readernotes.src.ui.dto.ReadingFileDTO;
+import readernotes.src.integration.dto.ReadingFileDTO;
 import readernotes.src.exceptions.EmptyTitleException;
 import readernotes.src.exceptions.DoubleEntryException;
 
@@ -34,27 +34,27 @@ public class NewReadingFileFormListener
 extends FormListener {
     private NewReadingFileForm _readingFileForm;
     private ReadingFileDTO _readingFileDTO;
-    
+
     public NewReadingFileFormListener(NewReadingFileForm readingFileForm) {
         this.setReadingFileForm(readingFileForm);
     }
-    
+
     private void setReadingFileForm(NewReadingFileForm readingFileForm) {
         _readingFileForm = readingFileForm;
     }
-    
+
     public NewReadingFileForm getReadingFileForm() {
         return _readingFileForm;
     }
-    
+
     private void setReadingFileDTO(ReadingFileDTO readingFileDTO) {
         _readingFileDTO = readingFileDTO;
     }
-    
+
     public ReadingFileDTO getReadingFileDTO() {
         return _readingFileDTO;
     }
-    
+
     @Override
     public void setup() {
         NewReadingFileForm readingFileForm = this.getReadingFileForm();
@@ -67,13 +67,13 @@ extends FormListener {
                     )
              );
     }
-    
+
     @Override
     public void execute(ActionEvent event) {
         try {
             Library library = Library.getInstance();
             ReadingFileDTO readingFileDTO = this.getReadingFileDTO();
-            
+
             library.addReadingFile(
                         new ReadingFile(
                                 readingFileDTO.getTitle(),
@@ -82,10 +82,10 @@ extends FormListener {
                                 readingFileDTO.getContent()
                             )
                     );
-             
+
              MainWindow.getInstance().updateReadingFileList();
              getReadingFileForm().dispose();
-                                        
+
         } catch (EmptyTitleException | DoubleEntryException exception) {
             System.err.println(exception.getMessage());
         }

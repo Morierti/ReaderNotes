@@ -21,8 +21,6 @@ package readernotes.src.ui;
 import java.awt.Container;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -36,6 +34,7 @@ import javax.swing.Box;
 import javax.swing.JOptionPane;
 import readernotes.src.core.ReadingFile;
 import readernotes.src.core.Library;
+import readernotes.src.ui.listeners.ReadingFileFormListener;
 import readernotes.src.exceptions.InexistentReadingFileException;
 import readernotes.src.exceptions.EmptyTitleException;
 
@@ -56,7 +55,7 @@ public class ReadingFileForm extends JFrame {
 		_titleArea = titleArea;
 	}
 
-	private JScrollPane getTitleArea() {
+	public JScrollPane getTitleArea() {
 		return _titleArea;
 	}
 
@@ -64,7 +63,7 @@ public class ReadingFileForm extends JFrame {
 		_bookTitleArea = bookTitleArea;
 	}
 
-	private JScrollPane getBookTitleArea() {
+	public JScrollPane getBookTitleArea() {
 		return _bookTitleArea;
 	}
 
@@ -72,7 +71,7 @@ public class ReadingFileForm extends JFrame {
 		_subjectArea = subjectArea;
 	}
 
-	private JScrollPane getSubjectArea() {
+	public JScrollPane getSubjectArea() {
 		return _subjectArea;
 	}
 
@@ -80,7 +79,7 @@ public class ReadingFileForm extends JFrame {
 		_contentArea = contentArea;
 	}
 
-	private JScrollPane getContentArea() {
+	public JScrollPane getContentArea() {
 		return _contentArea;
 	}
 
@@ -94,7 +93,7 @@ public class ReadingFileForm extends JFrame {
 		}
 	}
 
-	private ReadingFile getReadingFile() {
+	public ReadingFile getReadingFile() {
 		return _readingFile;
 	}
 
@@ -162,40 +161,8 @@ public class ReadingFileForm extends JFrame {
 	private JButton createSaveButton() {
 		JButton saveButton = new JButton("Save");
 
-		saveButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				//Some calls are for ReadingFileFrom class.
-				JViewport titleViewport = getTitleArea().getViewport();
-				JViewport bookTitleViewport = getBookTitleArea().getViewport();
-				JViewport subjectViewport = getSubjectArea().getViewport();
-				JViewport contentViewport = getContentArea().getViewport();
+		saveButton.addActionListener(new ReadingFileFormListener(this));
 
-				JTextArea title = (JTextArea) titleViewport.getView();
-				JTextArea bookTitle = (JTextArea) bookTitleViewport.getView();
-				JTextArea subject = (JTextArea) subjectViewport.getView();
-				JTextArea content = (JTextArea) contentViewport.getView();
-
-				try {
-					ReadingFile readingFile = getReadingFile();
-					if (title.getText() != null) {
-						readingFile.setTitle(title.getText().trim());
-					}
-					if (bookTitle.getText() != null) {
-						readingFile.setBookTitle(bookTitle.getText().trim());
-					}
-					if (subject.getText() != null) {
-						readingFile.setSubject(subject.getText().trim());
-					}
-					if (content.getText() != null) {
-						readingFile.setContent(content.getText().trim());
-					}
-				} catch (EmptyTitleException exception) {
-					System.err.print(exception.getMessage());
-				}
-				dispose();
-			}
-		});
 		return saveButton;
 	}
 

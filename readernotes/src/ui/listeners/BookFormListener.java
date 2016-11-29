@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
 // Application Imports
 import readernotes.src.core.Book;
 import readernotes.src.ui.BookForm;
-import readernotes.src.ui.dto.BookDTO;
+import readernotes.src.integration.dto.BookDTO;
 import readernotes.src.exceptions.EmptyTitleException;
 import readernotes.src.exceptions.EmptyAuthorException;
 
@@ -32,27 +32,27 @@ public class BookFormListener
 extends FormListener {
     private BookForm _bookForm;
     private BookDTO _bookDTO;
-    
+
     public BookFormListener(BookForm bookForm) {
-        this.setBookForm(bookForm);                 
+        this.setBookForm(bookForm);
     }
-    
+
     private void setBookForm(BookForm bookForm) {
         _bookForm = bookForm;
     }
-    
+
     public BookForm getBookForm() {
         return _bookForm;
     }
-    
+
     private void setBookDTO(BookDTO bookDTO) {
         _bookDTO = bookDTO;
     }
-    
+
     public BookDTO getBookDTO() {
         return _bookDTO;
     }
-    
+
     @Override
     public void setup() {
         this.setBookDTO(new BookDTO(
@@ -64,7 +64,7 @@ extends FormListener {
                             )
               );
     }
-    
+
     @Override
     public void execute(ActionEvent event) {
         try {

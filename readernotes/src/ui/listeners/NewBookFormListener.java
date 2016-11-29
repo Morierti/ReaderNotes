@@ -25,7 +25,7 @@ import java.awt.event.ActionEvent;
 // Application imports
 import readernotes.src.ui.NewBookForm;
 import readernotes.src.ui.MainWindow;
-import readernotes.src.ui.dto.BookDTO;
+import readernotes.src.integration.dto.BookDTO;
 import readernotes.src.core.Library;
 import readernotes.src.core.Book;
 import readernotes.src.exceptions.DoubleEntryException;
@@ -39,25 +39,25 @@ extends FormListener {
 
     public NewBookFormListener(NewBookForm newBookForm) {
         this.setNewBookForm(newBookForm);
-            
+
     }
-    
+
     private void setNewBookForm(NewBookForm newBookForm) {
         _newBookForm = newBookForm;
     }
-    
+
     public NewBookForm getNewBookForm() {
         return _newBookForm;
     }
-    
+
     private void setBookDTO(BookDTO bookDTO) {
         _bookDTO = bookDTO;
     }
-    
+
     public BookDTO getBookDTO() {
         return _bookDTO;
     }
-    
+
     @Override
     public void setup() {
          this.setBookDTO(
@@ -68,7 +68,7 @@ extends FormListener {
                     this.parseScrollPane(getNewBookForm().getSubjectArea()),
                     this.parseScrollPane(getNewBookForm().getSinopseArea())
                 )
-              ); 
+              );
     }
 
     @Override
@@ -76,7 +76,7 @@ extends FormListener {
         try {
             Library library = Library.getInstance();
             BookDTO bookDTO = this.getBookDTO();
-            
+
             library.addBook(new Book(bookDTO.getTitle(),
                                      bookDTO.getAuthor(),
                                      bookDTO.getISBN(),

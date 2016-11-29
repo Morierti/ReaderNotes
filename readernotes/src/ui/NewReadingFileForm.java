@@ -35,6 +35,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import readernotes.src.core.ReadingFile;
 import readernotes.src.core.Library;
+import readernotes.src.ui.listeners.NewReadingFileFormListener;
 import readernotes.src.exceptions.EmptyTitleException;
 import readernotes.src.exceptions.DoubleEntryException;
 
@@ -142,36 +143,7 @@ public class NewReadingFileForm extends JFrame {
 	private JButton createSaveButton() {
 		JButton saveButton = new JButton("Save");
 
-		saveButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				//Some are for NewReadingFileForm class.
-				try {
-					Library library = Library.getInstance();
-
-					JViewport titleViewport = getTitleArea().getViewport();
-					JViewport bookTitleViewport = getBookTitleArea().getViewport();
-					JViewport subjectViewport = getSubjectArea().getViewport();
-					JViewport contentViewport = getContentArea().getViewport();
-
-					JTextArea title = (JTextArea) titleViewport.getView();
-					JTextArea bookTitle = (JTextArea) bookTitleViewport.getView();
-					JTextArea subject = (JTextArea) subjectViewport.getView();
-					JTextArea content = (JTextArea) contentViewport.getView();
-
-					library.addReadingFile(new ReadingFile(title.getText().trim(),
-												 			bookTitle.getText().trim(),
-															subject.getText().trim(),
-												 			content.getText().trim()));
-					//Update List on main window
-					MainWindow.getInstance().updateReadingFileList();
-					dispose();
-				} catch (EmptyTitleException
-						 | DoubleEntryException exception) {
-					System.err.print(exception.getMessage());
-				}
-			}
-		});
+		saveButton.addActionListener(new NewReadingFileFormListener(this));
 		return saveButton;
 	}
 
