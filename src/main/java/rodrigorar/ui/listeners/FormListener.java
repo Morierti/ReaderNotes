@@ -18,7 +18,6 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package rodrigorar.ui.listeners;
 
-// Lib Imports
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;

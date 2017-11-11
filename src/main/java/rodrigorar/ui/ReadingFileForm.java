@@ -32,6 +32,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Box;
 import javax.swing.JOptionPane;
+
 import rodrigorar.core.ReadingFile;
 import rodrigorar.core.Library;
 import rodrigorar.ui.listeners.ReadingFileFormListener;

@@ -33,6 +33,7 @@ import java.awt.Container;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import rodrigorar.core.Library;
 
 public class RemoveBookWindow extends JFrame {

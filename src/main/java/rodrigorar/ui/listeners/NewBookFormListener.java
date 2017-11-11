@@ -18,11 +18,9 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package rodrigorar.ui.listeners;
 
-// Lib imports
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-// Application imports
 import rodrigorar.ui.NewBookForm;
 import rodrigorar.ui.MainWindow;
 import rodrigorar.integration.dto.BookDTO;

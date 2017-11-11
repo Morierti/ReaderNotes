@@ -18,7 +18,6 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package rodrigorar.ui;
 
-// Lib Imports
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -36,7 +35,6 @@ import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
-// Application Imports
 import rodrigorar.core.Library;
 import rodrigorar.core.Book;
 import rodrigorar.exceptions.InexistentBookException;

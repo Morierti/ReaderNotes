@@ -18,7 +18,6 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package rodrigorar.ui;
 
-// Lib imports
 import java.awt.Container;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -36,7 +35,6 @@ import java.io.Writer;
 import java.io.StringWriter;
 import java.io.IOException;
 
-// Application imports
 import rodrigorar.ui.listeners.NewBookFormListener;
 
 public class NewBookForm

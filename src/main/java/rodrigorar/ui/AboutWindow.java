@@ -18,7 +18,6 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package rodrigorar.ui;
 
-// Lib Imports
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -32,7 +31,6 @@ import java.awt.Container;
 import java.awt.Color;
 import java.awt.Font;
 
-// Application Imports
 import rodrigorar.Shell;
 
 public class AboutWindow extends JFrame {

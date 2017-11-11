@@ -18,7 +18,6 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package rodrigorar.core;
 
-// Application Imports
 import rodrigorar.exceptions.EmptyTitleException;
 
 public abstract class Entity {

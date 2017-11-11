@@ -18,10 +18,8 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package rodrigorar.ui.listeners;
 
-// Lib imports
 import java.awt.event.ActionEvent;
 
-// Application Imports
 import rodrigorar.core.ReadingFile;
 import rodrigorar.core.Library;
 import rodrigorar.ui.NewReadingFileForm;

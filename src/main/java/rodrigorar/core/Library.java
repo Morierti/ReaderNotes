@@ -18,14 +18,12 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package rodrigorar.core;
 
-// Lib imports
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Set;
 import org.jdom2.JDOMException;
 import java.io.IOException;
 
-// Application Imports
 import rodrigorar.data.IOManager;
 import rodrigorar.exceptions.DoubleEntryException;
 import rodrigorar.exceptions.InexistentEntityException;

@@ -18,12 +18,10 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package rodrigorar.data;
 
-// Lib Imports
 import java.io.IOException;
 import org.jdom2.Document;
 import org.jdom2.Element;
 
-// Application Imports
 import rodrigorar.core.Book;
 import rodrigorar.exceptions.EmptyTitleException;
 import rodrigorar.exceptions.EmptyAuthorException;

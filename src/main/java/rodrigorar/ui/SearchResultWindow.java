@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Set;
+
 import rodrigorar.core.Library;
 import rodrigorar.core.Book;
 import rodrigorar.core.ReadingFile;

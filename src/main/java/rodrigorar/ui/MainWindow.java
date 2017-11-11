@@ -18,7 +18,6 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package rodrigorar.ui;
 
-// Lib Imports
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -42,7 +41,6 @@ import javax.swing.BorderFactory;
 import java.util.Map;
 import java.util.Set;
 
-// Application Imports
 import rodrigorar.core.Library;
 import rodrigorar.core.ReadingFile;
 import rodrigorar.core.Book;

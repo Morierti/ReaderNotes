@@ -18,11 +18,9 @@ Copyright (C) 2016  Rodrigo Ramos Rosa
 
 package rodrigorar.data;
 
-// Lib Imports
 import org.jdom2.Element;
 import java.io.IOException;
 
-// Application Imports
 import rodrigorar.core.ReadingFile;
 import rodrigorar.exceptions.EmptyTitleException;
 

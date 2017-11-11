@@ -32,6 +32,7 @@ import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import rodrigorar.core.Library;
 
 public class RemoveReadingFileWindow extends JFrame {
