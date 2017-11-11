@@ -1,5 +1,3 @@
-*.class
-*.java.swp
-*.java.swo
-*.swp
-
+.deb
+.class
+/target/
